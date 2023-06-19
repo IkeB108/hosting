@@ -200,6 +200,7 @@ function updateCustomScale(){
 function updateCustomDuration(){
   if(customDurationInp.value() == int(customDurationInp.value())){
     customDuration = int(customDurationInp.value())
+    smallestDivision = customDuration;
   }
   if(durationChoice == 'custom'){
     totalCalculation = 'Calculating...'
@@ -221,6 +222,26 @@ function updateTimeSignature(){
 }
 
 function calculateTotal(){
+  //Return false if number of small notes is not an integer (likely caused by the inputs not being integers)
+  let noOfSmallNotes = timeSignatureTop * (smallestDivision/timeSignatureBottom)
+  if(!Number.isInteger(noOfSmallNotes)) return "Invalid calculation"
+  
+  //Otherwise, the calculation should be valid.
+  let newTotal = (notesInScale) * pow(notesInScale + 1, noOfSmallNotes - 1)
+  //Note: notesInScale already includes rests in this code
+  
+  //If a calculation gets too big, Javascript just calls it infinity.
+  if( !Number.isFinite(newTotal) ){
+    return "Incalculably large"
+  }
+  
+  //If the calculated number is not infinity, return it.
+  return newTotal
+  
+}
+
+//The old algorithm from the original video, which involves triangle/tetrahedral numbers, recursion, etc. Very slow
+function calculateTotalOldAlgorithm(){
   var grandTotal = 0;
   noOfSmallNotes = timeSignatureTop * (smallestDivision/timeSignatureBottom)
   for (var noOfNotes = 1; noOfNotes <= noOfSmallNotes; noOfNotes ++){
