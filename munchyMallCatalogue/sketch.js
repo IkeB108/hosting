@@ -8,7 +8,7 @@ function setup() {
   textSize(40)
   noStroke();
 
-  passcodeEntry = createInput();
+  passcodeEntry = createInput("687134412");
   canvasPosition(passcodeEntry, myCanvas, width/2 + 150, height/2 + 60)
 }
 
@@ -43,9 +43,9 @@ function startRedirect(){
     if(inputDate.type == 'buy lite')typeName = "buylite"
     var fileName = encodeDate(inputDate.day, inputDate.month, inputDate.year, rand, inputDate.type).toString() + typeName + '.html'
     console.log(fileName)
-    window.location = 'https://ikeb108.github.io/munchyMallCatalogue/' + fileName
+    window.location = fileName
   } else {
-    window.location = 'https://ikeb108.github.io/munchyMallCatalogue/invalidPage.html'
+    window.location = 'invalidPage.html'
   }
 }
 

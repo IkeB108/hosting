@@ -61,8 +61,8 @@ function setup() {
   }
   myReader.onerror = () => {console.log('Error: ' + error)}
 
-  link_what_is_this = createA('https://ikeb108.github.io/InvisibleInk/misc/about.html', 'What is this?', '_blank');
-  link_ikebot = createA('http://ikebot108.weebly.com/', 'Made by Ikebot', '_blank');
+  link_what_is_this = createA('misc/about.html', 'What is this?', '_blank');
+  link_ikebot = createA('http://ikeb108.github.io/goTo/?home', 'Made by Ikebot', '_blank');
   link_what_is_this.elt.style="font-family: Arial"
   link_ikebot.elt.style="font-family: Arial"
   //link_ikebot.position(100,100)

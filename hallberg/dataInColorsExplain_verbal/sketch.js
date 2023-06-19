@@ -95,7 +95,7 @@ function cursorClick(){
 //   }
   if(currentPanel == 8 && pressedButton){
     
-    window.location = "https://ikeb108.github.io/Data-In-Colors-SOR-2/"
+    window.location = "https://ikeb108.github.io/goTo/?dataInColorsSOR2"
     
   }
   

@@ -119,7 +119,7 @@ function setup(){
   }
   
   redirectToComics = function(){
-    window.location = "https://ikeb108.github.io/XKCDAdventure/Comics/comics.html"
+    window.location = "Comics/comics.html"
   }
 }
 
