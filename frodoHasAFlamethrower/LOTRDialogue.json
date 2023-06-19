@@ -1,0 +1,292 @@
+[
+	{
+		"title": "Gandalf Begin",
+		"tags": "",
+		"body": "Frodo! I'm glad you're here. I need you to take this ring to Mordor and destroy it for me, ok? (Select an option)\n\n[[Okay]]\n[[No]]\n[[Why?]]",
+		"position": {
+			"x": 108,
+			"y": -3
+		},
+		"colorID": 0
+	},
+	{
+		"title": "No",
+		"tags": "",
+		"body": "Y--You don't--what??\nYou Bagginses are supposed to crave adventure. What's gotten into you, boy?\n\n[[I don't feel like it]]",
+		"position": {
+			"x": 113,
+			"y": 289
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Why?",
+		"tags": "",
+		"body": "The Evil Lord Sauron will use it to gain umlimited power.\n\n[[What if I just kill Sauron?]]",
+		"position": {
+			"x": 337,
+			"y": 294
+		},
+		"colorID": 0
+	},
+	{
+		"title": "What if I just kill Sauron?",
+		"tags": "",
+		"body": "Kill Sauro -- what?? You can't just kill Sauron, Frodo. He's not exactly... mortal.\n\n[[Yes I can]]",
+		"position": {
+			"x": 333,
+			"y": 510
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Yes I can",
+		"tags": "",
+		"body": "I had no idea you were so aggressive, Master Frodo. Please just take the ring to Mordor and destroy it.\n\n[[Fine]]",
+		"position": {
+			"x": 331,
+			"y": 737
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Fine",
+		"tags": "",
+		"body": "But... if you do happen to see Sauron there... it might help to have this...\n\n[[Next|acquireFlameThrower]]",
+		"position": {
+			"x": 335,
+			"y": 960
+		},
+		"colorID": 0
+	},
+	{
+		"title": "acquireFlameThrower",
+		"tags": "",
+		"body": "(You acquire a flame thrower)\n<<player.hasFlamethrower = true>>\n[[Score!]]",
+		"position": {
+			"x": 160,
+			"y": 1231
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I don't feel like it",
+		"tags": "",
+		"body": "Wha-well I never--\n...Listen, Master Frodo. The fate of Middle Earth is at stake here. If this ring isn't destroyed, there may be no shire to laze around in.\n\n[[What's in it for me?]]",
+		"position": {
+			"x": 109,
+			"y": 524
+		},
+		"colorID": 0
+	},
+	{
+		"title": "What's in it for me?",
+		"tags": "",
+		"body": "What? Have you listened to nothing I've said??\n\n[[I want a cut of the profits]]",
+		"position": {
+			"x": 103,
+			"y": 741
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I want a cut of the profits",
+		"tags": "",
+		"body": "I... OK. In exchange for taking this ring to Mordor, Frodo, I will give you this. It will aid you in your journey.\n\n[[Next|acquireFlameThrower]]",
+		"position": {
+			"x": 99,
+			"y": 969
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Okay",
+		"tags": "",
+		"body": "It will be a perilous Journey, Master Frodo. To protect yourself, it will help to have this...\n\n[[Next|acquireFlameThrower]]",
+		"position": {
+			"x": -133,
+			"y": 307
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Gandalf Burned",
+		"tags": "",
+		"body": "Please be careful where you point that thing.\n\n[[I'll consider it]]",
+		"position": {
+			"x": 351,
+			"y": -7
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Sam beforeGandalf",
+		"tags": "",
+		"body": "Mr Frodo! Good to see you. Excellent morning for tending to the garden, isn't it? (Select an option)\n\n[[You're not even tending a garden, Sam]]\n[[Leave]]",
+		"position": {
+			"x": 823,
+			"y": 3
+		},
+		"colorID": 0
+	},
+	{
+		"title": "You're not even tending a garden, Sam",
+		"tags": "",
+		"body": "Well... I was going to get around to it...\n\n[[I don't believe you]]",
+		"position": {
+			"x": 818,
+			"y": 233
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I don't believe you",
+		"tags": "",
+		"body": "I... why don't you go talk to Gandalf and leave me alone?\n\n[[Leave]]",
+		"position": {
+			"x": 815,
+			"y": 448
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Sam beforeGandalf2",
+		"tags": "",
+		"body": "Go talk to Gandalf and quit buggin' me, Mr Frodo.\n\n[[Leave]]",
+		"position": {
+			"x": 1049,
+			"y": 4
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Sam afterGandalf",
+		"tags": "",
+		"body": "What were you chattin' about with Gandalf, Mr Frodo?\n\n[[So is this an alternate timeline where you weren't droppin no eaves?]]\n[[Leave]]",
+		"position": {
+			"x": 1268,
+			"y": 6
+		},
+		"colorID": 0
+	},
+	{
+		"title": "So is this an alternate timeline where you weren't droppin no eaves?",
+		"tags": "",
+		"body": "What?\n\n[[Nevermind]]",
+		"position": {
+			"x": 1261,
+			"y": 237
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Nevermind",
+		"tags": "",
+		"body": "Alrighty then...\n\n[[I'm going on a perilous journey, Sam. Do you want to join me?]]",
+		"position": {
+			"x": 1255,
+			"y": 474
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I'm going on a perilous journey, Sam. Do you want to join me?",
+		"tags": "",
+		"body": "Perilous, you say? Perilous isn't really my style. Gotta give a hard pass on that one.\n\n[[We're not friends anymore.]]",
+		"position": {
+			"x": 1249,
+			"y": 704
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Sam Burned",
+		"tags": "",
+		"body": "Mr Frodo, I don't generally like having such things pointed at me.\n\n[[I don't care]]",
+		"position": {
+			"x": 1546,
+			"y": 12
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Sauron",
+		"tags": "",
+		"body": "So, it comes down to this! Just you and me, Frodo. The victor of this glorious battle shall change the fate of Middle Earth forever!\n\n[[I don't remember the story going like this]]",
+		"position": {
+			"x": 1892,
+			"y": 15
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I don't remember the story going like this",
+		"tags": "",
+		"body": "Come on, show me your worst!\n\n[[OK]]",
+		"position": {
+			"x": 1882,
+			"y": 239
+		},
+		"colorID": 0
+	},
+	{
+		"title": "win",
+		"tags": "",
+		"body": "Congratulations! You have defeated Sauron! You win!\n<<soundVictory.play(); soundMusic.pause()>>\n\n[[Well alright then.]]\n[[Wait, what about the ring?]]",
+		"position": {
+			"x": 2149,
+			"y": 13
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Wait, what about the ring?",
+		"tags": "",
+		"body": "You can keep the ring as a souvenir.\n\n[[Well alright then.]]",
+		"position": {
+			"x": 2155,
+			"y": 247
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Gandalf After",
+		"tags": "",
+		"body": "Head over to the right to begin your journey, young Hobbit.\n\n[[Leave]]",
+		"position": {
+			"x": -142,
+			"y": -1
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Score!",
+		"tags": "",
+		"body": "Hold space or use two fingers to activate the flamethrower.\n\n[[Got it]]",
+		"position": {
+			"x": 176,
+			"y": 1516
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Got it",
+		"tags": "",
+		"body": "Now be off, young hobbit! Many adventures await you to the East! Well, approximately two, anyway.\n\n[[Leave]]",
+		"position": {
+			"x": 188,
+			"y": 1788
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Well alright then.",
+		"tags": "",
+		"body": "Feel free to explore and burn more things.\n<<soundMusic.play()>>\n\n[[OK]]",
+		"position": {
+			"x": 2394,
+			"y": 78
+		},
+		"colorID": 0
+	}
+]

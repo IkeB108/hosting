@@ -1,0 +1,199 @@
+[ //game
+  {
+    "title":"Default Game",
+    "config":
+    //general data about the world (can be modified midgame)
+    {
+      "chunkSize": 10, //width and height of a chunk in pixels
+      "chunkRenderRadius": 3, //how many chunks *away* from the current chunk do we want to render at a time?
+      //the outermost ring will be rendered, but will not be completely visible in the canvas
+      "tileSize": 16, //size of an in-game 'tile' in pixels (changing this will effectively zoom in and out)
+      "backgroundColor": [80, 63, 94, 255], //chunks can be given individual background colors but this is a world-wide background color
+      "newChunkColor": [0,0,0,0], //newly added chunks will have this background color (completely transparent by default)
+      "cameraFollowSpeed": 0.1 //value between 0 and 1. 0 = camera doesn't follow. 1 = camera position matches player position.
+      "movementType": "incremental", //can be 'continuous' (modern) or 'incremental' (old school) (continuous = default)
+      "frameCorrectedSpeed":false, //when set to true, player speed will adjust to framerate to help smoothen out motion
+      "playerControls":
+      {//a list of keyCodes for which keys on the keyboard correspond to which inputs
+        "up": 87, //w (movement = wasd)
+        "down":83, //s
+        "left":65, //a
+        "right":68, //d
+        "action": 69 //e (nice)
+      },
+      "flashInventory": true, //when set to true, an object in the inventory will flash when its count is changed
+    },
+
+
+    "player":
+    {
+      //describe location and size of player in the world in *tiles* (not pixels)
+      'x':2,'y':2,'layerName':'Layer 1',
+      'speed': 0.1, //speed of the player movement in tiles per frame
+      'movementDisabled': false, //set to true during dialogue
+      //which unicode character & color will the player display?
+      'character':'1',
+      'font':'creatures',
+      'color':[255, 255, 255, 255],
+      'inventory':
+      { //stores information about the player's inventory
+        'open': false, //bool for whether or not the player's inventory is currently open
+        'objects': []
+      }
+    },
+
+
+    "objectTemplates":
+    {
+      //every object in the world references a template. That way we don't have to store data for two identical objects twice.
+      "wall":
+      {  //this is the object template for a wall. Objects in the world with the name 'wall' will look like this...
+        "character":'█', //the unicode character this object will display as
+        "font":"default", //the editor comes with a selection of pre-installed fonts to choose from. Objects can have different fonts and still be in the same world.
+        "color":[255, 255, 255, 255], //Array of RGBA values (A = alpha/opacity). The character will display as this color.
+        "tags":[], //You can apply a command to all objects with a given tag (tags are strings).
+        "inventorySettings":
+        {
+          'appears':true, //whether or not this object is visible in the player's inventory
+          'appearsZero':false,//when the count of this object in the player's inventory is 0, we don't display it UNLESS this is set to true
+          'canBeNegative': false, //whether or not the count of this object is allowed to be negative
+          "function": "" //this command will be executed when the player selects this item in the inventory
+        }
+        "collisionFunction": "" //this command will be executed every time the player collides with this object (assuming this object is in a layer with collision enabled)
+        "actionButtonFunction": "" //this command will be executed every time the player presses the action button while colliding with this object
+      }
+    },
+
+    "commands":
+    {//a list of commands (as strings), organized by when they should be executed
+      'onStartup':[],
+      'everyFrame':[],
+      'everyPlayerMovement':[]
+    }
+
+    "dialogueLines":
+    [ //this is a list of dialogueLines in the whole game.
+    ]
+
+
+    /*
+    Here is the structure of object storage in the world:
+    layer -> chunk -> object
+    Ex.
+    Layer 0
+      ↳ Chunk[0][0]
+      ↳ Chunk[0][1]
+      ...
+      ↳ Chunk[1][0]
+      ↳ Chunk[1][1]
+        ↳ Object[0][0]
+        ↳ Object[0][1]
+        ...
+        ↳ Object[1][0]
+        ↳ Object[1][1]
+          ↳ templateID/uniqueID
+
+    Or more spelled out:
+    layer -> chunk column -> chunk -> object column -> object
+    Ex.
+    Layer 0
+    ↳ ChunkColumn
+        ↳ Chunk
+        ↳ Chunk
+        ↳ Chunk
+          ↳ ObjectColumn
+            ↳ Object
+            ↳ Object
+            ↳ Object
+              ↳ templateID/uniqueID
+
+    We're putting layers at the top of the hierarchy because it is more user-intuitive to do it that way.
+    */
+    "world":
+    [ //this object stores all layers, chunks, and objects
+      //this is a list of layers (the top of the heirarchy)
+      { //this is the first layer in the list
+        "name": "Layer 0",
+        "visible": true,
+        "collisionEnabled": true,
+        "chunks":
+        [ //every layer contains a two-dimensional array of chunks.
+          //this is a list of chunkColumns.
+          [ //this is the first chunkColumn
+            { //this is the first chunk in the first chunkColumn
+              "backgroundColor": [0, 0, 0, 0], //RGBA values. Every chunk has a background color that can be different from the default background color.
+              "empty": true, //when set to true, renderer assumes there are no objects in this chunk so it does not bother rendering it.
+              "idRefTable":[], //a reference table of where an object with the id 'id' is located in this chunk (relative position).
+              "objects": [ //every chunk contains a two-dimensional array of objects.
+                [0,0,0,0,0,0,0,0,0,0], //this is the first objectColumn
+                [0,0,0,0,0,0,0,0,0,0], //this is the second objectColumn
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0]
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "name": "Layer 1",
+        "visible": true,
+        "collisionEnabled": true,
+        "chunks":
+        [
+          [
+            {
+              "backgroundColor": [0, 0, 0, 0],
+              "empty": true,
+              "idRefTable":[],
+              "objects": [
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0]
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "name": "Layer 2",
+        "visible": true,
+        "collisionEnabled": true,
+        "chunks":
+        [
+          [
+            {
+              "backgroundColor": [0, 0, 0, 0],
+              "empty": true,
+              "idRefTable":[],
+              "objects": [
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0]
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

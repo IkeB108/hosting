@@ -1,0 +1,542 @@
+[
+	{
+		"title": "Professor Underhill Start",
+		"tags": "",
+		"body": "Hey. Did you have a chance to pick up the homework?\n(Select an option)\n\n[[Not yet]]\n[[I don't want to do the homework]]",
+		"position": {
+			"x": 1974,
+			"y": 212
+		},
+		"colorID": 8
+	},
+	{
+		"title": "Not yet",
+		"tags": "",
+		"body": "All you need to do is write a four-page essay on a famous mathematician. You'll need three primary sources.\n\n[[Got it. Do you know the school's WiFi password?]]",
+		"position": {
+			"x": 1846,
+			"y": 725
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I don't want to do the homework",
+		"tags": "",
+		"body": "You... really? I was not expecting that response.\n\n[[I'm not doing it and you can't make me]]",
+		"position": {
+			"x": 2109,
+			"y": 496
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I'm not doing it and you can't make me",
+		"tags": "",
+		"body": "Okay, look, you don't have to do it. But you'll get a zero if you don't.\n\n[[Oh. Well in that case I'll do it.|Not yet]]",
+		"position": {
+			"x": 2110,
+			"y": 718
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Got it. Do you know the school's WiFi password?",
+		"tags": "",
+		"body": "Uh... hmmm... no, I'm afraid not. Maybe ask some of your peers. I think they're still outside.\n\n[[See you later Professor Underhill]]",
+		"position": {
+			"x": 1854,
+			"y": 968
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Professor Underhill End",
+		"tags": "",
+		"body": "Oh, you're back.\n\n[[Professor Underhill, I found the WiFi password.]]",
+		"position": {
+			"x": 2468,
+			"y": 208
+		},
+		"colorID": 8
+	},
+	{
+		"title": "Professor Underhill, I found the WiFi password.",
+		"tags": "",
+		"body": "Good for you! I forgot to hand you your assignment. Here it is. By the way, using sources from the internet is not allowed for this project.\n\n[[I'm dropping out of college]]",
+		"position": {
+			"x": 2467,
+			"y": 451
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Carolyn",
+		"tags": "",
+		"body": "Hey. You're in Underhill's class, right?\n\n[[Yeah. Do you know the school WiFi password?]]",
+		"position": {
+			"x": 2727,
+			"y": 209
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Yeah. Do you know the school WiFi password?",
+		"tags": "",
+		"body": "Sorry, I don't. Did you try visiting the Student Resource Center?\n\n[[Leave]]",
+		"position": {
+			"x": 2724,
+			"y": 425
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Alex",
+		"tags": "",
+		"body": "What's up man?\n\n[[Do you have the WiFi password?]]",
+		"position": {
+			"x": 2969,
+			"y": 213
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Do you have the WiFi password?",
+		"tags": "",
+		"body": "I actually used it this morning but I already forgot. Sorry. Maybe try the Student Resource Center.\n\n[[Leave]]",
+		"position": {
+			"x": 2960,
+			"y": 424
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Noah",
+		"tags": "",
+		"body": "Hello, I'm Noah. It's nice to officially meet you.\n\n[[Nice to meet you too]]\n\n[[Do you know the WiFi password?]]",
+		"position": {
+			"x": 3443,
+			"y": 197
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Nice to meet you too",
+		"tags": "",
+		"body": "What can I help you with?\n\n[[Do you know the school's WiFi password?]]",
+		"position": {
+			"x": 3321,
+			"y": 436
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Do you know the WiFi password?",
+		"tags": "",
+		"body": "Wow. I was trying to be courteous and all but okay.\n\n[[I'm sorry]]\n\n[[I'm not sorry]]",
+		"position": {
+			"x": 3546,
+			"y": 438
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I'm sorry",
+		"tags": "",
+		"body": "Sorry's not enough. You know what? I do know the WiFi password, but I'm not going to tell you.\n\n[[Leave]]",
+		"position": {
+			"x": 3550,
+			"y": 698
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I'm not sorry",
+		"tags": "",
+		"body": "I hope you get a splinter today.\n\n[[Leave]]",
+		"position": {
+			"x": 3772,
+			"y": 700
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Do you know the school's WiFi password?",
+		"tags": "",
+		"body": "Yeah, I actually have it written down in my... notebook... which I left at home. Sorry.\n\n[[Leave]]",
+		"position": {
+			"x": 3316,
+			"y": 694
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Emily",
+		"tags": "",
+		"body": "Hey! Are you interested in joining the swim team?\n\n[[Yes]]\n[[No]]",
+		"position": {
+			"x": 4295,
+			"y": 207
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Yes",
+		"tags": "",
+		"body": "Awesome! You'll just need to fill out an online form on your phone. Let me find the link...\n\n[[...Don't bother.]]",
+		"position": {
+			"x": 4192,
+			"y": 464
+		},
+		"colorID": 0
+	},
+	{
+		"title": "No",
+		"tags": "",
+		"body": "That's alright. Can I help you with anything?\n\n[[Do you have the school's WiFi password?]]",
+		"position": {
+			"x": 4429,
+			"y": 469
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Professor Underhill Mid",
+		"tags": "",
+		"body": "Good day for standing around in an empty classroom, isn't it?\n\n[[It is]]",
+		"position": {
+			"x": 2221,
+			"y": 208
+		},
+		"colorID": 8
+	},
+	{
+		"title": "Noah 2",
+		"tags": "",
+		"body": "I'm sorry. I can't help you.\n\n[[Leave]]",
+		"position": {
+			"x": 3818,
+			"y": 213
+		},
+		"colorID": 1
+	},
+	{
+		"title": "Do you have the school's WiFi password?",
+		"tags": "",
+		"body": "It was saved on my phone before I dropped it in the pool.\n\n[[Oh well.]]\n\n[[Can I go fish it out of the pool?]]",
+		"position": {
+			"x": 4429,
+			"y": 704
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Can I go fish it out of the pool?",
+		"tags": "",
+		"body": "No. The pool is outside the playable area.\n\n[[Okay]]",
+		"position": {
+			"x": 4590,
+			"y": 959
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Kathleen",
+		"tags": "StudentResourceCenter",
+		"body": "Hi! What can I help you with?\n\n[[Where could I find the school's WiFi password?]]",
+		"position": {
+			"x": 4753,
+			"y": 212
+		},
+		"colorID": 2
+	},
+	{
+		"title": "Where could I find the school's WiFi password?",
+		"tags": "",
+		"body": "Ah. You'll need to visit the Student Help Center for that.\n\n[[I thought this was the Student Help Center.]]<<!historyIncludes(\"Harry\")>>\n[[I already did.|No. I was told to come back here.]]<<historyIncludes(\"Harry\")>>",
+		"position": {
+			"x": 4753,
+			"y": 450
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I thought this was the Student Help Center.",
+		"tags": "",
+		"body": "No, this is the Student Resource Center. The building you need is over to the right.\n\n[[Okay]]",
+		"position": {
+			"x": 4753,
+			"y": 699
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Harry",
+		"tags": "",
+		"body": "Hi! What can I do for you?\n\n[[I'm looking for the school's WiFi password.]]",
+		"position": {
+			"x": 5339,
+			"y": 218
+		},
+		"colorID": 2
+	},
+	{
+		"title": "I'm looking for the school's WiFi password.",
+		"tags": "",
+		"body": "I see. I would check the Student Resource Center over to the left.\n\n[[I already did.]]<<historyIncludes(\"Kathleen\")>>\n[[I thought this was the Student Resource Center.]]<<!historyIncludes(\"Kathleen\")>>",
+		"position": {
+			"x": 5317,
+			"y": 442
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I already did.",
+		"tags": "",
+		"body": "Hmmm... you should check again.\n\n[[I hate bureaucracy]]",
+		"position": {
+			"x": 5509,
+			"y": 682
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Kathleen 2",
+		"tags": "",
+		"body": "Did you get the WiFi password?\n\n[[No. I was told to come back here.]]",
+		"position": {
+			"x": 5063,
+			"y": 222
+		},
+		"colorID": 2
+	},
+	{
+		"title": "No. I was told to come back here.",
+		"tags": "",
+		"body": "Hmmm... Oh, I remember! You need to visit Student *Services*. It's definitely there.\n\n[[We'll see about that]]",
+		"position": {
+			"x": 5056,
+			"y": 462
+		},
+		"colorID": 0
+	},
+	{
+		"title": "We'll see about that",
+		"tags": "",
+		"body": "My friend Mike in the IT department should know where Student Services is.\n\n[[Leave]]",
+		"position": {
+			"x": 5047,
+			"y": 687
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Mike",
+		"tags": "",
+		"body": "Hmm? Oh... Oh my gosh! A human being! It's been so long...\n\n[[Where could I find Student Services?]]<< historyIncludes(\"We'll see about that\") >>\n[[This is the IT department?]]",
+		"position": {
+			"x": 5847,
+			"y": 219
+		},
+		"colorID": 2
+	},
+	{
+		"title": "This is the IT department?",
+		"tags": "",
+		"body": "Yup, it's just me. Well, me and Cortana, but she's really annoying... that stupid Siri rip-off...\nShut up Cortana! We have a guest!\n[[Do you know where I could find the WiFi password?]]<<!historyIncludes(\"Kathleen 2\")>>\n[[Where could I find Student Services?]]<<historyIncludes(\"Kathleen 2\")>>",
+		"position": {
+			"x": 5846,
+			"y": 455
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Do you know where I could find the WiFi password?",
+		"tags": "",
+		"body": "Ha, you'd think it'd be here, but that would just be too easy. I'm wired up with Ethernet, so I don't need the password. I wish my friend Kathleen were here to jog my memory...\n\n[[Leave]]",
+		"position": {
+			"x": 5846,
+			"y": 701
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Where could I find Student Services?",
+		"tags": "",
+		"body": "Ah yes! I think it's in Room B12, but I also haven't seen the outside world since 2014.\n\n[[Gotcha]]",
+		"position": {
+			"x": 6093,
+			"y": 488
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Room B12",
+		"tags": "",
+		"body": "This room looks like it was abandoned a long time ago.\n\n[[I think I'm done asking people for help.]]<<historyIncludes(\"Kathleen 2\") && historyIncludes(\"Mike\")>>\n[[Leave]]<<!(historyIncludes(\"Kathleen 2\") && historyIncludes(\"Mike\"))>>",
+		"position": {
+			"x": 6102,
+			"y": 222
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Note in Library",
+		"tags": "",
+		"body": "The note reads...\n\"Combination lock to the Dean's safe has something to do with the school's history...\"\n\n[[Leave]]",
+		"position": {
+			"x": 6331,
+			"y": 218
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Book",
+		"tags": "",
+		"body": "You find a book and open it to a bookmarked page. It reads...\n\n\"The very school you stand in today was founded in 1886\"\n\n[[No wonder the WiFi password is so hard to find]]",
+		"position": {
+			"x": 6577,
+			"y": 216
+		},
+		"colorID": 3
+	},
+	{
+		"title": "F Building Locked",
+		"tags": "",
+		"body": "This door is locked. It requires a key to open.\n\n[[Okay]]\n\n[[It doesn't look very locked]]",
+		"position": {
+			"x": 6836,
+			"y": 221
+		},
+		"colorID": 3
+	},
+	{
+		"title": "It doesn't look very locked",
+		"tags": "",
+		"body": "Use your imagination.\n\n[[Okay]]",
+		"position": {
+			"x": 6832,
+			"y": 452
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Dean's Office Locked",
+		"tags": "",
+		"body": "The Dean took a day off today, but his office door is locked. Maybe there's a key somewhere.\n\n[[Break through the door]]\n\n[[Leave]]",
+		"position": {
+			"x": 7077,
+			"y": 225
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Break through the door",
+		"tags": "",
+		"body": "Did you not read the part about the key? Alright then.\nYou launch your shoulder into the door to try to break it down.\nYou fail and your shoulder is now badly hurt.\n\n[[Leave]]",
+		"position": {
+			"x": 7075,
+			"y": 448
+		},
+		"colorID": 0
+	},
+	{
+		"title": "F's",
+		"tags": "",
+		"body": "This must be where the faculty stockpile their F's...\n\n[[Leave]]",
+		"position": {
+			"x": 7312,
+			"y": 225
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Safe Open",
+		"tags": "",
+		"body": "You open the safe and retrieve the WiFi password!\n\nThe password is WonkaDooBoingyBoing\nWeeeee!9\n\n[[Strange]]",
+		"position": {
+			"x": 7793,
+			"y": 230
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Strange",
+		"tags": "",
+		"body": "Go talk to Professor Underhill in Room B13.\n\n[[Okay]]",
+		"position": {
+			"x": 7791,
+			"y": 476
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Safe Closed",
+		"tags": "",
+		"body": "This safe has a 4-digit combination lock... Could the WiFi password be in here?\n[[Guess the combination]]\n[[Leave]]",
+		"position": {
+			"x": 7557,
+			"y": 227
+		},
+		"colorID": 3
+	},
+	{
+		"title": "I thought this was the Student Resource Center.",
+		"tags": "",
+		"body": "No, this is the Student Help Center. The building you need is over to the left.\n\n[[Okay]]",
+		"position": {
+			"x": 5292,
+			"y": 680
+		},
+		"colorID": 0
+	},
+	{
+		"title": "F Building Open",
+		"tags": "",
+		"body": "The door is locked, but you unlock it with your key.\n<<fDoorUnlocked = true>>\n<<player.keyCount -->>\n<<delete collisionRects[\"w.fdoor\"]>>\n<<delete collisionRects[\"t.FDoor\"]>>\n\n[[Nice]]",
+		"position": {
+			"x": 6839,
+			"y": 689
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Wrong Combination",
+		"tags": "",
+		"body": "The combination was incorrect.\n\n[[Darn]]",
+		"position": {
+			"x": 8031,
+			"y": 229
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Key 1 Pickup",
+		"tags": "",
+		"body": "You collected a key.\n\n<<player.keyCount ++>>\n<<key1collected = true>>\n\n[[Neat]]",
+		"position": {
+			"x": 8263,
+			"y": 233
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Dean Door Open",
+		"tags": "",
+		"body": "The door is locked, but you unlock it with your key.\n<<deanDoorUnlocked = true>>\n<<player.keyCount -->>\n<<delete collisionRects[\"w.deandoor\"]>>\n<<delete collisionRects[\"t.DeanDoor\"]>>\n\n[[Nice]]",
+		"position": {
+			"x": 7077,
+			"y": 687
+		},
+		"colorID": 3
+	},
+	{
+		"title": "Key 2 Pickup",
+		"tags": "",
+		"body": "You collected a key.\n\n<<player.keyCount ++>>\n<<key2collected = true>>\n\n[[Neat]]",
+		"position": {
+			"x": 8487,
+			"y": 233
+		},
+		"colorID": 3
+	}
+]

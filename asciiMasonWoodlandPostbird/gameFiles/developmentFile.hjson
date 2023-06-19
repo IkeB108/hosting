@@ -1,0 +1,303 @@
+/*
+color scheme:
+Dark purple: 51, 30, 54, 255
+Violet: 65, 51, 122, 255
+Blue: 110, 164, 191, 255
+Light blue: 194, 239, 235, 255
+White: 236, 254, 232, 255
+*/
+
+[ //game
+  {
+    "title":"Development Game File",
+    "config":
+    //general data about the world (can be modified midgame)
+    {
+      "chunkSize": 10, //width and height of a chunk in pixels
+      "chunkRenderRadius": 3, //how many chunks *away* from the current chunk do we want to render at a time?
+      //the outermost ring will be rendered, but will not be completely visible in the canvas
+      "tileSize": 16, //size of an in-game 'tile' in pixels (changing this will effectively zoom in and out)
+      "backgroundColor": [51, 30, 54, 255], //chunks can be given individual background colors but this is a world-wide background color
+      "cameraFollowSpeed": 0.1 //value between 0 and 1. 0 = camera doesn't follow. 1 = camera position matches player position.
+      "movementType": "continuous", //can be 'continuous' (modern) or 'incremental' (old school) (continuous = default)
+      "frameCorrectedSpeed":true, //when set to true, player speed will adjust to framerate to help smoothen out motion
+      "playerControls":
+      {//a list of keyCodes for which keys on the keyboard correspond to which inputs
+        "up": 87, //w (movement = wasd)
+        "down":83, //s
+        "left":65, //a
+        "right":68, //d
+        "action": 69 //e (nice)
+      }
+    },
+
+
+    "player":
+    {
+      //describe location and size of player in the world in *tiles* (not pixels)
+      'x':2,'y':2,'w':1,'h':1,'layerName':'Layer 1',
+      'speed': 0.1, //speed of the player movement in tiles per frame
+      'movementDisabled': false, //set to true during dialogue
+      //which unicode character & color will the player display?
+      'character':'☻',
+      'font':'default',
+      'color':[236, 254, 232, 255],
+      'inventory':
+      { //stores information about the player's inventory
+        'open': false, //bool for whether or not the player's inventory is currently open
+        'objects': []
+      }
+    },
+
+
+    "objectTemplates":
+    {
+      //every object in the world references a template. That way we don't have to store data for two identical objects twice.
+      "lamppost":
+      { //this is the object template for a lamppost. Objects in the world with the name 'lamppost' will look like this...
+        "character":"Ґ", //the unicode character this object will display as
+        "font":"default" //the editor comes with a selection of pre-installed fonts to choose from. Objects can have different fonts and still be in the same world.
+        "color":[110, 164, 191, 255], //Array of RGBA values (A = alpha/opacity). The character will display as this color.
+        "tags":['moveMeOtherWay'], //You can apply a command to all objects with a given tag.
+        "inventorySettings":
+        {
+          'appears':true, //whether or not this object is visible in the player's inventory
+          'appearsZero':false,//when the count of this object in the player's inventory is 0, we don't display it UNLESS this is set to true
+          'canBeNegative': false, //whether or not the count of this object is allowed to be negative
+          'appearsInHotbar':false, //whether or not this object appears in the player's hotbar
+          "function": ""
+        }
+        "collisionFunction": "moveObject(self.id, 'Layer 1', self.x + 1, self.y);"
+        "actionButtonFunction": ""
+      }
+      "egg":
+      {
+        "character":'o',
+        "font":"default",
+        "color":[110, 164, 191, 255],
+        "tags":['moveMe'],
+        "inventorySettings":
+        {
+          'appears':true, //whether or not this object is visible in the player's inventory
+          'appearsZero':false,//when the count of this object in the player's inventory is 0, we don't display it UNLESS this is set to true
+          'canBeNegative': false, //whether or not the count of this object is allowed to be negative
+          'appearsInHotbar':false, //whether or not this object appears in the player's hotbar
+          "function": "game.player.x ++;addToInventory('egg', -1);"
+        }
+        "collisionFunction": "deleteObject(objectSelf.id);addToInventory('egg', 1);openInventory();"
+        "actionButtonFunction": ""
+      },
+      "wall":
+      {
+        "character":'█',
+        "font":"default",
+        "color":[110, 164, 191, 255],
+        "tags":[],
+        "inventorySettings":
+        {
+          'appears':true, //whether or not this object is visible in the player's inventory
+          'appearsZero':false,//when the count of this object in the player's inventory is 0, we don't display it UNLESS this is set to true
+          'canBeNegative': false, //whether or not the count of this object is allowed to be negative
+          'appearsInHotbar':false, //whether or not this object appears in the player's hotbar
+          "function": ""
+        }
+        "collisionFunction": ""
+        "actionButtonFunction": ""
+      },
+      "wizard":
+      {
+        "character":'☻',
+        'font':'default',
+        'color': [65, 51, 122, 255],
+        "tags":[],
+        "inventorySettings":
+        {
+          'appears':true, //whether or not this object is visible in the player's inventory
+          'appearsZero':false,//when the count of this object in the player's inventory is 0, we don't display it UNLESS this is set to true
+          'canBeNegative': false, //whether or not the count of this object is allowed to be negative
+          'appearsInHotbar':false, //whether or not this object appears in the player's hotbar
+          "function": ""
+        },
+        "collisionFunction": ""
+        "actionButtonFunction": "dialogueLine(0)"
+      }
+    },
+
+    "commands":
+    {//a list of commands, organized by when they should be executed
+      'onStartup':["addObject('wizard', 'Layer 1', 1, 1)"],
+      'everyFrame':[],
+      'everyPlayerMovement':[]
+    }
+
+    "dialogueLines":
+    [
+      {
+        'id':0,
+        'text':'Greetings! I am Ilikius the powerful wizard.',
+        'options':
+        [
+          {
+            'text':"I have ten eggs for you, Ilikius."
+            'function':'addToInventory("egg", -10)',
+            'nextDialogue':1
+            'requirement':'inventoryCount("egg") >= 10'
+          },
+          {
+            'text':"It's a pleasure to meet you, Ilikius.",
+            'function':''
+            'nextDialogue':null
+            'requirement':''
+          },
+          {
+            'text':"Fuck you Ilikius",
+            'function':''
+            'nextDialogue':null
+            'requirement':''
+          },
+          {
+            'text':"Give me a lamppost, fucker",
+            'function':'openInventory();addToInventory("lamppost", 1);exitDialogue()'
+            'nextDialogue':null
+            'requirement':''
+          }
+        ]
+      },
+      {
+        'id':1,
+        'text':'Thank you! Eggs are my favorite.',
+        'options':
+        [
+          {
+            'text':"You're welcome",
+            'function':'exitDialogue()',
+            'nextDialogue':null
+            'requirement':''
+          }
+        ]
+      }
+    ]
+
+
+    /*
+    Here is the structure of object storage in the world:
+    layer -> chunk -> object
+    (we tried quadrants but it got too complicated; create functions for adding more vertical/horizontal space)
+    Ex.
+    Layer 0
+      ↳ Chunk[0][0]
+      ↳ Chunk[0][1]
+      ...
+      ↳ Chunk[1][0]
+      ↳ Chunk[1][1]
+        ↳ Object[0][0]
+        ↳ Object[0][1]
+        ...
+        ↳ Object[1][0]
+        ↳ Object[1][1]
+          ↳ templateID/uniqueID
+
+    Or more spelled out:
+    layer -> chunk column -> chunk -> object column -> object
+    Ex.
+    Layer 0
+    ↳ ChunkColumn
+        ↳ Chunk
+        ↳ Chunk
+        ↳ Chunk
+          ↳ ObjectColumn
+            ↳ Object
+            ↳ Object
+            ↳ Object
+              ↳ templateID/uniqueID
+
+    We're putting layers at the top of the hierarchy because it is more user-intuitive to do it that way.
+    */
+    "world":
+    [ //this object stores all layers, chunks, and objects
+      //this is a list of layers (the top of the heirarchy)
+      { //this is the first layer in the list
+        "name": "Layer 0",
+        "visible": true,
+        "collisionEnabled": true,
+        "chunks":
+        [ //every layer contains a two-dimensional array of chunks.
+          //this is a list of chunkColumns.
+          [ //this is the first chunkColumn
+            { //this is the first chunk in the first chunkColumn
+              "backgroundColor": [51, 30, 54, 255], //RGBA values. Every chunk has a background color that can be different from the defa
+              "empty": true, //when set to true, renderer assumes there are no objects in this chunk so it does not bother rendering it.
+              "idRefTable":[], //a reference table of where an object with the id 'id' is located in this chunk (relative position).
+              "objects": [ //every chunk contains a two-dimensional array of objects.
+                [0,0,0,0,0,0,0,0,0,0], //this is the first objectColumn
+                [0,0,0,0,0,0,0,0,0,0], //this is the second objectColumn
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0]
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "name": "Layer 1",
+        "visible": true,
+        "collisionEnabled": true,
+        "chunks":
+        [
+          [
+            {
+              "backgroundColor": [51, 30, 54, 255],
+              "empty": true,
+              "idRefTable":[],
+              "objects": [
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0]
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "name": "Layer 2",
+        "visible": true,
+        "collisionEnabled": false,
+        "chunks":
+        [
+          [
+            {
+              "backgroundColor": [51, 30, 54, 255],
+              "empty": true,
+              "idRefTable":[],
+              "objects": [
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0],
+              [0,0,0,0,0,0,0,0,0,0]
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

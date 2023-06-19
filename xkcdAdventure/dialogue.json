@@ -1,0 +1,972 @@
+[
+	{
+		"title": "Ike_1",
+		"tags": "",
+		"body": "Cueball! Thank goodness you're here. We're in trouble: Black Hat has been elected President of the United States!\n\n(Click on an option)\n\n[[Oh no!|Explain]]\n[[Who are you?]]",
+		"position": {
+			"x": 547,
+			"y": 342
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Explain",
+		"tags": "",
+		"body": "He made a statement to the press this morning:\n\"My fellow Americans, 1.1 billion years ago, North America began to split in half via a geological rift. We don't know why it stopped. I vow to finish the job.\"\n\n[[We have to stop him!]]",
+		"position": {
+			"x": 552,
+			"y": 597
+		},
+		"colorID": 0
+	},
+	{
+		"title": "We have to stop him!",
+		"tags": "",
+		"body": "Agreed. With an agenda like that, I don't know how he was elected in the first place... Unless... wait...\n\n[[Next|eyelash]]",
+		"position": {
+			"x": 549,
+			"y": 834
+		},
+		"colorID": 0
+	},
+	{
+		"title": "eyelash",
+		"tags": "",
+		"body": "...Of course! He used eyelashes. He wished upon an eyelash to become President!\n\n[[You can do that?]]",
+		"position": {
+			"x": 554,
+			"y": 1065
+		},
+		"colorID": 0
+	},
+	{
+		"title": "You can do that?",
+		"tags": "",
+		"body": "Well, no. There are rules in place for eyelash-wishing... limitations, just like for genies... but that man is a master of finding loopholes.\n\n[[What can we do?]]",
+		"position": {
+			"x": 547,
+			"y": 1337
+		},
+		"colorID": 0
+	},
+	{
+		"title": "What can we do?",
+		"tags": "",
+		"body": "You need to collect your own arsenal of eyelashes, Cueball. As many as you can! When you have at least 55, you'll be ready to face off against Black Hat at the white house.\n\n[[Next|usb]]",
+		"position": {
+			"x": 545,
+			"y": 1576
+		},
+		"colorID": 0
+	},
+	{
+		"title": "usb",
+		"tags": "",
+		"body": "Wait... my friend, Paul Erdos. He has eyelashes! You should find him. Oh, and while you're at it, could you give him this thumbdrive for me?\n\n[[What's on it?]]\n[[That's not how you spell Erdos]]",
+		"position": {
+			"x": 541,
+			"y": 1833
+		},
+		"colorID": 0
+	},
+	{
+		"title": "What's on it?",
+		"tags": "",
+		"body": "<<receiveThumbdrive(\"Ike\")>>\nJust a 25 MB file. I'd send it in an email, but this is faster. You can read it if you click it in the upper left corner.\n\n[[Thanks. See you later]]",
+		"position": {
+			"x": 537,
+			"y": 2087
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Who are you?",
+		"tags": "",
+		"body": "Oh, I'm Ike. I made this game. I have a YouTube channel called Ikebot. You should visit sometime!\n\n[[Self-promotion. Lame]]",
+		"position": {
+			"x": 775,
+			"y": 340
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Self-promotion. Lame",
+		"tags": "",
+		"body": "Anyway, about Black Hat...\n\n[[Next|Explain]]",
+		"position": {
+			"x": 774,
+			"y": 586
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Ike_2",
+		"tags": "",
+		"body": "Paul should be over by the graveyard to the North. Wait, does he know how to use a thumbdrive? Hmm...\n\n[[Leave]]",
+		"position": {
+			"x": 1014,
+			"y": 340
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Ike_Thumbdrive",
+		"tags": "",
+		"body": "Hello Mr Erdos, I need you to sign this. There's no time to explain.\n\n[[Next|it2]]",
+		"position": {
+			"x": 1016,
+			"y": 587
+		},
+		"colorID": 0
+	},
+	{
+		"title": "it2",
+		"tags": "",
+		"body": "(The rest of the document is about some inane mathematical proof called the \"Red Bull Theorem\")\n\n[[Leave]]",
+		"position": {
+			"x": 1017,
+			"y": 806
+		},
+		"colorID": 0
+	},
+	{
+		"title": "That's not how you spell Erdos",
+		"tags": "",
+		"body": "Listen, this font is from the Commodore 64. It does not support diacritics.\n\n[[Fair enough. What's on the thumbdrive?|What's on it?]]",
+		"position": {
+			"x": 788,
+			"y": 1931
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Paul Erdos_1",
+		"tags": "",
+		"body": "Urrrrggghhh... braaiiinnnsss...\n\n[[Are you Paul Erdos?]]",
+		"position": {
+			"x": 1782,
+			"y": 354
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Are you Paul Erdos?",
+		"tags": "",
+		"body": "Huh? Oh, yes. The zombified remains of Paul Erdos actually. Pleasure to meet you.\n\n[[This thumbdrive is for you.]]",
+		"position": {
+			"x": 1788,
+			"y": 597
+		},
+		"colorID": 0
+	},
+	{
+		"title": "This thumbdrive is for you.",
+		"tags": "",
+		"body": "<<giveThumbdrive(\"Ike\")>>\nI don't know what this is or what to do with it.\n\n[[Eyelash, please.]]",
+		"position": {
+			"x": 1788,
+			"y": 837
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Eyelash, please.",
+		"tags": "",
+		"body": "Umm, what? I mean, sure. Here you go. <<receiveEyelash(1)>>\n\n[[Can I have more?]]",
+		"position": {
+			"x": 1792,
+			"y": 1076
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Can I have more?",
+		"tags": "",
+		"body": "Umm, no? Why don't you... ask around?\n\n[[Leave]]",
+		"position": {
+			"x": 1796,
+			"y": 1324
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Paul Erdos_2",
+		"tags": "",
+		"body": "I will not be giving you any more eyelashes. Not unless you're willing to trade for some braaiinnss...\n\n[[Leave]]",
+		"position": {
+			"x": 2001,
+			"y": 354
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Rocks Guy_1",
+		"tags": "",
+		"body": "(The man appears to be deeply focused on arranging his rocks. You are unable to get his attention)\n\n[[Leave]]",
+		"position": {
+			"x": 2383,
+			"y": 354
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Beret Guy_1",
+		"tags": "",
+		"body": "Welcome to my Bysness! Can I interest you in products??\n\n[[...What?]]\n[[Yes!|What products do you sell?]]",
+		"position": {
+			"x": 2750,
+			"y": 354
+		},
+		"colorID": 0
+	},
+	{
+		"title": "...What?",
+		"tags": "",
+		"body": "Well, we used to offer *services*, before we learned that pipe cleaners are *not* effective tools for plumbing. Would you like to meet the company gator?\n\n[[Yes!|meetGator]]\n[[What products do you sell?]]",
+		"position": {
+			"x": 2754,
+			"y": 581
+		},
+		"colorID": 0
+	},
+	{
+		"title": "meetGator",
+		"tags": "",
+		"body": "He's in my backyard. Go say hello! He is wet.\n\n[[Leave]]",
+		"position": {
+			"x": 2749,
+			"y": 838
+		},
+		"colorID": 0
+	},
+	{
+		"title": "What products do you sell?",
+		"tags": "",
+		"body": "We've got a wide selection of products. Mostly assets, but also some deliverables. Right now everything's on a 25 per-cent discount.\n[[25 per-cent?]]\n[[Do you sell eyelashes?]]",
+		"position": {
+			"x": 3008,
+			"y": 585
+		},
+		"colorID": 0
+	},
+	{
+		"title": "25 per-cent?",
+		"tags": "",
+		"body": "Yup! 25 items per one cent you spend.\n\n[[Do you sell eyelashes?]]",
+		"position": {
+			"x": 3013,
+			"y": 837
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Do you sell eyelashes?",
+		"tags": "",
+		"body": "Of course! I've got a whole matchbox full of them. That'll come out to 2 cents.\n[[I don't carry change]]",
+		"position": {
+			"x": 3249,
+			"y": 837
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I don't carry change",
+		"tags": "",
+		"body": "That's alright. We cover sales tax for customers here at Bysness, which means you only owe...\n(Beret Guy pulls out a calculator)\n...Negative four cents.\n\n[[I'll take it]]",
+		"position": {
+			"x": 3249,
+			"y": 1062
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I'll take it",
+		"tags": "",
+		"body": "<<receiveEyelash(50);>>\nHere are your eyelashes. I'll have to give you the four cents later. We melted down all of the change in our register the last time we liquidated our assets.\nBy the way, could you deliver this thumbdrive to my colleague, Little Bobby Tables?\n\n[[Sure]]",
+		"position": {
+			"x": 3252,
+			"y": 1310
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Sure",
+		"tags": "",
+		"body": "<<receiveThumbdrive(\"Beret Guy\")>>\nThanks! Tell you what, if you do a good job, I'll consider scheduling you for a job interview.\n\n[[Leave]]",
+		"position": {
+			"x": 3252,
+			"y": 1541
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Beret Guy_2",
+		"tags": "",
+		"body": "Little Bobby Tables should be across the street.\n\n[[Leave]]",
+		"position": {
+			"x": 3458,
+			"y": 381
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Beret Guy_3",
+		"tags": "",
+		"body": "Thanks for giving Bobby that thumbdrive. Let's schedule that interview as soon as I finish scrubbing the company data-pipeline with a toothbrush.\n\n[[Leave]]",
+		"position": {
+			"x": 3692,
+			"y": 382
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Ike_3",
+		"tags": "",
+		"body": "Thanks for giving Mr Erdos that thumbdrive. Maybe some other folks around here have some eyelashes to give you... Remember, you'll need 55 to stand a chance against Black Hat at the White House.\n\n[[Leave]]",
+		"position": {
+			"x": 1234,
+			"y": 337
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Polecat_1",
+		"tags": "",
+		"body": "(The wet polecat hisses at you)\n\n[[Leave]]",
+		"position": {
+			"x": 4308,
+			"y": 381
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Little Bobby Tables_1",
+		"tags": "",
+		"body": "Hiya there mister!\n\n[[This thumbdrive is for you.|giveBobbyThumbdrive]]<<hasThumbdrive(\"Beret Guy\")>>\n[[Is your name really Bobby Tables?]]",
+		"position": {
+			"x": 4638,
+			"y": 385
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Paul Erdos_0",
+		"tags": "",
+		"body": "Uggghhh... Braaaiiinnnsss...\n\n[[I should go ask Ike about this man]]",
+		"position": {
+			"x": 1560,
+			"y": 354
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Is your name really Bobby Tables?",
+		"tags": "",
+		"body": "No, it's actually Robert'); DROP TABLE Students;--\nBut my parents just call me Little Bobby Tables. Say, have you seen this guy who wears a Beret? He's supposed to give me a thumbdrive or something.\n\n[[Yes. This is for you|giveBobbyThumbdrive]]<<hasThumbdrive(\"Beret Guy\")>>\n[[I'll go find him]]\n[[What did you learn at school today?]]",
+		"position": {
+			"x": 4892,
+			"y": 385
+		},
+		"colorID": 0
+	},
+	{
+		"title": "giveBobbyThumbdrive",
+		"tags": "",
+		"body": "<<giveThumbdrive(\"Beret Guy\")>>\nThank you mister!\n\n[[Can I borrow an eyelash?]]",
+		"position": {
+			"x": 4636,
+			"y": 646
+		},
+		"colorID": 0
+	},
+	{
+		"title": "What did you learn at school today?",
+		"tags": "",
+		"body": "Something about a James Webb Telescope. I don't know. I just remember my teacher was in a reeeaallly bad mood. She kept glaring at me the whole day. I didn't even do anything wrong!\n\n[[Leave]]",
+		"position": {
+			"x": 5145,
+			"y": 385
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Beret Guy_Thumbdrive",
+		"tags": "",
+		"body": "Mr Tables! Thanks for getting in touch last week. With my bysness experience and your exceptional name, I think we will make a great partnership. I've included some photos that will get you up to speed on our company's sales this last quarter.\n\n[[View the photos]]\n[[Leave]]",
+		"position": {
+			"x": 3692,
+			"y": 608
+		},
+		"colorID": 0
+	},
+	{
+		"title": "View the photos",
+		"tags": "",
+		"body": "(You see photos of Beret Guy splashing around in a puddle with a polecat)\n\n[[Leave]]",
+		"position": {
+			"x": 3691,
+			"y": 841
+		},
+		"colorID": 0
+	},
+	{
+		"title": "getBobbyDrive",
+		"tags": "",
+		"body": "<<receiveThumbdrive(\"Little Bobby Tables\")>>\nThank you! See you around.\n\n[[Leave]]",
+		"position": {
+			"x": 4635,
+			"y": 1325
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Can I borrow an eyelash?",
+		"tags": "",
+		"body": "<<receiveEyelash(1);>>\nSure! I've got plenty.\n[[Thanks]]",
+		"position": {
+			"x": 4630,
+			"y": 876
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Thanks",
+		"tags": "",
+		"body": "By the way, I have this photo I've been meaning to give to my Uncle Richard. Could you take it to him?\n\n[[Yes|getBobbyDrive]]",
+		"position": {
+			"x": 4634,
+			"y": 1098
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Little Bobby Tables_Thumbdrive",
+		"tags": "",
+		"body": "Dear Uncle Richard,\n\nI have never liked you or your obsession with GNU.\n\n[[See attached photo]]\n[[Leave]]",
+		"position": {
+			"x": 4899,
+			"y": 648
+		},
+		"colorID": 0
+	},
+	{
+		"title": "See attached photo",
+		"tags": "",
+		"body": "(You see a photo of Bobby using Windows 10 while looking smugly at the camera)\n\n[[Leave]]",
+		"position": {
+			"x": 4896,
+			"y": 870
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Little Bobby Tables_2",
+		"tags": "",
+		"body": "Did you find my Uncle Richard? He's got a great big beard.\n\n[[Leave]]",
+		"position": {
+			"x": 5387,
+			"y": 388
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Little Bobby Tables_3",
+		"tags": "",
+		"body": "Thanks for giving my uncle that thumbdrive! Listen, if you ever need a database corrupted, I'm your guy.\n\n[[Leave]]",
+		"position": {
+			"x": 5614,
+			"y": 388
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Richard Stallman_1",
+		"tags": "",
+		"body": "Hello lad! How can I make your acquaintance?\n\n[[Are you Richard Stallman, founder of the GNU project and open source software advocate?|AreYouStallman]]",
+		"position": {
+			"x": 6008,
+			"y": 386
+		},
+		"colorID": 0
+	},
+	{
+		"title": "AreYouStallman",
+		"tags": "",
+		"body": "The very same! I've been fending off those evil servants of Gates since before the day you were born, son. How can I help you?\n\n[[This thumbdrive is for you.|giveStallmanThumbdrive]]<<hasThumbdrive(\"Little Bobby Tables\")>>\n[[...Lord Gates sends his regards.]]\n[[Leave]]",
+		"position": {
+			"x": 6009,
+			"y": 621
+		},
+		"colorID": 0
+	},
+	{
+		"title": "...Lord Gates sends his regards.",
+		"tags": "",
+		"body": "WHAT?! Curse you Microsoft Lackeys! I'll chop you to pieces!\n(Richard Stallman draws his sword)\n\n[[Have at thee, rebel of the New Order!]]",
+		"position": {
+			"x": 6174,
+			"y": 878
+		},
+		"colorID": 0
+	},
+	{
+		"title": "giveStallmanThumbdrive",
+		"tags": "",
+		"body": "<<receiveEyelash(1);>>\n<<giveThumbdrive(\"Little Bobby Tables\")>>\nOh, thank you lad! Here, have this eyelash in exchange. Use it to wish for something meaningful, preferrably GNU/Linux related!\nBy the way, I've been meaning to send this file to Zombie Marie Curie, but it's just too big to send in an email. Could you deliver it to her?\n\n[[Sure|getStallmanDrive]]",
+		"position": {
+			"x": 5936,
+			"y": 1117
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Have at thee, rebel of the New Order!",
+		"tags": "",
+		"body": "(You draw out your ninja stars and start chucking them at Stallman.)\n(He effortlessly dodges every one of them and bests you in combat.)\n(Standing over you with his sword at your throat, he says...)\n\nYou've fought well, toady. But it's no match for three decades' worth of free software activism! I'll have you know I can write a valid tar command in under ten seconds, without Google!\n\n[[I concede.]]<<!hasThumbdrive(\"Little Bobby Tables\")>>\n[[I concede. Take this thumbdrive from your nephew as a peace offering.|giveStallmanThumbdrive]]<<hasThumbdrive(\"Little Bobby Tables\")>>",
+		"position": {
+			"x": 6175,
+			"y": 1118
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I concede.",
+		"tags": "",
+		"body": "I'll let you go, lad. Let this be a warning to you. And if you have a chance, pay a visit to my nephew Bobby Southeast of here. He could use some company.\n\n[[Leave]]",
+		"position": {
+			"x": 6175,
+			"y": 1352
+		},
+		"colorID": 0
+	},
+	{
+		"title": "getStallmanDrive",
+		"tags": "",
+		"body": "<<receiveThumbdrive(\"Richard Stallman\")>>\nI appreciate it. May GNU be with ye.\n\n[[Leave]]",
+		"position": {
+			"x": 5936,
+			"y": 1353
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Richard Stallman_2",
+		"tags": "",
+		"body": "Did you give Marie Curie that thumbdrive? She should be down at the graveyard.\n\n\n[[By the way... Lord Gates sends his regards.|...Lord Gates sends his regards.]]\n[[Leave]]",
+		"position": {
+			"x": 6449,
+			"y": 384
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Richard Stallman_Thumbdrive",
+		"tags": "",
+		"body": "Marie Curie! Umm... hello! I, uhh, I don't really know what to write in this letter. Frankly, I didn't think I would ever have the opportunity to speak to you since you died in 1934. I don't know much about chemistry or radiation. Or zombies. But... big fan. Look, uhh, here is the entire history of the world before and after 1934, to get you up to speed now that you're back.  Cheers\n\n[[See attached file]]\n[[Leave]]",
+		"position": {
+			"x": 6450,
+			"y": 654
+		},
+		"colorID": 0
+	},
+	{
+		"title": "See attached file",
+		"tags": "",
+		"body": "(Richard Stallman has attached a .zip file containing the entirety of Wikipedia)\n\n[[Leave]]",
+		"position": {
+			"x": 6450,
+			"y": 876
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Richard Stallman_3",
+		"tags": "",
+		"body": "I heard my thumbdrive made it to Mrs Curie in good condition. You're not half-bad, son.\n\n[[By the way... Lord Gates sends his regards.|...Lord Gates sends his regards.]]\n[[Leave]]",
+		"position": {
+			"x": 6672,
+			"y": 383
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Marie Curie_1",
+		"tags": "",
+		"body": "Urrrrgghghghh... braaiinnss... Oh, hello. Can I help you?\n\n[[Are you Marie Curie?]]\n[[Are you the world's only known female scientist, Marie Curie?]]",
+		"position": {
+			"x": 6834,
+			"y": 722
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Are you Marie Curie?",
+		"tags": "",
+		"body": "One and the same!\n\n[[Pleasure to meet you.|Fair enough]]",
+		"position": {
+			"x": 6778,
+			"y": 988
+		},
+		"colorID": 8
+	},
+	{
+		"title": "Are you the world's only known female scientist, Marie Curie?",
+		"tags": "",
+		"body": "When will you people get the message? Lise Meitner? Emmy Noether? Rosalind Franklin? I am not the only noteworthy female scientist!\n\n[[Fair enough]]",
+		"position": {
+			"x": 7004,
+			"y": 988
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Fair enough",
+		"tags": "",
+		"body": "What can I do for you?\n\n[[Can I get your autograph?]]<<!hasThumbdrive(\"Richard Stallman\")>>\n[[I have a thumbdrive for you.]]<<hasThumbdrive(\"Richard Stallman\")>>",
+		"position": {
+			"x": 6901,
+			"y": 1248
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Can I get your autograph?",
+		"tags": "",
+		"body": "Sorry, kid, my fingers decomposed. But if you happen to see Richard Stallman, find out if he has a parcel for me.\n\n[[Will do]]",
+		"position": {
+			"x": 6780,
+			"y": 1531
+		},
+		"colorID": 0
+	},
+	{
+		"title": "I have a thumbdrive for you.",
+		"tags": "",
+		"body": "<<giveThumbdrive(\"Richard Stallman\")>>\n<<receiveEyelash(1);>>\nAh! Thanks kid. Have an eyelash as a token of my gratitude. While you're at it, could you deliver something to my friend Benton Lowey-Ball for me?\n\n[[Sure|toBenton]]",
+		"position": {
+			"x": 7042,
+			"y": 1527
+		},
+		"colorID": 0
+	},
+	{
+		"title": "toBenton",
+		"tags": "",
+		"body": "<<receiveThumbdrive(\"Marie Curie\")>>\nThanks. Safe travels, and remember, avoid radium! It turns out it kills you.\n\n[[I'll try]]",
+		"position": {
+			"x": 7037,
+			"y": 1807
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Marie Curie_2",
+		"tags": "",
+		"body": "Benton should be just across the street. Guy with the glasses.\n\n[[Okay]]",
+		"position": {
+			"x": 7216,
+			"y": 736
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Marie Curie_3",
+		"tags": "",
+		"body": "Thanks for giving that \"thumb-drive\" to Benton. Hopefully you didn't encounter any radium.\n\n[[Leave]]",
+		"position": {
+			"x": 7428,
+			"y": 736
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Marie Curie_Thumbdrive",
+		"tags": "",
+		"body": "Hello Benton,\n\nI just recently finished reading your novel, and I am quite a fan of the villain, Dr Necromancer. We didn't have many female antagonists like that in my day. But I have to ask... is your novel partially inspired by real events? Just wondering why Paul Erdos and I came to life and all.\n\nUrgently awaiting your reply. Sincerely,\nMarie Curie\n\n[[Leave]]",
+		"position": {
+			"x": 7423,
+			"y": 961
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Benton Lowey-Ball_1",
+		"tags": "",
+		"body": "Hi there.\n\n[[Are you Benton Lowey-Ball, world-renowned childrens' author and creator of the cult classic novel 'A Shameless Attempt at Convincing Randall Munroe to put Neptune Beach, Florida on his Book Tour: A tale of Necromancers and Skydiving'?|areYouBenton]]",
+		"position": {
+			"x": 7714,
+			"y": 506
+		},
+		"colorID": 0
+	},
+	{
+		"title": "areYouBenton",
+		"tags": "",
+		"body": "Uh, well yes, I am.\n\n[[This thumbdrive is for you]]<<hasThumbdrive(\"Marie Curie\")>>\n[[By the way, have you ever considered starting a book tour and visiting Roseville California, the hometown of Ike Bischof?]]\n[[Leave]]",
+		"position": {
+			"x": 7717,
+			"y": 768
+		},
+		"colorID": 0
+	},
+	{
+		"title": "By the way, have you ever considered starting a book tour and visiting Roseville California, the hometown of Ike Bischof?",
+		"tags": "",
+		"body": "Um, no, I can't say that I have.\n\n[[If only there were some way to convince you...]]",
+		"position": {
+			"x": 7717,
+			"y": 1038
+		},
+		"colorID": 0
+	},
+	{
+		"title": "If only there were some way to convince you...",
+		"tags": "",
+		"body": "Ha, yes. Only a novel of truly epic proportions could persuade me to embark on such a book tour.\n\n[[Good to know. By the way, this thumbdrive is for you|This thumbdrive is for you]]<<hasThumbdrive(\"Marie Curie\")>>\n[[Good to know]]<<!hasThumbdrive(\"Marie Curie\")>>",
+		"position": {
+			"x": 7713,
+			"y": 1285
+		},
+		"colorID": 0
+	},
+	{
+		"title": "This thumbdrive is for you",
+		"tags": "",
+		"body": "<<giveThumbdrive(\"Marie Curie\")>>\nOh! Thanks, I guess...\n\n[[Could I take an eyelash from your face?]]",
+		"position": {
+			"x": 8160,
+			"y": 1040
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Could I take an eyelash from your face?",
+		"tags": "",
+		"body": "You are a very strange person.\n\n[[Is that a yes?]]",
+		"position": {
+			"x": 8158,
+			"y": 1289
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Is that a yes?",
+		"tags": "",
+		"body": "<<receiveEyelash(1);>>\nIf it will make you go away, then yes.\n\n[[Leave without explaining anything]]",
+		"position": {
+			"x": 8157,
+			"y": 1523
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Benton Lowey-Ball_2",
+		"tags": "",
+		"body": "Hello again.\n\n[[By the way, have you ever considered starting a book tour and visiting Roseville California, the hometown of Ike Bischof?]]",
+		"position": {
+			"x": 7957,
+			"y": 507
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Black Hat_1",
+		"tags": "",
+		"body": "Hey kid. President here. Kind of busy right now. Is this urgent?\n[[I'm here to stop you, Black Hat.|tooFewEyelashes]]<<hasEnoughEyelashes()==false>>\n[[I'm here to stop you, Black Hat.|enoughEyelashes]]<<hasEnoughEyelashes()==true>>",
+		"position": {
+			"x": 8651,
+			"y": 493
+		},
+		"colorID": 0
+	},
+	{
+		"title": "tooFewEyelashes",
+		"tags": "",
+		"body": "Ha! You and what eyelashes? Hate to break it to you, but I've become pretty much unstoppable ever since I found those loopholes in eyelash-wishing. You'll need at least 55 lashes to stand a chance against me. Until then, don't waste my time.\n[[Leave]]",
+		"position": {
+			"x": 8566,
+			"y": 749
+		},
+		"colorID": 0
+	},
+	{
+		"title": "enoughEyelashes",
+		"tags": "",
+		"body": "Ha! You and what--wait, what's that? 55 eyelashes? But that's... that's exactly enough to out-wish me! I can't believe this... out-smarted? Me?? This has only happened once before...\n[[Accept defeat, Black Hat]]",
+		"position": {
+			"x": 8800,
+			"y": 750
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Accept defeat, Black Hat",
+		"tags": "",
+		"body": "Oh, woe is me! Whatever will I do? But what you don't know, \"Cueball\", if that is your real name, is that I've wished a meta-wish for just such an occasion: all eyelash wishers must speak a secret four-word code before making their wish. So go ahead, kid. Guess the first word of the code.\n[[Girl|wrongKid]]\n[[Correct|correct1]]\n[[Advertising|wrongKid]]\n[[Opportunity|wrongKid]]\n[[Leave]]",
+		"position": {
+			"x": 8799,
+			"y": 971
+		},
+		"colorID": 0
+	},
+	{
+		"title": "correct1",
+		"tags": "",
+		"body": "Guess the second word.\n[[Horse|correct2]]\n[[Opportunity|wrongKid]]\n[[Employee|wrongKid]]\n[[Chemistry|wrongKid]]\n[[Leave]]",
+		"position": {
+			"x": 8800,
+			"y": 1202
+		},
+		"colorID": 0
+	},
+	{
+		"title": "wrongKid",
+		"tags": "",
+		"body": "You're wrong, kid. Now prepare to see the wrath of Chaotic Evil hit you in full swi--\n[[You're forgetting one thing, Black Hat]]",
+		"position": {
+			"x": 9128,
+			"y": 1328
+		},
+		"colorID": 0
+	},
+	{
+		"title": "correct2",
+		"tags": "",
+		"body": "Guess the third word.\n[[Queen|wrongKid]]\n[[Guidance|wrongKid]]\n[[Psychology|wrongKid]]\n[[Battery|correct3]]\n[[Leave]]",
+		"position": {
+			"x": 8798,
+			"y": 1438
+		},
+		"colorID": 0
+	},
+	{
+		"title": "correct3",
+		"tags": "",
+		"body": "Guess the final word.\n[[Staple|correct4]]\n[[Reaction|wrongKid]]\n[[Airport|wrongKid]]\n[[Tennis|wrongKid]]\n[[Leave]]",
+		"position": {
+			"x": 8791,
+			"y": 1678
+		},
+		"colorID": 0
+	},
+	{
+		"title": "correct4",
+		"tags": "",
+		"body": "Correct Horse Battery Staple? But... that's impossible! How did you know?\n[[It's a very memorable password|Victory]]\n[[Trial and error actually|Victory]]",
+		"position": {
+			"x": 8789,
+			"y": 1945
+		},
+		"colorID": 0
+	},
+	{
+		"title": "You're forgetting one thing, Black Hat",
+		"tags": "",
+		"body": "What? What could you possibly throw at me?\n[[Sudo stop being the President]]",
+		"position": {
+			"x": 9131,
+			"y": 1566
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Sudo stop being the President",
+		"tags": "",
+		"body": "Wait, wha--what's happening to me?\n(You see Black Hat take off his suit and tie)\n\nI'm not doing that on purpose! Wait! Stop!\n(Black Hat takes off his POTUS badge, which all presidents are known for wearing, and crushes it with his foot)\n\nYou can't do this!\n[[I can|Victory]]",
+		"position": {
+			"x": 9126,
+			"y": 1809
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Victory",
+		"tags": "",
+		"body": "<<deleteLastPerson();>>\nI'll be back, Cueball! You'll see! I'll come back at you with more loopholes than ever!\n(Stripped of his presidential status, Black Hat flees to his Russian submarine)\n[[Victory!]]",
+		"position": {
+			"x": 9071,
+			"y": 2049
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Henchman_withWeapon",
+		"tags": "",
+		"body": "You've encountered one of Black Hat's evil henchmen!\n\n[[Attack with a math symbol]]\n[[Leave]]",
+		"position": {
+			"x": 106,
+			"y": 339
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Attack with a math symbol",
+		"tags": "showDie",
+		"body": "<<rollDie()>>You rolled a ${playerDieRoll}!\n[[Success!]]<<playerDieRoll>=10>>\n[[Failure!]]<<playerDieRoll<10>>",
+		"position": {
+			"x": 106,
+			"y": 586
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Henchman_withoutWeapon",
+		"tags": "",
+		"body": "You've encountered one of Black Hat's evil henchmen!\nYou'll need a weapon to engage in battle. Maybe pick up one of those pi symbols?\n\n[[Leave]]",
+		"position": {
+			"x": -127,
+			"y": 339
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Success!",
+		"tags": "",
+		"body": "<<receiveEyelash(1);deleteLastPerson();>>\nYou collect one eyelash from your fallen foe.\n[[Leave]]",
+		"position": {
+			"x": -9,
+			"y": 843
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Failure!",
+		"tags": "",
+		"body": "Your attack failed. Try again later to collect eyelashes from Black Hat's henchmen.\n\n[[That is not uncomfortable at all]]",
+		"position": {
+			"x": 232,
+			"y": 843
+		},
+		"colorID": 0
+	},
+	{
+		"title": "firstMathPickup",
+		"tags": "",
+		"body": "You picked up a math symbol! A sharp weapon that will prove invaluable against Black Hat's henchmen...\n\n[[Ok]]",
+		"position": {
+			"x": 1391,
+			"y": 682
+		},
+		"colorID": 0
+	},
+	{
+		"title": "Victory!",
+		"tags": "",
+		"body": "= = You win! = =\n\nWould you like to see all the comics referenced in this game?\n\n[[See the comics]]\n[[Keep playing]]",
+		"position": {
+			"x": 9078,
+			"y": 2285
+		},
+		"colorID": 0
+	},
+	{
+		"title": "See the comics",
+		"tags": "",
+		"body": "<<redirectToComics()>>",
+		"position": {
+			"x": 9084,
+			"y": 2538
+		},
+		"colorID": 0
+	}
+]

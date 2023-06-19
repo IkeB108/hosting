@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>YT Duration Recorder</title>
+  </head>
+  <body>
+    <h1>YouTube Video Data Collector</h1>
+    <p>This website can automatically collect data for you about YouTube videos, including the video's title, the duration in seconds, the "author" (name of the channel), and whether the video is an ad.</p>
+    <p>Note: this website is a hacky, quick solution to a fairly specific problem. For this reason, the code is not very robust and you may experience glitches or crashes. Apologies</p>
+    <h2>To get started:</h2>
+    <p>Upload a text file from your computer. The file must be either:</p>
+    <p>(a) a list of YouTube video URLs/IDs separated by line breaks, or</p>
+    <p>(b) a JSON file of your watch history, taken from Google Takeout.</p>
+    <p>Warning: If your file doesn't match one of these formats, the website will likely crash (sorry).</p>
+    <input type="file" id="fileInput">
+    <br><br>
+    <h2>Next...</h2>
+    <p>Click "Previous" or "Next" to manually browse the videos, or click "Autoplay". When a video loads, its information (duration in seconds, author/channel, etc) will be recorded. At any time, press "Save Collected Data" to download a new JSON file with the newly recorded data.</p>
+    <p>Warning: You may experience issues with Autoplay getting stuck on a video that cannot load. Press "Next" manually to fix this.</p>
+    <div id="player"></div>
+    <br>
+    <button id="prevButton" onclick="prevButton()">&lt; Previous</button>
+    <button id="nextButton" onclick="nextButton()">Next &gt;</button>
+    <br><br>
+    <button id="autoButton" onclick="autoButton()">Autoplay</button>
+    <button id="stopButton" onclick="stopButton()">Stop</button>
+    <br><br>
+    <button id="saveButton" onclick="saveButton()">Save Collected Data</button>
+    
+    <br>
+    <p id="autoplayingP">Autoplaying: False</p>
+    <p id="vIndexP">Video Index: 0</p>
+    <p id="durationP">Video Duration: 0 seconds</p>
+    <p id="authorP">Author: Unknown</p>
+    <p id="isAdP">Video is an ad: false</p>
+    <script>
+
+      let fileInput = document.getElementById("fileInput")
+      fileInput.addEventListener("change", function(){
+        if(fileInput.files.length > 0){
+          let reader = new FileReader();
+          reader.addEventListener("load", function(){
+            //Attempt to parse the file as a JSON object
+            try {
+              //If it's a JSON object, assume it's a watch-history.json file from Google Takeout
+              watchHistory = JSON.parse(reader.result)
+            } catch {
+              //If it's not a JSON object, assume it's
+              //a list of youtube URLs or IDs
+              let lineList = reader.result.split("\n")
+
+              //Remove any lines in the lineList that are empty
+              let newLineList = []
+              for(let i in lineList){
+                if(lineList[i].length > 3)newLineList.push(lineList[i])
+              }
+              lineList = newLineList
+
+              //Convert all lineList items into a standard YouTube url
+              for(let i in lineList){
+                let vidId = null
+                if(lineList[i].includes("youtu.be")){
+                  vidId = lineList[i].split("youtu.be/")[1]
+                }
+                else if(lineList[i].includes("watch?v=")){
+                  vidId = lineList[i].split("watch?v=")[1]
+                }
+                else {
+                  vidId = lineList[i]
+                }
+                lineList[i] = 'https://www.youtube.com/watch?v=' + vidId
+                //Remove a \r character if one is present at the end
+                lineList[i] = lineList[i].split("\r")[0]
+              }
+              //console.log(lineList)
+
+              //Create a watchHistory JSON object using the URLs from lineList
+              watchHistory = []
+              for(let i in lineList){
+                watchHistory.push({
+                  activityControls: ["YouTube watch history"],
+                  header: "YouTube",
+                  products: ["n/a"],
+                  subtitles: ["n/a"],
+                  time: "n/a",
+                  title: "Unknown Title",
+                  titleUrl: lineList[i]
+                })
+              }
+            }
+            
+            vIndex = 0;
+            setVideo(vIndex)
+          })
+          reader.readAsText(fileInput.files[0])
+        }
+      })
+
+      const pIds = ["vIndexP", "durationP", "authorP", "isAdP", "autoplayingP"]
+      let pElements = []
+      for(let i in pIds){
+        pElements[pIds[i]] = document.getElementById(pIds[i])
+      }
+
+      let vIndex = 0;
+      let tag = document.createElement('script');
+
+      let autoplaying = false;
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      fetch("watch-history.json")
+        .then(response => response.json())
+        .then(json => {
+          watchHistory = json
+        });
+
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: "3AdHzwERIM0",
+          playerVars: {
+            'playsinline': 1
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': ()=>{}
+          }
+        })
+      }
+
+      function onPlayerReady(event) {
+        event.target.playVideo();
+        console.log("PLAYER READY")
+      }
+
+      function setURLData(dataString){
+        window.history.replaceState({additionalInformation:"Updated URL with JS"}, "", "?" + dataString);
+      }
+
+      function setVideo(videoIndex){
+        let videoId = watchHistory[videoIndex].titleUrl.split("?v=")[1]
+        player.loadVideoById(videoId)
+
+        for(let p in pElements){
+          if(p !== "autoplayingP")
+          pElements[p].innerHTML = "Loading..."
+        }
+
+        pElements.vIndexP.innerHTML = "Video Index: " + vIndex + " / " + watchHistory.length
+      }
+
+      function collectVideoData(){
+        const duration = player.getDuration()
+        pElements.durationP.innerHTML = "Video duration: " + duration + " seconds"
+        const vData = player.getVideoData()
+        pElements.authorP.innerHTML = "Video author: " + vData.author
+        const isAd = watchHistory[vIndex].hasOwnProperty("details")
+        pElements.isAdP.innerHTML = "Video is an ad: " + isAd
+
+        watchHistory[vIndex].duration = duration;
+        watchHistory[vIndex].author = vData.author;
+        watchHistory[vIndex].isAd = isAd;
+        if(watchHistory[vIndex].title == "Unknown Title")
+          watchHistory[vIndex].title = "Watched " + vData.title
+        console.log(duration +"_" + vData.author + "_" + isAd)
+      }
+
+      function nextButton(){
+        vIndex = (vIndex + 1) % watchHistory.length
+        setVideo(vIndex)
+        //if(autoplaying && vIndex % 100 == 0)saveButton();
+      }
+      function prevButton(){
+        vIndex -= 1
+        if(vIndex < 0)vIndex = watchHistory.length - 1
+        setVideo(vIndex)
+      }
+      function autoButton(){
+        if(!autoplaying){
+          autoplaying = true;
+          pElements.autoplayingP.innerHTML = "Autoplaying: true"
+          nextButton();
+        }
+      }
+
+      let checkCurrentTimeInterval = setInterval(()=> {
+        if(player.getCurrentTime() >= 1 || player.getVideoData().errorCode == "auth"){
+          collectVideoData();
+          if(autoplaying)nextButton();
+        }
+      }, 1000)
+
+      function stopButton(){
+        autoplaying = false;
+        pElements.autoplayingP.innerHTML = "Autoplaying: false"
+      }
+
+      function saveButton(){
+        downloadJSON(watchHistory, "newWatchHistory.json", "text/plain")
+      }
+
+      function downloadJSON(content, fileName, contentType) {
+        content = JSON.stringify(content)
+        let a = document.createElement("a");
+        let file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+        a.remove()
+      }
+
+      function setCookie(cname, cvalue, daysTillExpiration = 398) {
+        let d = new Date();
+        let d2 = new Date( d.getTime() + daysTillExpiration*60*24*60000 )
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+
+      function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+
+      /*To see if a video is an ad:
+      watchHistory[i].details[0].name == "From Google Ads"
+
+      */
+
+
+      
+    </script>
+  </body>
+</html>
+
