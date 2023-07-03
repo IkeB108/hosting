@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Campfire: Progress Tracker</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="icon" href="favicon.png">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+</head>
+<body onload="onLoad()">
+  <h1>Campfire: Progress Tracker</h1>
+  <div class="bottomTrayContainer">
+    <div class="bottomTray">
+      <p class="rewardText">Reward ●○○○○○○○</p>
+      <button class="trayButton" id="textboxButton" onclick="textboxButtonClick()">
+        <img src="icons/settings.png" class="trayButtonImage">
+      </button>
+      <button class="trayButton" id="undoButton">
+        <img src="icons/arrow_back_up.png" class="trayButtonImage" onclick="undoButtonClick()">
+      </button>
+    </div>
+    
+  </div>
+  <div class="notificationCard" id="notificationCardTemplate">
+    <h2 class="notifH2 noMargin" id="notificationHeaderTemplate">Template Milestone Notification</h2>
+    <div class="closeButtonContainer">
+      <button class="closeButton">
+        <img class="closeButtonImage" src="icons/x.png" style="width: 1.5em;">
+      </button>
+    </div>
+    <p class="notifBody bodyText noMargin" id="notificationBodyTemplate">Milestone description</p>
+  </div>
+  <div class="taskCard" id="taskCardTemplate">
+    <div class="taskBodyContainer">
+      <div class="streakBar">
+        <div class="streakBarCounter inactive"></div>
+        <div class="streakBarCounter active"></div>
+        <div class="streakBarCounter inactive"></div>
+        <div class="streakBarCounter active"></div>
+        <div class="streakBarCounter active"></div>
+        <div class="streakBarCounter active"></div>
+      </div>
+      <p class="progressText">Progress Progress Progress</p>
+      <p class="streakBarSubtitle taskSubtitle visible">Text</p>
+      <p class="progressTextSubtitle taskSubtitle visible">PText</p>
+      
+      <div class="taskDescriptionContainer">
+        <h2 class="taskH2">Template Task Title</h2>
+        <p class="bodyText noMargin taskDescription">Task description Task description Task description Task description Task description Task description Task description Task description</p>
+        <p class="bodyText lastUpdatedText">Last Updated ...</p>
+      </div>
+    </div>
+    <div class="taskPlusContainer taskPlusOrMinusContainer">
+      <button class="taskPlusButton taskPlusOrMinusButton">+</button>
+    </div>
+    <div class="taskMinusContainer taskPlusOrMinusContainer">
+      <button class="taskMinusButton taskPlusOrMinusButton">-</button>
+    </div>
+  </div>
+  
+  <textarea id="newSettingsTextbox"></textarea>
+</body>
+</html>

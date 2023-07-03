@@ -1,0 +1,290 @@
+:root {
+  --darkGrey: #2c2c2c;
+  --midGrey:#5e5e5e;
+  --midGreyHighlight:#8f8f8f;
+  --lightGrey: #dfdfdf;
+  --borderRad: 10px;
+  --cardPadding: 20px;
+  --bodyTextSize: 16px;
+  --orange:#ff8b1e;
+  --orangeLight:#ffcf87;
+  font-size: min(5vw, 18px);
+}
+
+body {
+  background-color: var(--darkGrey);
+  color: var(--lightGrey);
+  font-family:sans-serif;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 700px;
+  margin-bottom: 200px;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+.bottomTrayContainer {
+  /* background-color:green; */
+  left: 0;
+  bottom: 0;
+  position:fixed;
+  width: 100%;
+  height: max(10vh, 50px);
+}
+
+.bottomTray {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  width: 90%;
+  height: calc(100% - 10px);
+  background-color:black;
+  border-radius:var(--borderRad);
+  max-width:700px;
+  display:flex;
+  padding: 10px;
+  padding-left:20px;
+  
+  box-sizing: border-box;
+}
+
+.rewardText {
+  align-self:center;
+  font-size:1.5em;
+}
+
+#textboxButton {
+  margin-left:auto;
+}
+
+.trayButtonImage {
+  width: 100%;
+  height: 100%;
+}
+
+.trayButton {
+  background-color:var(--midGrey);
+  height:100%;
+  border-style:none;
+  margin: auto 0px;
+  margin-left:10px;
+  aspect-ratio:1;
+  border-radius:var(--borderRad);
+  padding: 5px;
+  cursor: pointer;
+}
+
+.trayButton:hover {
+  background-color:var(--midGreyHighlight)
+}
+
+
+
+.noMargin {
+  margin: 0px;
+}
+
+.notificationCard {
+  background-color:var(--lightGrey);
+  color:var(--darkGrey);
+  padding: var(--cardPadding);
+  border-radius: var(--borderRad);
+  margin-top:10px;
+  margin-bottom:10px;
+  display: grid;
+  row-gap:10px;
+  column-gap:5px;
+  grid-template-areas:
+    "notifH2 notifH2 notifH2 closeButton"
+    "notifBody notifBody notifBody notifBody";
+}
+
+.bodyText {
+  font-size:1rem;
+}
+
+.notifH2 {
+  grid-area: notifH2;
+  /* margin-bottom:auto; */
+}
+
+.closeButtonContainer {
+  grid-area: closeButton;
+  display: flex;
+  
+}
+
+.closeButton {
+  cursor:pointer;
+  border-style:none;
+  background-color:transparent;
+  display: flex;
+  margin-left:auto;
+  margin-top:auto;
+  margin-bottom:auto;
+}
+
+.notifBody {
+  grid-area: notifBody;
+  text-align:justify;
+}
+
+.bold {
+  font-weight:bold;
+}
+
+.taskCard {
+  background-color:var(--midGrey);
+  margin-top:10px;
+  margin-bottom:10px;
+  border-radius:var(--borderRad);
+  min-height:100px;
+  color:var(--lightGrey);
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+
+
+.taskH2 {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.taskPlusContainer {
+  border-style:none none solid solid;
+}
+
+.taskMinusContainer {
+  border-style:none none none solid;
+}
+
+.taskPlusOrMinusContainer {
+  border-color:var(--darkGrey);
+  border-width:5px;
+  padding:0px;
+}
+
+.taskPlusOrMinusButton {
+  background-color:transparent;
+  border-style:none;
+  width:100%;
+  height:100%;
+  font-size: 5em;
+  padding:0px;
+  color:var(--darkGrey);
+  cursor:pointer;
+}
+
+.taskPlusOrMinusButton:hover {
+  background-color:var(--midGreyHighlight);
+}
+
+.taskPlusButton {
+  border-top-right-radius:var(--borderRad);
+}
+
+.taskMinusButton {
+  border-bottom-right-radius:var(--borderRad);
+}
+
+.taskBodyContainer {
+  padding: var(--cardPadding);
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  display: grid;
+  grid-template-columns:1fr 1fr;
+  column-gap:10px;
+  row-gap: 5px;
+}
+
+.streakBar {
+  background-color:var(--darkGrey);
+  grid-column-start:1;
+  grid-column-end:2;
+  display:grid;
+  gap:3px;
+  padding:3px;
+  grid-auto-flow:column;
+  min-height:1em;
+}
+
+.streakBarCounter.active {
+  background-color:var(--orange);
+}
+.streakBarCounter.inactive {
+  background-color:transparent;
+}
+
+.progressText {
+  /* background-color: green; */
+  grid-column-start:2;
+  grid-column-end:3;
+  margin: auto 0;
+  display:flex;
+  font-size:1rem;
+}
+
+.streakBarSubtitle {
+  grid-column-start:1;
+  grid-column-end:2;
+}
+
+.progressTextSubtitle {
+  grid-column-start:2;
+  grid-column-end:3;
+}
+
+.taskSubtitle {
+  font-size:0.8em;
+  /* margin-bottom: -30px; */
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight:bold;
+  line-height:1em;
+  padding: 0px;
+  transition: color 400ms;
+}
+
+.taskSubtitle.visible {
+  color:var(--orangeLight);
+}
+
+.taskSubtitle.invisible {
+  color:transparent;
+}
+
+.taskDescriptionContainer {
+  grid-column-start:1;
+  grid-column-end:3;
+}
+
+.lastUpdatedText {
+  font-size:0.8em;
+  font-style:italic;
+  margin-bottom:0px;
+}
+
+#newSettingsTextbox {
+  width: 100%;
+  min-height: 300px;
+  border-radius:var(--borderRad);
+  border-style:none;
+  padding:10px;
+  box-sizing:border-box;
+  background-color:var(--lightGrey);
+  display: none; /*default*/
+}
+
+#taskCardTemplate { 
+  display:none;
+}
+
+#notificationCardTemplate {
+  display:none;
+}
