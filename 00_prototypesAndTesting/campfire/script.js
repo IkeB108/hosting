@@ -42,7 +42,7 @@ function textboxButtonClick(){
   if( $("#newSettingsTextbox").css("display") == "none" ){
     //If textbox has just been closed, update userSettings to match
     //User needs to refresh the page for settings to take effect
-    userTasks = JSON.parse( $("#newSettingsTextbox").val() )
+    try { userTasks = JSON.parse( $("#newSettingsTextbox").val() ) } catch { alert("Your text was not formatted correctly.") }
     updateLocalStorage();
   }
 }
