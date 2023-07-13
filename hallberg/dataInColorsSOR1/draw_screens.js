@@ -1,7 +1,7 @@
 
 
 function draw_front(){
-  draw_top_text("The website that lets you put a secret file inside of an image!")
+  draw_top_text("The website that lets you put a secret file inside of an image.")
   buttonStyleSettings();
   drawButton(buttons.createImageScreen) //See these buttons in buttons.js
   drawButton(buttons.decodeImageScreen)
