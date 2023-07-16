@@ -71,7 +71,7 @@ function draw() {
   noStroke(); fill(0); textAlign(CENTER);
 
   textSize(40); textFont(otherFont)
-  text('Measure Possibilities Calculator', width/2, 50)
+  text('Musical Combinations Calculator', width/2, 50)
   text('Total possibilities: ' + totalCalculation, width/2, height-50)
 
   drawScaleOptions();

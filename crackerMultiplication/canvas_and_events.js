@@ -45,21 +45,29 @@ function mouseWheel(){
 }
 
 function setupCanvas(){
-  var h = windowHeight - pxSpacing * 2;
-  var w = windowWidth - pxSpacing * 2;
-  if(h/w <= 1.5)w = h / 1.5;
+  let h = null;
+  let w = null;
+  if(windowWidth/windowHeight >= (1/1.5)){
+    h = windowHeight - (pxSpacing * 2);
+    w = h * (1/1.5)
+    console.log("Constraining height")
+  } else {
+    w = windowWidth - (pxSpacing * 2)
+    h = w * 1.5
+    console.log("Constraining width")
+  }
   resizeCanvas(w,h)
   //Set canvas attribute style to "touch-action: none"
 }
 
 function windowResized(){
-  pxSpacing = windowWidth/30
+  pxSpacing = 30
   setupCanvas();
   textSize(width/10)
   tileZone = {
     x: width*0.3 + (pxSpacing*3),
     y: textSize() * 3.4 + (pxSpacing * 4) ,
-    w: width - (width*0.3 + pxSpacing*3) - pxSpacing,
+    w: width * 0.4,
     h: height - (textSize()*3.4 + pxSpacing * 4) - pxSpacing
   }
 }

@@ -7,7 +7,7 @@ function preload(){
 }
 function setup() {
   pixelDensity(1);
-  pxSpacing = windowWidth/30;
+  pxSpacing = 30;
   createCanvas(1,1)
   setupCanvas();
   createCanvasEventListeners();
@@ -25,7 +25,8 @@ function setup() {
   tileZone = {
     x: width*0.3 + (pxSpacing*3),
     y: textSize() * 3.4 + (pxSpacing * 4) ,
-    w: width - (width*0.3 + pxSpacing*3) - pxSpacing,
+    // w: width - (width*0.3 + pxSpacing*3) - pxSpacing,
+    w: width * 0.4,
     h: height - (textSize()*3.4 + (pxSpacing * 4) ) - pxSpacing
   }
   cracker_broken = false;
