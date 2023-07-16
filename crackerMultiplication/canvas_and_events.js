@@ -6,7 +6,7 @@ function onclick(){
   
   var byy  = (width/10)*3.4 + pxSpacing;
   if( dist(mousepos.x, mousepos.y, width * (6/9), byy - ((width/22)/2) ) < (width/22) ){
-    window.open("https://ikebot108.weebly.com/", "_blank")
+    window.open("https://ikebot.dev/", "_blank")
   }
 }
 

@@ -53,7 +53,7 @@ function setupButtons(){
     icon_side: "right",
     color: ui_colors.white,
     onclick: ()=>{
-      if(current_screen=="front")window.open("https://ikebot108.weebly.com/", "_blank")
+      if(current_screen=="front")window.open("https://ikebot.dev/", "_blank")
     }
   }
   buttons.back = {

@@ -487,7 +487,7 @@ function cursorClick(b){
     if(icursor.y < timelineBox().y){
       //Go to ikebot website
       let openPermission = confirm("Open the Ikebot website in a new tab?")
-      if(openPermission)window.open("https://ikebot108.weebly.com/", "_blank")
+      if(openPermission)window.open("https://ikebot.dev/", "_blank")
     }
 
   }
