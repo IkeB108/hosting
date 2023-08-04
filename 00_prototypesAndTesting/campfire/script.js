@@ -210,7 +210,7 @@ function getLastUpdatedText(time){
   let months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ")
   let ampm = "am"
   if(date.getHours() >= 12 )ampm = "pm"
-  return "Last Updated " + months[date.getMonth() - 1] + " " + date.getDate() + ", " + date.getFullYear() + " " + (date.getHours() % 12) + ":" + date.getMinutes() + " " + ampm
+  return "Last Updated " + months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + " " + (date.getHours() % 12) + ":" + date.getMinutes() + " " + ampm
 }
 
 function getTask(taskTitle){
