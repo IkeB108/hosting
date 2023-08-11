@@ -110,6 +110,7 @@ function onLoad(){
     }
     if(task.hasOwnProperty("rewardProgress")){
       rewardProgress = task.rewardProgress
+      console.log("found reward progress")
     }
     if(task.hasOwnProperty("rewardMessage")){
       rewardMessage = task.rewardMessage
@@ -122,6 +123,8 @@ function onLoad(){
 }
 
 function updateRewardText(){
+  
+  
   let rewardText = ""
   if(rewardSize > 10){
     rewardText = "Reward " + rewardProgress + " / " + rewardSize
@@ -182,6 +185,11 @@ function updateTask(taskCardID, taskTitle, plusOrMinus){
     
     //Increment reward
     rewardProgress = (rewardProgress+1) % rewardSize
+    //Find the task with rewardprogress in it and increment it
+    for(let i in userTasks){
+      if(userTasks[i].hasOwnProperty("rewardProgress"))
+        userTasks[i].rewardProgress ++
+    }
     updateRewardText();
     if(rewardProgress == 0){
       //User has filled the reward
