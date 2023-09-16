@@ -42,7 +42,7 @@ function textboxButtonClick(){
   if( $("#newSettingsTextbox").css("display") == "none" ){
     //If textbox has just been closed, update userSettings to match
     //User needs to refresh the page for settings to take effect
-    try { userTasks = JSON.parse( $("#newSettingsTextbox").val() ) } catch { alert("Your text was not formatted correctly.") }
+    userTasks = JSON.parse( $("#newSettingsTextbox").val() )
     updateLocalStorage();
   }
 }
@@ -110,7 +110,6 @@ function onLoad(){
     }
     if(task.hasOwnProperty("rewardProgress")){
       rewardProgress = task.rewardProgress
-      console.log("found reward progress")
     }
     if(task.hasOwnProperty("rewardMessage")){
       rewardMessage = task.rewardMessage
@@ -123,8 +122,6 @@ function onLoad(){
 }
 
 function updateRewardText(){
-  
-  
   let rewardText = ""
   if(rewardSize > 10){
     rewardText = "Reward " + rewardProgress + " / " + rewardSize
@@ -135,6 +132,14 @@ function updateRewardText(){
     rewardText =  "Reward " + rewardText.padEnd(rewardSize, "○") 
   }
   $(".rewardText").text(rewardText)
+  
+  //Also update rewardprogress in user tasks
+  for(let i in userTasks){
+    if(userTasks[i].hasOwnProperty("rewardProgress")){
+      userTasks[i].rewardProgress = rewardProgress
+      console.log(i)
+    }
+  }
 }
 
 function updateTask(taskCardID, taskTitle, plusOrMinus){
@@ -185,11 +190,6 @@ function updateTask(taskCardID, taskTitle, plusOrMinus){
     
     //Increment reward
     rewardProgress = (rewardProgress+1) % rewardSize
-    //Find the task with rewardprogress in it and increment it
-    for(let i in userTasks){
-      if(userTasks[i].hasOwnProperty("rewardProgress"))
-        userTasks[i].rewardProgress ++
-    }
     updateRewardText();
     if(rewardProgress == 0){
       //User has filled the reward
@@ -216,9 +216,12 @@ function newNotification(header, body){
 function getLastUpdatedText(time){
   let date = new Date(time)
   let months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ")
+  let hour = date.getHours() % 12
+  if(hour == 0)hour = 12;
+  let minute = date.getMinutes().toString().padStart(2, "0")
   let ampm = "am"
   if(date.getHours() >= 12 )ampm = "pm"
-  return "Last Updated " + months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + " " + (date.getHours() % 12) + ":" + date.getMinutes() + " " + ampm
+  return "Last Updated " + months[date.getMonth() - 1] + " " + date.getDate() + ", " + date.getFullYear() + " " + hour + ":" + minute + " " + ampm
 }
 
 function getTask(taskTitle){
