@@ -221,7 +221,7 @@ function getLastUpdatedText(time){
   let minute = date.getMinutes().toString().padStart(2, "0")
   let ampm = "am"
   if(date.getHours() >= 12 )ampm = "pm"
-  return "Last Updated " + months[date.getMonth() - 1] + " " + date.getDate() + ", " + date.getFullYear() + " " + hour + ":" + minute + " " + ampm
+  return "Last Updated " + months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear() + " " + hour + ":" + minute + " " + ampm
 }
 
 function getTask(taskTitle){
