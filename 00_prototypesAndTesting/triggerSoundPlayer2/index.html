@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trigger Sound Player 2</title>
+</head>
+<body onload="onLoad()">
+  <h1>Sound Player 2</h1>
+  <button id="start" onclick="startClick()">Start</button>
+  <button id="stop" onclick="stopClick()">Stop</button>
+  <br>
+  <p id="timer-indicator" style="font-weight:bold">Time remaining: 5:00</p>
+  <textarea name="Settings Text Area" id="settings-text-area" rows="20"></textarea>
+  
+  
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  
+  function onLoad(){
+    updateTimerIndicator();
+  }
+  
+  function updateTimerIndicator(){
+      let seconds = "" + timeRemaining % 60
+      seconds = seconds.padStart(2, "0")
+      $("#timer-indicator").text( "Time remaining: " + Math.floor(timeRemaining/60) + ":" + seconds )
+  }
+  
+  let timeRemaining = 3 * 60; //in seconds
+  let timerActive = false;
+  let timerInterval = setInterval( ()=>{
+    if(timerActive){
+      if(timeRemaining > 0)timeRemaining -= 1;
+      updateTimerIndicator();
+    }
+  }, 1000)
+  function startClick(){
+    console.log("start click")
+    timerActive = true;
+  }
+  function stopClick(){
+    console.log("stop click")
+    timerActive = false;
+    timeRemaining = 5 * 60;
+    updateTimerIndicator();
+  }
+</script>
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 50px;
+  }
+  button {
+    width: 100px;
+    height: 50px;
+    font-size:20px;
+  }
+  textarea {
+    width: 100%;
+  }
+</style>
+</html>

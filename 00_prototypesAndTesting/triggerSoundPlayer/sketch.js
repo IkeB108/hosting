@@ -60,6 +60,8 @@ function setup(){
       soundPaths[soundPath] = soundPath
     }
   }
+  
+  saveJSON(soundCategories)
   soundPaths = Object.keys(soundPaths)
 
   loadedSoundCount = 0;

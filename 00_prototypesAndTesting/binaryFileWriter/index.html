@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary File Writer</title>
+</head>
+<body>
+  <h1>Binary file writer</h1>
+  <p>Write ones and zeros into the textbox. Press "save" to download a file that contains the binary data you inputted.</p>
+  <textarea name="Binary Input" id="binary-input" cols="30" rows="10" oninput="onTextAreaChange()"></textarea>
+  <p id="digit-count">Number of binary digits: 0</p>
+  <p id="eight-warning">(Tip: Make your number of digits divisible by 8 to avoid corruption)</p>
+  
+  <button id="save-button" onclick="onSaveClick()">Save</button>
+  
+</body>
+<style>
+  body {
+    margin: 30px;
+    font-family:sans-serif;
+  }
+  textarea {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  #eight-warning {  
+    line-height:15px;
+  }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+  
+  function binaryOnly(str){
+    let ret = ''
+    for(let i in str){
+      if("01".includes(str[i])) ret += str[i]
+    }
+    return ret
+  }
+  
+  function onTextAreaChange(){
+    
+    let val = binaryOnly( $("#binary-input").val() )
+    
+    $("#binary-input").val( val )
+    
+    $("#digit-count").text("Number of binary digits: " + val.length )
+    
+    let warningText = "(Tip: Make your number of digits divisible by 8 to avoid corruption)"
+    if(val.length % 8 == 0)warningText += " ✅"
+    $("#eight-warning").text(warningText)
+  }
+  
+  function blobFromBinary(binaryString){
+    
+    let byteArray = new Uint8Array( Math.ceil(binaryString.length/8) )
+    for (let i = 0; i < byteArray.length; i++) {
+      let eightChars = binaryString.slice(i * 8, (i*8) + 8)
+      byteArray[i] = parseInt(eightChars, 2)
+    }
+    
+    // console.log(byteArray)
+    
+    let blob = new Blob([byteArray], { type: "application/octet-stream" })
+    return blob
+  }
+  
+  function downloadBlob(blobObject){
+    let blobUrl = URL.createObjectURL(blobObject)
+    let link = $(`<a href="${blobUrl}" download="file">Click to Download</a>`)
+    link.get(0).click()
+    link.remove()
+    delete link;
+  }
+  
+  function onSaveClick(){
+    let text = $("#binary-input").val()
+    console.log(text)
+    
+    let blob = blobFromBinary(text)
+    downloadBlob(blob)
+  }
+</script>
+</html>
