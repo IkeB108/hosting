@@ -6,59 +6,50 @@
   <title>Trigger Sound Player 2</title>
 </head>
 <body onload="onLoad()">
-  <h1>Sound Player 2</h1>
-  <button id="start" onclick="startClick()">Start</button>
-  <button id="stop" onclick="stopClick()">Stop</button>
+  <h1>Trigger Sound Player 2</h1>
+  <noscript>
+    <p style="font-weight: bold;">Warning: Javascript is disabled in your browser. Javascript is required to use this application.</p>
+  </noscript>
+  <p id="sounds-loaded-indicator" style="font-style:italic">Trigger sounds loaded:</p>
+  <button id="start" onclick="startClick()" hidden="hidden">Start</button>
+  <button id="stop" onclick="stopClick()" hidden="hidden">Stop</button>
+  
   <br>
-  <p id="timer-indicator" style="font-weight:bold">Time remaining: 5:00</p>
+  <p id="timer-indicator" style="font-weight:bold">Time remaining:</p>
+  <input type="range" min="1" max="30" id="timer-slider" value="10" oninput="onTimerSliderChange()">
+  <br><br>
   <textarea name="Settings Text Area" id="settings-text-area" rows="20"></textarea>
-  
-  
+  <br>
+  <p id="global-timer-indicator" hidden>0000</p>
+  <br>
+  <button id="update-preferences" onclick="updatePreferencesClick()">Update Preferences</button>
+  <button id="revert-preferences" onclick="revertPreferencesClick()">Revert Preferences</button>
+  <br>
+  <p id="syntax-error-warning" hidden="hidden">Warning: Your settings could not be accepted. There is probably a syntax error.</p>
 </body>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script>
-  
-  function onLoad(){
-    updateTimerIndicator();
-  }
-  
-  function updateTimerIndicator(){
-      let seconds = "" + timeRemaining % 60
-      seconds = seconds.padStart(2, "0")
-      $("#timer-indicator").text( "Time remaining: " + Math.floor(timeRemaining/60) + ":" + seconds )
-  }
-  
-  let timeRemaining = 3 * 60; //in seconds
-  let timerActive = false;
-  let timerInterval = setInterval( ()=>{
-    if(timerActive){
-      if(timeRemaining > 0)timeRemaining -= 1;
-      updateTimerIndicator();
-    }
-  }, 1000)
-  function startClick(){
-    console.log("start click")
-    timerActive = true;
-  }
-  function stopClick(){
-    console.log("stop click")
-    timerActive = false;
-    timeRemaining = 5 * 60;
-    updateTimerIndicator();
-  }
-</script>
+<script src="script.js"></script>
+<script src="howler.min.js"></script>
+
 <style>
   body {
     font-family: sans-serif;
     margin: 50px;
   }
   button {
-    width: 100px;
-    height: 50px;
+    min-width: 100px;
+    min-height: 50px;
     font-size:20px;
   }
   textarea {
     width: 100%;
+    max-width: 600px;
+    white-space: nowrap;
+  }
+  #timer-slider {
+    width: 50%;
+    max-width: 300px;
   }
 </style>
 </html>
