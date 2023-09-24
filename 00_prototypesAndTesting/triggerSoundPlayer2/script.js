@@ -212,5 +212,10 @@ function onTimerSliderChange(){
 }
 
 function devClick(){
-  alert( eval( prompt("Enter a command:") ) )
+  try {
+    alert( eval( prompt("Enter a command:") ) )
+  } catch (error) {
+    alert(error)
+  }
+  
 }
