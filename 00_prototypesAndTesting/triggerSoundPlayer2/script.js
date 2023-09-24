@@ -110,7 +110,7 @@ function onLoad(){
   }
   
   //Store sound category object data in textarea
-  $("#settings-text-area").text(JSON.stringify(soundCategories, null, 2))
+  $("#settings-text-area").val(JSON.stringify(soundCategories, null, 2))
 }
 
 function updateTimerIndicator(){
