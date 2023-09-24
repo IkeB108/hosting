@@ -219,3 +219,8 @@ function devClick(){
   }
   
 }
+
+function copyPreferencesClick(){
+  navigator.clipboard.writeText( $("#settings-text-area").val() )
+  alert("Preferences have been copied to your clipboard.")
+}

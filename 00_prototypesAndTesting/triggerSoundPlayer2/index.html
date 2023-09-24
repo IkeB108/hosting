@@ -24,8 +24,9 @@
   <br>
   <button id="update-preferences" onclick="updatePreferencesClick()">Update Preferences</button>
   <button id="revert-preferences" onclick="revertPreferencesClick()">Revert Preferences</button>
+  <button id="copy-preferences" onclick="copyPreferencesClick()">Copy Preferences</button>
   <br><br>
-  <button id="dev" onclick="devClick()">Dev</button>
+  <button id="dev" onclick="devClick()" hidden="hidden">Dev</button>
   <br>
   <p id="syntax-error-warning" hidden="hidden">Warning: Your settings could not be accepted. There is probably a syntax error.</p>
 </body>
@@ -44,6 +45,9 @@
     min-height: 50px;
     font-size:20px;
     margin:5px;
+    color:black;
+    border-radius: 4px;
+    border-width: 1px;
   }
   textarea {
     width: 100%;
