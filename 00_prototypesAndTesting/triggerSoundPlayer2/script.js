@@ -210,3 +210,7 @@ function onTimerSliderChange(){
   updateTimerIndicator();
   localStorage.setItem("timeToCompletion", timeToCompletion)
 }
+
+function devClick(){
+  alert( eval( prompt("Enter a command:") ) )
+}
