@@ -198,8 +198,11 @@ function updatePreferencesClick(){
 }
 
 function revertPreferencesClick(){
-  localStorage.removeItem("soundCategories")
-  window.location.reload()
+  let conf = confirm("Are you sure you want to reset all your preferences?")
+  if(conf){
+    localStorage.removeItem("soundCategories")
+    window.location.reload()
+  }
 }
 
 function onTimerSliderChange(){
@@ -223,4 +226,8 @@ function devClick(){
 function copyPreferencesClick(){
   navigator.clipboard.writeText( $("#settings-text-area").val() )
   alert("Preferences have been copied to your clipboard.")
+}
+
+function clearPreferencesClick(){
+  $("#settings-text-area").val("")
 }
