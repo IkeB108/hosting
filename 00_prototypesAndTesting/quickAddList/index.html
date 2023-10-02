@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Add List</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="script.js"></script>
+  <style>
+    body {
+      font-family:sans-serif;
+      max-width: 800px;
+      width: 80%;
+      margin: 0 auto;
+      
+    }
+    #list-title {
+      margin-top: 60px;
+    }
+    .date-header {
+      background-color:#505050;
+      color:white;
+      font-weight: bold;
+      padding: 5px;
+      /* margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 0px;
+      margin-right: 0px; */
+      margin: 10px 0px;
+      border-radius: 5px;
+    }
+    .list-item {
+      border-bottom:1px solid lightgrey;
+      padding: 0px 10px;
+      margin: 0;
+      display:flex;
+      align-items:center;
+    }
+    
+    .list-item:hover button {
+      opacity: 100%;
+    }
+    #add-item-input {
+      padding: 20px 10px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 60px;
+      border-radius: 5px;
+      /* border-width: 1px;
+      border-color:lightgrey; */
+      border:thin solid grey;
+    }
+    .list-item-button {
+      width: 25px;
+      height: 25px;
+      margin-left: 0px;
+      cursor:pointer;
+      padding: 15px 15px;
+      box-sizing:content-box;
+      background:none;
+      border:none;
+      opacity:0%;
+      border-radius: 5px;
+    }
+    .list-item-button:hover {
+      background-color:lightgrey;
+    }
+    .list-item-button-icon {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body onload="onLoad()">
+  <h1 id="list-title" onclick="onListTitleClick()">Quick Add List</h1>
+  <h2 class="date-header" id="template-date-header" style="display:none">Test</h2>
+  <div class="list-item" id="template-list-item" style="display:none">
+    <p style="padding:0; margin: 0;">Template list item</p>
+    
+    <button class="list-item-button add-button" style="margin-left: auto;" onclick="onListItemButtonClick('add', this)">
+      <img src="icons/copy.png" alt="add" class="list-item-button-icon">
+    </button>
+    
+    <!-- <button class="list-item-button pin-button" onclick="onListItemButtonClick('pin', this)">
+      <img src="icons/pin.png" alt="pin" class="list-item-button-icon" >
+    </button> -->
+    
+    <button class="list-item-button delete-button" onclick="onListItemButtonClick('delete', this)">
+      <img src="icons/x.png" alt="delete" class="list-item-button-icon">
+    </button>
+    
+    
+  </div>
+  <input type="text" id="add-item-input">
+  <noscript>
+    <p style="font-weight: bold;">Warning: Javascript is disabled in your browser. Javascript is required to use this application.</p>
+  </noscript>
+</body>
+</html>
