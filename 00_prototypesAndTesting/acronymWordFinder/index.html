@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Name Acronym Finder</title>
+  <style>
+    body {
+      font-family:sans-serif;
+      margin: 30px 30px;
+    }
+  </style>
+</head>
+<body onload="onLoad()">
+  <label for="input-first-names">First name initials:</label>
+  <input type="text" id="input-first-names">
+  <label for="input-first-names">(Ex. bdlei)</label>
+  
+  <br><br>
+  <label for="input-first-names">Last names initials:</label>
+  <input type="text" id="input-last-names">
+  <label for="input-first-names">(Ex. lbwan)</label>
+  <br><br>
+  <label for="input-required-names">Required names:</label>
+  <input type="text" id="input-required-names">
+  <label for="input-required-names">(Ex. 11101)</label>
+  <br><br>
+  <button type="submit" onclick="onSubmitClick()">Submit</button>
+  <br><br>
+  <p id="results">(Open console to see loading progress)</p>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script>
+    
+    function getCombn(arr, pre) {
+      pre = pre || '';
+      
+      if (!arr.length) {
+          return pre;
+      }
+      
+      let ans = arr[0].reduce(function (ans, value) {
+          return ans.concat(getCombn(
+              arr.slice(1), pre + value));
+      }, []);
+      return ans;
+    }
+
+    let wordList = '';
+    function onLoad(){
+      $.ajax({
+        url: "wordList.txt",
+        dataType: "text",
+        success: (data) => {
+          data = data.replaceAll("\r", "")
+          wordList = data.split("\n");
+        }
+      })
+    }
+    function onSubmitClick(){
+      let first = $("#input-first-names").val()
+      let last = $("#input-last-names").val()
+      let required = $("#input-required-names").val()
+      
+      //A person can have: first name, last name, or omitted
+      let combSettingsArray = [  ]
+      for(let i = 0; i < first.length; i ++)combSettingsArray.push( ['f','l','o'] )
+      codedQueries = getCombn(combSettingsArray)
+      
+      //Remove coded queries that omit a required name
+      let newCodedQueries = []
+      for(let i = 0; i < codedQueries.length; i ++){
+        let queryIsOkay = true;
+        for(let j = 0; j < codedQueries[i].length; j ++){
+          if(codedQueries[i][j] == "o" && required[j] == "1"){
+            queryIsOkay = false;
+          }
+        }
+        if(queryIsOkay)newCodedQueries.push(codedQueries[i])
+      }
+    
+      codedQueries = newCodedQueries;
+      queries = []
+      for(let i in codedQueries){
+        let newQuery = ''
+        for(let j in codedQueries[i]){
+          if(codedQueries[i][j] == "f")newQuery += first[j];
+          if(codedQueries[i][j] == "l")newQuery += last[j];
+          if(codedQueries[i][j] == "o")newQuery += ""; //add nothing
+        }
+        queries.push(newQuery)
+      }
+      
+      let resultsText = $("#results").get(0)
+      
+      let completedResults = 0
+      
+      
+      allResults = []
+      for(let i = 0; i < queries.length; i ++){
+        let queryResults = findWordWith(queries[i])
+        allResults = allResults.concat(queryResults)
+        completedResults ++
+        console.log("Completed 1 of " + queries.length + " queries")
+        
+      }
+      
+      //remove duplicates
+      refinedResults = []
+      for(let i in allResults){
+        if(!refinedResults.includes(allResults[i]))refinedResults.push(allResults[i])
+      }
+      
+      
+      $("#results").text( refinedResults.join(", ") )
+    }
+    
+    function findWordWith(stringQuery){
+      let results = []
+      let sorted = stringQuery.split("").sort().join("").toLowerCase()
+      for(let i in wordList){
+        let sortedWord = wordList[i].split("").sort().join("").toLowerCase()
+        if(sortedWord == sorted)results.push(wordList[i]);
+        // if(sorted.includes(sortedWord) && sortedWord.length > 2)results.push(wordList[i]);
+      }
+      return results;
+    }
+  </script>
+</body>
+</html>
