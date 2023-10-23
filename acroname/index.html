@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acronames</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    #namesInput {
+      width: 100%;
+      white-space: pre-line;
+      max-width: 600px;
+    }
+    #generateButton {
+      margin-top: 10px;
+    }
+    #minLetterCountSlider {
+      width: 40%;
+      max-width: 600px;
+    }
+    .status-p {
+      font-style: italic;
+      white-space: pre-line;
+      font-family:monospace;
+      font-size: large;
+    }
+    #resultsP {
+      white-space: pre-line;
+      line-height: 36px;
+    }
+    #includeMultipleSpellingsCheckbox {
+      margin-left: 30px;
+    }
+  </style>
+</head>
+<body onload="onLoad()">
+  <noscript>
+    <p><b>Warning: Javascript is required to use this application. Javascript is disabled in your web browser.</b></p>
+  </noscript>
+  <h1>Acronames</h1>
+  <p>Input Names:</p>
+  <textarea name="Names Input" id="namesInput" rows="20">Mercury Hermes
+Venus Aphrodite
+Earth Terra Tellus
+Mars Ares
+[Jupiter Zeus]
+Saturn Cronus
+Uranus Ouranos
+Neptune Poseidon
+[Pluto Hades]
+[Sun]</textarea>
+  <br><br>
+  <label for="minLetterCountSlider">Minimum letters required:</label>
+  <input type="range" id="minLetterCountSlider" min="1" max="30" oninput="onSliderChange()" value="1">
+  <label for="minLetterCountSlider" id="sliderValueText">1 letter(s)</label>
+  <br><br>
+  <button id="generateButton" onclick="onGenerateButtonClick()" disabled>Generate Acronames</button>
+  <input id="includeMultipleSpellingsCheckbox" type="checkbox" checked hidden>
+  <label for="includeMultipleSpellingsCheckbox" hidden>Include multiple spellings of the same word</label>
+  
+  
+  <p id="loadWordListStatus" class="status-p">Loading word list...</p>
+  <p id="progressP" class="status-p"></p>
+  <p id="resultsP"></p>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script>
+    //Load word list from text file using AJAX
+    let wordList = '';
+    
+    function onSliderChange(){
+      $("#sliderValueText").text( $("#minLetterCountSlider").val() + " letter(s)" )
+    }
+    
+    
+    function onLoad(){
+      //Create a web worker
+      
+      $.ajax({
+        url: "words_alpha.txt",
+        dataType: "text",
+        success: (data) => {
+          data = data.replaceAll("\r", "").toUpperCase()
+          wordList = data.split("\n");
+          $("#loadWordListStatus").remove();
+          $("#generateButton").removeAttr("disabled")
+          delete data
+        }
+      })
+    }
+    
+    function onGenerateButtonClick(){
+      let namesInputVal = $("#namesInput").val()
+      $("#resultsP").text("")
+      
+      if(typeof myWorker !== "undefined")myWorker.terminate(); //Stop the worker if it's doing a previous search
+      
+      myWorker = new Worker("worker.js");
+      
+      myWorker.onmessage = (e) => {
+        if(e.data[0] == "status text"){
+          $("#progressP").text(e.data[1])
+        }
+        if(e.data[0] == "complete progress"){
+          $("#progressP").text("Search complete. Found " + Object.keys(e.data[1]).length + " words." )
+        }
+        if(e.data[0] == "results text"){
+          $("#resultsP").text(e.data[1])
+        }
+        if(e.data[0] == "alert"){
+          alert(e.data[1]);
+        }
+        if(e.data[0] == "setMinLetterSlider"){
+          $("#minLetterCountSlider").val(e.data[1]);
+          onSliderChange();
+        }
+      }
+      
+      myWorker.postMessage([namesInputVal, wordList, $("#minLetterCountSlider").val(), $("#includeMultipleSpellingsCheckbox").val() ])
+      
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+indexed pruned word list: categorized by length AND THEN by first two or three letters when alphebatized? Pre-alphebatize letters in pruned word list?
+change prefilled textbox names
+clean inputs: what symbols break the system?
