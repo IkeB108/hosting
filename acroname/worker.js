@@ -15,7 +15,6 @@ function getResultText(matchingWords){
     let namesList = sortNamesByWord(matchingWords[ matchingWordsKeys[k] ].split(" "), matchingWordsKeys[k]).join(", ")
     resultText += matchingWordsKeys[k] + ": " + namesList + "\n"
   }
-  if(resultText == "")resultText = "No matching words."
   return resultText;
   //Put all results in the resultsP element
 }

@@ -74,10 +74,26 @@ Neptune Poseidon
       $("#sliderValueText").text( $("#minLetterCountSlider").val() + " letter(s)" )
     }
     
+    function isNumeric(str) {
+      if (typeof str != "string") return false // we only process strings!  
+      return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+    }
     
     function onLoad(){
       //Create a web worker
-      
+      if( window.location.href.includes("?dob") ){
+        let age = prompt("ENTER YOUR AGE IN YEARS")
+        while( !isNumeric(age) ){
+          age = prompt("You did not input an integer. Input your age in years.")
+        }
+        if( parseInt(age) < 18){
+          alert("YOU ARE NOT OLD ENOUGH TO USE THIS APPLICATION. REDIRECTING...")
+          window.location.replace("https://pbs.twimg.com/media/FIcddqeVgAAX-sm.jpg")
+        } else {
+          alert("YOU ARE PERMITTED TO USE THIS APPLICATION.")
+        }
+      }
       $.ajax({
         url: "words_alpha.txt",
         dataType: "text",
