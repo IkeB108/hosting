@@ -41,13 +41,17 @@
   <p>Input Names:</p>
   <textarea name="Names Input" id="namesInput" rows="20">Mercury Hermes
 Venus Aphrodite
-Earth Terra Tellus
+Earth Terra/Tellus
 Mars Ares
-[Jupiter Zeus]
+Jupiter Zeus Iuppiter/Iovis Diespiter
 Saturn Cronus
 Uranus Ouranos
 Neptune Poseidon
 [Pluto Hades]
+[Ceres Demeter]
+[Eris Discordia]
+[Makemake]
+[Haumea]
 [Sun]</textarea>
   <br><br>
   <label for="minLetterCountSlider">Minimum letters required:</label>
@@ -123,7 +127,10 @@ Neptune Poseidon
           $("#progressP").text(e.data[1])
         }
         if(e.data[0] == "complete progress"){
-          $("#progressP").text("Search complete. Found " + Object.keys(e.data[1]).length + " words." )
+          let wordCount = Object.keys(e.data[1]).length
+          let completeText = "Search complete. Found " + wordCount + " words."
+          if(wordCount > 1000)completeText += " Displaying 1000 words."
+          $("#progressP").text(completeText)
         }
         if(e.data[0] == "results text"){
           $("#resultsP").text(e.data[1])
