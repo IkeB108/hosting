@@ -31,6 +31,9 @@
       white-space: pre-line;
       line-height: 36px;
     }
+    #includeMultipleSpellingsCheckbox {
+      margin-left: 30px;
+    }
   </style>
 </head>
 <body onload="onLoad()">
@@ -54,12 +57,9 @@ Neptune Poseidon
   <input type="range" id="minLetterCountSlider" min="1" max="30" oninput="onSliderChange()" value="1">
   <label for="minLetterCountSlider" id="sliderValueText">1 letter(s)</label>
   <br><br>
-  <input id="includeMultipleSpellingsCheckbox" type="checkbox">
-  <label for="includeMultipleSpellingsCheckbox">Include multiple spellings of the same word</label>
-  <br><br>
   <button id="generateButton" onclick="onGenerateButtonClick()" disabled>Generate Acronames</button>
-  <button id="saveButton" onclick="onSaveButtonClick()" disabled>Save Acronames</button>
-  
+  <input id="includeMultipleSpellingsCheckbox" type="checkbox" checked hidden>
+  <label for="includeMultipleSpellingsCheckbox" hidden>Include multiple spellings of the same word</label>
   
   
   <p id="loadWordListStatus" class="status-p">Loading word list...</p>
@@ -69,8 +69,6 @@ Neptune Poseidon
   <script>
     //Load word list from text file using AJAX
     let wordList = '';
-    let resultText = 'no results';
-    let completeResultText = 'no results';
     
     function onSliderChange(){
       $("#sliderValueText").text( $("#minLetterCountSlider").val() + " letter(s)" )
@@ -104,7 +102,6 @@ Neptune Poseidon
           wordList = data.split("\n");
           $("#loadWordListStatus").remove();
           $("#generateButton").removeAttr("disabled")
-          $("#saveButton").removeAttr("disabled")
           delete data
         }
       })
@@ -116,7 +113,7 @@ Neptune Poseidon
       
       if(typeof myWorker !== "undefined")myWorker.terminate(); //Stop the worker if it's doing a previous search
       
-      myWorker = new Worker("worker.js");
+      myWorker = new Worker("worker2.js");
       
       myWorker.onmessage = (e) => {
         if(e.data[0] == "status text"){
@@ -127,8 +124,6 @@ Neptune Poseidon
         }
         if(e.data[0] == "results text"){
           $("#resultsP").text(e.data[1])
-          resultText = e.data[1]
-          completeResultText = e.data[2]
         }
         if(e.data[0] == "alert"){
           alert(e.data[1]);
@@ -139,23 +134,8 @@ Neptune Poseidon
         }
       }
       
-      myWorker.postMessage([namesInputVal, wordList, $("#minLetterCountSlider").val(), $("#includeMultipleSpellingsCheckbox")[0].checked])
+      myWorker.postMessage([namesInputVal, wordList, $("#minLetterCountSlider").val(), $("#includeMultipleSpellingsCheckbox").val() ])
       
-    }
-    
-    function onSaveButtonClick(){
-      let textToDownload = $("#namesInput").val() + "\n\n" + completeResultText;
-      if(completeResultText.length == 0)textToDownload = $("#namesInput").val() + "\n\nno results"
-      downloadText( textToDownload, "acronames.txt" )
-    }
-    
-
-    function downloadText(content, fileName) {
-        var a = document.createElement("a");
-        var file = new Blob([content], {type: "text/plain"});
-        a.href = URL.createObjectURL(file);
-        a.download = fileName;
-        a.click();
     }
   </script>
 </body>

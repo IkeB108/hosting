@@ -1,40 +1,31 @@
 let combinationsGenerated = 0;
 let numberOfCombinations = 0;
 
-function rb(myString){ //remove brackets
-  return myString.replaceAll("[", "").replaceAll("]", "")
-}
-
 function getNested(obj, ...args) {
   return args.reduce((obj, level) => obj && obj[level], obj)
 }
 
-function getResultText(matchingWords, includeAllResults){
+function getResultText(matchingWords){
   let resultText = ""
   let matchingWordsKeys = Object.keys(matchingWords)
-  //Sort first by length, and then alphabetically
-  matchingWordsKeys.sort( (a, b) => {return rb(b).length - rb(a).length || rb(b).localeCompare(rb(a)) } )
+  matchingWordsKeys.sort( (a, b) => {return b.length - a.length} )
   
   //Only display the top 1000 longest words to avoid memory problems
-  for(let k = 0; k < matchingWordsKeys.length && (k < 1000 || includeAllResults); k ++){
+  for(let k = 0; k < matchingWordsKeys.length && k < 1000; k ++){
     let namesList = sortNamesByWord(matchingWords[ matchingWordsKeys[k] ].split(" "), matchingWordsKeys[k]).join(", ")
-    resultText += rb(matchingWordsKeys[k]) + ": " + namesList + "\n"
+    resultText += matchingWordsKeys[k] + ": " + namesList + "\n"
   }
-  
   return resultText;
   //Put all results in the resultsP element
 }
 
 function sortNamesByWord(namesList, wordString){
-  for(let i in namesList){
-    namesList[i] = rb(namesList[i])
-  }
   let sortedNames = []
   let availableNames = namesList.slice();
   for(let i in wordString){
     let letterFound = false;
     for(let j in namesList){
-      if(namesList[j].length > 0 && !letterFound && namesList[j][0].toLowerCase() == wordString[i].toLowerCase() && availableNames.includes(namesList[j])){
+      if(!letterFound && namesList[j][0].toLowerCase() == wordString[i].toLowerCase() && availableNames.includes(namesList[j])){
         availableNames.splice( availableNames.indexOf(namesList[j]), 1 )
         sortedNames.push(namesList[j])
         letterFound = true;
@@ -44,17 +35,25 @@ function sortNamesByWord(namesList, wordString){
   return sortedNames;
 }
 
-function lazyProduct(sets,f,context){
-  if (!context) context=this;
-  var p=[],max=sets.length-1,lens=[];
-  for (var i=sets.length;i--;) lens[i]=sets[i].length;
-  function dive(d){
-    var a=sets[d], len=lens[d];
-    if (d==max) for (var i=0;i<len;++i) p[d]=a[i], f.apply(context,p);
-    else        for (var i=0;i<len;++i) p[d]=a[i], dive(d+1);
-    p.pop();
+function getCombn(arr, pre) {
+  pre = pre || '';
+  
+  if (!arr.length) {
+      combinationsGenerated += 1;
+      if(combinationsGenerated % 10000 == 0 || combinationsGenerated == numberOfCombinations){
+        postMessage([
+          "status text",
+          "Generating " + combinationsGenerated + " of " + numberOfCombinations + " possible combinations..."
+        ])
+      }
+      return pre;
   }
-  dive(0);
+  
+  let ans = arr[0].reduce(function (ans, value) {
+      return ans.concat(getCombn(
+          arr.slice(1), pre + value));
+  }, []);
+  return ans;
 }
 
 onmessage = (e) => {
@@ -89,7 +88,7 @@ onmessage = (e) => {
   //Step 2: Create an array of usable letters. Words that include unusable letters can be eliminated.
   usableLetters = []
   for(let i in fullNames){
-    let nameWithoutBrackets = rb(fullNames[i]).split(" ")
+    let nameWithoutBrackets = fullNames[i].replaceAll("[", "").replaceAll("]", "").split(" ")
     for(let j in nameWithoutBrackets){
       let initial = nameWithoutBrackets[j][0].toLowerCase()
       if(!usableLetters.includes(initial))usableLetters.push(initial)
@@ -115,7 +114,6 @@ onmessage = (e) => {
   
   let nameCombinations = [];
   iwl = {};
-  let combnSettings = []
   
   //If the pruned word list is empty, then there are no possible acronames and we don't need to go any further.
   if(prunedWordList.length == 0){
@@ -149,12 +147,13 @@ onmessage = (e) => {
       iwl[alphabetizedWord.length][alphabetizedWord.slice(0,2)][ alphabetizedWord ].push( word )
     }
     
-    //Get settings for combinations of names
+    //Get all combinations of names
+    let combnSettings = []
     for(let i in fullNames){
       //If the full name has brackets, then it is deemed optional by the user.
       fullNameIsOptional = fullNames[i].includes("[") || fullNames[i].includes("]");
       
-      fullNames[i] = rb(fullNames[i]) //Remove brackets if any
+      fullNames[i] = fullNames[i].replaceAll("[", "").replaceAll("]", "") //Remove brackets if any
       
       
       let splitName = fullNames[i].split(" ")
@@ -169,79 +168,58 @@ onmessage = (e) => {
     numberOfCombinations = 1;
     for(let i in combnSettings)numberOfCombinations *= combnSettings[i].length;
     
-    if(numberOfCombinations > 100000000){
+    if(numberOfCombinations > 10000000){
       postMessage([
         "alert",
-        "Warning: your name list will testing searching over 100 million combinations. The webpage may crash due to running out of memory."
+        "Warning: your name list will generate over 10 million combinations. The webpage may crash due to running out of memory."
       ])
     }
+    
+    postMessage([
+      "status text",
+      "Generating " + numberOfCombinations + " possible combinations..."
+    ])
     combinationsGenerated = 0;
+    nameCombinations = getCombn(combnSettings)
   }
-  //Iterate through all name combinations WITHOUT storing them in an array (to save memory)
   
+  //Search all name combinations to see if any of them
+  //have the same letters as a word in the pruned word list
   matchingWords = {}
-  //First: write a function for what happens to a name combination when generated
-  const doWithNameCombination = function(...names){
-    let nameCombination = Array.prototype.slice.call(names, 0);
+  for(let i in nameCombinations){
+    
     //Get initials of this name combination and sort alphabetically
-    let s = nameCombination.filter(element => (element != "") )
+    let s = nameCombinations[i].split(" ").filter(element => (element != "") )
     let letters = []
     s.forEach( element => { 
       letters.push( element[0].toUpperCase() )
     } )
     letters = letters.sort().join("")
     
-    //If number of letters is below minimum requirement, don't bother searching
-    //the word list. Otherwise, go ahead.
-    if(letters.length >= minimumWordLength){
-      //Search the indexed word list for matches with this combination
-      let queryResult = getNested(iwl, letters.length, letters.slice(0,2), letters)
-      if( typeof queryResult !== "undefined" ){
-        //There is an array with at least one matching word in it.
-        for(let k in queryResult){
-          if(!includeMultipleSpellings){
-            matchingWords[ queryResult[k] ] = nameCombination.join("");
-          }
-          if(includeMultipleSpellings){
-            let addedBrackets = ""
-            while( typeof matchingWords[queryResult[k] + addedBrackets] !== "undefined" ){
-              addedBrackets += "]"
-            }
-            matchingWords[queryResult[k] + addedBrackets] = nameCombination.join("");
-          }
-        }
+    //Search the indexed word list for matches with this combination
+    let queryResult = getNested(iwl, letters.length, letters.slice(0,2), letters)
+    if( typeof queryResult !== "undefined" ){
+      //There is an array with at least one matching word in it.
+      for(let k in queryResult){
+        matchingWords[ queryResult[k] ] = nameCombinations[i];
       }
     }
     
-    
-    
-    combinationsGenerated ++;
-    
-    if(combinationsGenerated % 40000 == 0 || combinationsGenerated == numberOfCombinations){
-      let asteriskCount = Math.round((combinationsGenerated / numberOfCombinations) * 20);
-      let percentage = Math.round((combinationsGenerated / numberOfCombinations) * 100);
+    if(i % 20000 == 0 || i == nameCombinations.length - 1){
+      let asteriskCount = Math.round((i / nameCombinations.length) * 20);
+      let percentage = Math.round((i / nameCombinations.length) * 100);
       let loadingBarText = "[" + "*".repeat(asteriskCount) + "_".repeat(20-asteriskCount) + "] " + percentage + "%"
       postMessage([
         "status text",
-        `Pruned word list has ${numberWithCommas(prunedWordList.length)} words.\nTesting ${numberWithCommas(numberOfCombinations)} potential name combinations: ${letters}\n${loadingBarText}\nWords found:${Object.keys(matchingWords).length}`,
-        matchingWords
+        `Pruned word list has ${prunedWordList.length} words.\nTesting ${nameCombinations.length} potential name combinations: ${letters}\n${loadingBarText}\nWords found:${Object.keys(matchingWords).length}`
       ])
       
       postMessage([
         "results text",
-        getResultText(matchingWords, false), //Includes only top 1000 results
-        getResultText(matchingWords, true) //Includes all results
+        getResultText(matchingWords)
       ])
     }
-    
   }
   
-  //Second: use lazyProduct function to generate and iterate through name combinations
-  lazyProduct(combnSettings, doWithNameCombination);
   postMessage(["complete progress", matchingWords])
-}
-
-
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

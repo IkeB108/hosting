@@ -104,7 +104,7 @@ Neptune Poseidon
       
       if(typeof myWorker !== "undefined")myWorker.terminate(); //Stop the worker if it's doing a previous search
       
-      myWorker = new Worker("workerWithoutIndexedWL.js");
+      myWorker = new Worker("worker1.js");
       
       myWorker.onmessage = (e) => {
         if(e.data[0] == "status text"){
