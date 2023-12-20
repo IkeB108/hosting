@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cataloguer</title>
+</head>
+<body onload="onLoad()">
+  <p id="myp">This is text</p>
+  <input type="file" id="fileInput">
+  <br>
+  <br>
+  <button id="saveToLocalStorage" onclick="saveToLocalStorage()">Save to Local Storage</button>
+  <button id="clearLocalStorage" onclick="clearLocalStorage()">Clear Local Storage</button>
+  <script>
+    function onLoad(){
+      document.getElementById('fileInput').addEventListener('change', onFileInputChange)
+      const inLocalStorage = localStorage.getItem("jsonObject")
+      if(inLocalStorage !== null){
+        alert("Found jsonObject in local storage")
+        const obj = JSON.parse(inLocalStorage)
+        $("#myp").text(obj.text)
+        $("#myp").css("color", obj.color)
+      } else {
+        alert("Did not find jsonObject in local storage")
+      }
+    }
+    function onFileInputChange(event){
+      const reader = new FileReader();
+      reader.onload = onReaderLoad;
+      reader.readAsText(event.target.files[0]);
+    }
+    function onReaderLoad(event){
+      obj = JSON.parse(event.target.result);
+      $("#myp").text(obj.text)
+      $("#myp").css("color", obj.color)
+    }
+    function saveToLocalStorage(){
+      try {
+        localStorage.setItem("jsonObject", JSON.stringify(obj))
+        alert("Saved to local storage")
+      } catch {
+        alert("There was a problem")
+      }
+    }
+    function clearLocalStorage(){
+      localStorage.removeItem("jsonObject")
+      alert("Cleared local storage")
+    }
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</body>
+</html>
