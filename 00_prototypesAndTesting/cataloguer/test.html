@@ -30,7 +30,6 @@
       document.getElementById('fileInput').addEventListener('change', onFileInputChange)
       changeColorButtonColorIndex = 0
       changeColor = function(e) {
-        console.log(e)
         if(e.touches || e.button == 0){ //Left click
           const colors = "red orange yellow green blue purple".split(" ")
           changeColorButtonColorIndex = (changeColorButtonColorIndex + 1) % 6
