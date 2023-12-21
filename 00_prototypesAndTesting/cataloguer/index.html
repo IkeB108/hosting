@@ -7,7 +7,17 @@
   <style>
     body {
       font-family: sans-serif;
+      height: 100%;
+      overflow: hidden;
+    }
+    button {
       touch-action: manipulation;
+      padding: 15px;
+      background-color:rgb(200,100,100);
+      color: white;
+      border:0;
+      border-radius: 10px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -15,14 +25,15 @@
   <label for="fileInput">Load JSON file:</label>
   <input type="file" id="fileInput">
   <br><br>
-  <button id="clearLocalStorageButton" onclick="clearLocalStorage()">Clear Local Storage</button>
+  <button id="clearLocalStorageButton">Clear Local Storage</button>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script>
     let alertLocalStorage = false;
     let images = []
     function onBodyLoad(){
       document.getElementById('fileInput').addEventListener('change', onFileInputChange)
-
+      // $("#clearLocalStorageButton").on("touchstart", clearLocalStorage)
+      $("#clearLocalStorageButton").on("pointerdown", clearLocalStorage)
       //First, check for json data in local storage.
       let jsonLocalStorage = localStorage.getItem("jsonData")
       if(jsonLocalStorage !== null){
@@ -63,6 +74,7 @@
     function clearLocalStorage(){
       localStorage.removeItem("jsonData")
       if(alertLocalStorage)alert("Cleared local storage")
+      console.log("THING")
     }
   </script>
 </body>

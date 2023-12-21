@@ -38,8 +38,7 @@
           $("#changeColor").css("background-color", newColor)
         }
       }
-      // $("#changeColor").on("mousedown", changeColor)
-      $("#changeColor").on("touchstart", changeColor)
+      $("#changeColor").on("pointerdown", changeColor)
       const inLocalStorage = localStorage.getItem("jsonObject")
       if(inLocalStorage !== null){
         // alert("Found jsonObject in local storage")
