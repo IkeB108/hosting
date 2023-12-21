@@ -5,46 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cataloguer</title>
   <style>
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
-    button {
-      padding: 10px;
+    body {
+      font-family: sans-serif;
     }
   </style>
 </head>
-<body onload="onLoad()">
-  <p id="myp">This is text</p>
+<body onload="onBodyLoad()">
+  <label for="fileInput">Load JSON file:</label>
   <input type="file" id="fileInput">
-  <br>
-  <br>
-  <button id="saveToLocalStorage" onclick="saveToLocalStorage()">Save to Local Storage</button>
-  <button id="clearLocalStorage" onclick="clearLocalStorage()">Clear Local Storage</button>
-  <button id="changeColor">Change color</button>
   <br><br>
-  <img loading="lazy" src="https://i.redd.it/5lahp38gec7c1.jpeg" alt="" style="display:none" id="rimg">
-  <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8d561f70-e8ac-4fcd-be6b-82dd1cf98d07/dgjvm80-bf3f91cd-006f-4e86-99f4-757286177f9c.jpg/v1/fit/w_750,h_500,q_70,strp/blue_room___premade_stock_background_by_amyhunterdesigns_dgjvm80-375w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9ODU0IiwicGF0aCI6IlwvZlwvOGQ1NjFmNzAtZThhYy00ZmNkLWJlNmItODJkZDFjZjk4ZDA3XC9kZ2p2bTgwLWJmM2Y5MWNkLTAwNmYtNGU4Ni05OWY0LTc1NzI4NjE3N2Y5Yy5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.RNjIH6oxAVIrBXAyArvWlnvbK5E3yASMvekypoQxK08" alt="">
+  <button id="clearLocalStorageButton" onclick="clearLocalStorage()">Clear Local Storage</button>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script>
-    function onLoad(){
+    let alertLocalStorage = false;
+    let images = []
+    function onBodyLoad(){
       document.getElementById('fileInput').addEventListener('change', onFileInputChange)
-      changeColorButtonColorIndex = 0
-      $("#changeColor").on("mousedown", function(e){
-        if(e.button == 0){ //Left click
-          const colors = "red orange yellow green blue purple".split(" ")
-          changeColorButtonColorIndex = (changeColorButtonColorIndex + 1) % 6
-          let newColor = colors[changeColorButtonColorIndex]
-          $("#changeColor").css("background-color", newColor)
-        }
-      })
-      const inLocalStorage = localStorage.getItem("jsonObject")
-      if(inLocalStorage !== null){
-        // alert("Found jsonObject in local storage")
-        const obj = JSON.parse(inLocalStorage)
-        $("#myp").text(obj.text)
-        $("#myp").css("color", obj.color)
+
+      //First, check for json data in local storage.
+      let jsonLocalStorage = localStorage.getItem("jsonData")
+      if(jsonLocalStorage !== null){
+        //If there is something in local storage, use it.
+        if(alertLocalStorage)alert("Found local storage")
+        jsonLocalStorage = JSON.parse(jsonLocalStorage)
+        useJSONData(jsonLocalStorage)
       } else {
-        // alert("Did not find jsonObject in local storage")
+        //If nothing in local storage, load default JSON file with AJAX
+        if(alertLocalStorage)alert("Did not find local storage")        
+        $.ajax({
+          url: "default.json",
+          success: function(data) {
+            //Data is a json object
+            useJSONData(data)
+          }
+        })
       }
     }
     function onFileInputChange(event){
@@ -53,23 +47,22 @@
       reader.readAsText(event.target.files[0]);
     }
     function onReaderLoad(event){
-      obj = JSON.parse(event.target.result);
-      $("#myp").text(obj.text)
-      $("#myp").css("color", obj.color)
+      const obj = JSON.parse(event.target.result);
+      //Do things with JSON
+      useJSONData(obj)
     }
-    function saveToLocalStorage(){
-      try {
-        localStorage.setItem("jsonObject", JSON.stringify(obj))
-        alert("Saved to local storage")
-      } catch {
-        alert("There was a problem")
-      }
+    function useJSONData(data){
+      //Store data in local storage
+      localStorage.setItem("jsonData", JSON.stringify(data))
+      if(alertLocalStorage)alert("local storage has been updated")
+      images = data.images;
+      tags = data.tags;
     }
+    
     function clearLocalStorage(){
-      localStorage.removeItem("jsonObject")
-      alert("Cleared local storage")
+      localStorage.removeItem("jsonData")
+      if(alertLocalStorage)alert("Cleared local storage")
     }
   </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </body>
 </html>
