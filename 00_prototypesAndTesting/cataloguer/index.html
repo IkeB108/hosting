@@ -7,32 +7,73 @@
   <style>
     body {
       font-family: sans-serif;
-      height: 100%;
-      overflow: hidden;
+      max-width: 500px;
+      margin: 0 auto;
+      margin-bottom:50px;
+      padding: 20px 20px;
+      border-width: 2px;
+      border-color:black;
+      border-style:solid
     }
     button {
       touch-action: manipulation;
-      padding: 15px;
-      background-color:rgb(200,100,100);
+      padding: 10px;
+      margin: 3px;
+      background-color:rgb(170, 61, 61);
       color: white;
-      border:0;
+      border-width: 0px;
+      border-color:rgb(71, 6, 6);
+      border-style:solid;
       border-radius: 10px;
       font-weight: bold;
+      user-select: none;
+      -webkit-user-select: none;
+      cursor:pointer;
+    }
+    button:hover {
+      background-color:rgb(206, 106, 106)
+    }
+    button.selected {
+      border-width:4px;
+    }
+    #selected-tags-div {
+      min-height: 49px; /* Set to be height of at least one tag, if empty */
+    }
+    button.nonmutual {
+      background-color: gray;
+      cursor:default;
+    }
+    .grid-img-div {
+      width: 150px;
+      display:inline-block;
+    }
+    .max-width-img-div {
+      width: 100%;
+      display:inline-block;
+    }
+    img {
+      width: 100%; /*Images should fill their containers*/
     }
   </style>
 </head>
 <body onload="onBodyLoad()">
   <label for="fileInput">Load JSON file:</label>
   <input type="file" id="fileInput">
-  <br><br>
+  <br>
   <button id="clearLocalStorageButton">Clear Local Storage</button>
+  <div id="selected-tags-div"></div>
+  <div id="unselected-tags-div"></div>
+  <div id="images-div"></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script>
     let alertLocalStorage = false;
     let images = []
+    let tags = {}
+    let tagsArray = []
+    let selectedTags = []
+    let maximizedImage = null;
     function onBodyLoad(){
       document.getElementById('fileInput').addEventListener('change', onFileInputChange)
-      // $("#clearLocalStorageButton").on("touchstart", clearLocalStorage)
       $("#clearLocalStorageButton").on("pointerdown", clearLocalStorage)
       //First, check for json data in local storage.
       let jsonLocalStorage = localStorage.getItem("jsonData")
@@ -69,12 +110,170 @@
       if(alertLocalStorage)alert("local storage has been updated")
       images = data.images;
       tags = data.tags;
+      
+      //Use lots of images for testing
+      // for(let i = 0; i < 2000; i ++){
+      //   let newImage = structuredClone(images[i % 3])
+      //   images.push(newImage);
+      // }
+      
+      tagsArray = Object.keys(tags)
+      //Create buttons for each tag
+      for(let i in tagsArray){
+        const newButton = $(`<button id="tag_${tagsArray[i]}" class="unselected" onpointerdown="onTagClick(this.id)">${tagsArray[i]}</button>`)
+        $("#unselected-tags-div").append(newButton)
+      }
+      
+      //Create images for each image
+      let newImageID = 0
+      for(let i in images){
+        //let newImage = $(`<img class="grid-img" loading="lazy" src="${images[i].url}" alt="" id="image_${newImageID}" onclick="onImageClick(this.id)">`)
+        let newImage = $(`<div class="grid-img-div" id="image_${newImageID}" onclick="onImageClick(this.id)" style="display:none"> <img loading="lazy" src="${images[i].url}" alt=""></div>`)
+        $("#images-div").append(newImage)
+        newImageID ++;
+      }
+    }
+    
+    function showFilteredImages(){
+      for(let i in images){
+        $("#image_" + i).css("display", "")
+        let imageTags = images[i].tags
+        
+        for(let j in selectedTags){
+          if(!imageTags.includes(selectedTags[j])){
+            $("#image_" + i).css("display", "none")
+          }
+        }
+        
+        if(selectedTags.length == 0){
+          $("#image_" + i).css("display", "none")
+        }
+      } 
+    }
+    
+    function onTagClick(buttonID){
+      //Make sure button isn't disabled
+      if( !$("#" + buttonID).prop("disabled") ){
+        let tagName = buttonID.slice(4) //Remove "tag_" prefix from ID
+        if(!selectedTags.includes(tagName)){
+          //Select this tag
+          selectTag(tagName)
+        } else {
+          //Unselect this tag
+          unselectTag(tagName)
+        }
+        grayOutNonMutualTags();
+        showFilteredImages();
+      }
+      
+      //Unmaximize an image if any is maximized
+      if( maximizedImage ){
+        unmaximizeImage( maximizedImage )
+        maximizedImage = null;
+      }
+      
+    }
+    
+    function grayOutNonMutualTags(){
+      //Gray out any tags that don't mutualy share images with all selected tags
+      
+      //Step one: remove nonmutual class from all tags
+      for(let i in tagsArray){
+        $("#tag_" + tagsArray[i]).removeClass("nonmutual")
+        $("#tag_" + tagsArray[i]).prop("disabled", false)
+      }
+      
+      //Step two: add nonmutual class to any tags that aren't mutual with all selected tags
+      let nonMutualTags = []
+      for(let j in selectedTags){
+        for(let i in tagsArray){
+          if(!tags[selectedTags[j]]["mutual-tags"].includes(tagsArray[i]) && selectedTags[j] !== tagsArray[i]){
+            //Gray out this tag
+            $("#tag_" + tagsArray[i]).addClass("nonmutual")
+            $("#tag_" + tagsArray[i]).prop("disabled", true)
+          }
+        }
+      }
+    }
+    
+    function selectTag(tagName){
+      //tagName, not button id
+      //Add tag to selected tags array
+      selectedTags.push(tagName)
+      //Move tag's button and change class name
+      const tagButton = $("#tag_"  + tagName)
+      $("#unselected-tags-div").remove(tagButton)
+      $("#selected-tags-div").append(tagButton)
+      tagButton.removeClass("unselected")
+      tagButton.addClass("selected")
+    }
+    function unselectTag(tagName){
+      //Remove tag from selected tags array
+      selectedTags = arrayWithoutitem(selectedTags, tagName)
+      //Move tag's button and change class name
+      const tagButton = $("#tag_"  + tagName)
+      $("#selected-tags-div").remove(tagButton)
+      $("#unselected-tags-div").append(tagButton)
+      tagButton.removeClass("selected")
+      tagButton.addClass("unselected")
     }
     
     function clearLocalStorage(){
       localStorage.removeItem("jsonData")
       if(alertLocalStorage)alert("Cleared local storage")
-      console.log("THING")
+      alert("Cleared local storage")
+    }
+    
+    function arrayWithoutitem(array, value){
+      //Removes an item with value "value" from "array"
+      return array.filter((item)=> {
+        return item !== value
+      })
+    }
+    
+    function onImageClick(imageID){
+      if(maximizedImage){
+        //Un-maximize the last maximized image
+        unmaximizeImage( maximizedImage );
+      }
+      if(maximizedImage === imageID){
+        maximizedImage = null;
+      } else {
+        //Maximize a new image
+        maximizeImage( imageID )
+      }
+      
+    }
+    function unmaximizeImage( imageID ){
+      $("#" + imageID).removeClass("max-width-img-div")
+      $("#" + imageID).addClass("grid-img-div")
+      //Remove any text from inside the div:
+      //remove everything except the image itself
+      $("#" + imageID).children().not("img").remove();
+    }
+    
+    function maximizeImage( imageID ){
+      //Change class
+      $("#" + imageID).addClass("max-width-img-div")
+      $("#" + imageID).removeClass("grid-img-div")
+      
+      //Update maximizedImage variable
+      maximizedImage = imageID;
+      
+      //Add P with image's tags to image's div
+      let imageIndex = imageID.slice(6)
+      let tagsP = $(`<p></p>`).text( images[imageIndex].tags.join(", ") )
+      $("#" + imageID).append(tagsP);
+      
+      //If any text, add it to image's div
+      if(images[imageIndex].text !== ""){
+        let newP = $(`<p class="image-text"></p>`)
+        if(images[imageIndex].textUrl !== ""){
+          newP = $(`<a href="${images[imageIndex].textUrl}" target="_blank"></a>`)
+        }
+        newP.text(images[imageIndex].text)
+        $("#" + imageID).append(newP)
+      }
     }
   </script>
 </body>
