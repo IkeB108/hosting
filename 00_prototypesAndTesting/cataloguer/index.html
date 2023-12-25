@@ -43,9 +43,10 @@
     #unselected-tags-div {
       margin-bottom: 30px;
     }
-    button.nonmutual {
-      background-color: gray;
-      cursor:default;
+    button.nonmutual:disabled {
+      background-color: gray !important;
+      cursor:default !important;
+      color: rgb(189, 189, 189) !important;
     }
     .grid-img-div {
       width: 150px;
@@ -107,6 +108,8 @@
       const obj = JSON.parse(event.target.result);
       //Do things with JSON
       useJSONData(obj)
+      //Refresh the page to apply changes
+      window.location.reload();
     }
     function useJSONData(data){
       //Store data in local storage
@@ -114,7 +117,7 @@
       if(alertLocalStorage)alert("local storage has been updated")
       images = data.images;
       tags = data.tags;
-      
+      shuffleArray(images);
       //Use lots of images for testing
       // for(let i = 0; i < 2000; i ++){
       //   let newImage = structuredClone(images[i % 3])
@@ -123,8 +126,14 @@
       
       tagsArray = Object.keys(tags)
       //Create buttons for each tag
+      // let colorOptions = "red orange green blue purple".split(" ")
+      // let colorOptions = "615562 9f92a0 807182 bcb3bd 77432c c27a5b a45c3d d39e88 45553a 809c6d 627953 a0b592".split(" ")
+      // let colorOptions = "e03c00 bb1f11 77432c 766878 6c865b".split(" ")
+      let colorOptions = "5a5379 6aa092 64924f a7c035 e0af29 A93757 FF715B A36678 FF2ECC 000000".split(" ")
       for(let i in tagsArray){
         const newButton = $(`<button id="tag_${tagsArray[i]}" class="unselected" onpointerdown="onTagClick(this.id)">${tagsArray[i]}</button>`)
+        let category = tags[tagsArray[i]].category;
+        newButton.css("background-color", '#' + colorOptions[ category % colorOptions.length ] )
         $("#unselected-tags-div").append(newButton)
       }
       
@@ -166,8 +175,8 @@
           //Unselect this tag
           unselectTag(tagName)
         }
-        grayOutNonMutualTags();
         showFilteredImages();
+        grayOutNonMutualTags();
       }
       
       //Unmaximize an image if any is maximized
@@ -187,17 +196,50 @@
         $("#tag_" + tagsArray[i]).prop("disabled", false)
       }
       
-      //Step two: add nonmutual class to any tags that aren't mutual with all selected tags
-      let nonMutualTags = []
-      for(let j in selectedTags){
-        for(let i in tagsArray){
-          if(!tags[selectedTags[j]]["mutual-tags"].includes(tagsArray[i]) && selectedTags[j] !== tagsArray[i]){
-            //Gray out this tag
-            $("#tag_" + tagsArray[i]).addClass("nonmutual")
-            $("#tag_" + tagsArray[i]).prop("disabled", true)
+      if(selectedTags.length > 0){ //Only do anything more if at least one tag is selected.
+        //Step two: add nonmutual class to any tags that aren't mutual with all selected tags
+        //   To find nonmutual tag:
+        //   1) For each non-selected tag,
+        //      search all currently-visible images for at least one image that has the non-selected tag.
+        //      if found, break for loop (we only need one)
+        //   2) If fail to find it, tag is non-mutual.
+        
+        let nonSelectedTags = tagsArray.filter( (e) => { return !selectedTags.includes(e) } )
+        let visibleImages = []
+        for(let i = 0; i < images.length; i ++){
+          let imgElt = $("#image_" + i)
+          if(imgElt.css("display") !== "none"){
+            visibleImages.push(images[i])
           }
         }
+        for(let n in nonSelectedTags){ //For all non-selected tags...
+          let nonSelectedTag = nonSelectedTags[n]
+          //Start by assuming the tag is nonmutual
+          let nonSelectedTagIsMutual = false;
+          for(let i = 0; i < visibleImages.length; i ++){ //For each visible image...
+            if(visibleImages[i].tags.includes(nonSelectedTag)){ //If image has the nonselected tag...
+              nonSelectedTagIsMutual = true; //Image is mutual
+              break; //We've found at least one image, so we don't need to find any more.
+            }
+          }
+          //If tag is nonmutual, gray it out.
+          if(!nonSelectedTagIsMutual){
+            $("#tag_" + nonSelectedTag).addClass("nonmutual")
+            $("#tag_" + nonSelectedTag).prop("disabled", true)
+          }
+          
+        }
       }
+      // Old, incorrect code
+      // for(let j in selectedTags){
+      //   for(let i in tagsArray){
+      //     if(!tags[selectedTags[j]]["mutual-tags"].includes(tagsArray[i]) && selectedTags[j] !== tagsArray[i]){
+      //       //Gray out this tag
+      //       $("#tag_" + tagsArray[i]).addClass("nonmutual")
+      //       $("#tag_" + tagsArray[i]).prop("disabled", true)
+      //     }
+      //   }
+      // }
     }
     
     function selectTag(tagName){
@@ -225,7 +267,8 @@
     function clearLocalStorage(){
       localStorage.removeItem("jsonData")
       if(alertLocalStorage)alert("Cleared local storage")
-      alert("Cleared local storage")
+      //Refresh the page to apply changes
+      window.location.reload();
     }
     
     function arrayWithoutitem(array, value){
@@ -277,7 +320,20 @@
         }
         newP.text(images[imageIndex].text)
         $("#" + imageID).append(newP)
+        $("#" + imageID).append( $("<br>") )
+        $("#" + imageID).append( $("<br>") )
+        $("#" + imageID).append( $("<br>") )
       }
+    }
+    
+    /* Randomize array in-place using Durstenfeld shuffle algorithm */
+    function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
     }
   </script>
 </body>
