@@ -131,7 +131,7 @@
       // let colorOptions = "e03c00 bb1f11 77432c 766878 6c865b".split(" ")
       let colorOptions = "5a5379 6aa092 64924f a7c035 e0af29 A93757 FF715B A36678 FF2ECC 000000".split(" ")
       for(let i in tagsArray){
-        const newButton = $(`<button id="tag_${tagsArray[i]}" class="unselected" onpointerdown="onTagClick(this.id)">${tagsArray[i]}</button>`)
+        const newButton = $(`<button id="tag_${tagsArray[i]}" class="unselected" onclick="onTagClick(this.id)">${tagsArray[i]}</button>`)
         let category = tags[tagsArray[i]].category;
         newButton.css("background-color", '#' + colorOptions[ category % colorOptions.length ] )
         $("#unselected-tags-div").append(newButton)
