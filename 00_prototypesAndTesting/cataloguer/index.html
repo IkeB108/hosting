@@ -68,6 +68,7 @@
   <button id="clearLocalStorageButton">Clear Local Storage</button>
   <div id="selected-tags-div"></div>
   <div id="unselected-tags-div"></div>
+  <p id="visible-image-count-p">0 images displayed</p>
   <div id="images-div"></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script>
@@ -148,20 +149,28 @@
     }
     
     function showFilteredImages(){
+      let totalDisplayed = images.length;
       for(let i in images){
+        let imageIsDisplayed = true;
         $("#image_" + i).css("display", "")
         let imageTags = images[i].tags
         
         for(let j in selectedTags){
           if(!imageTags.includes(selectedTags[j])){
             $("#image_" + i).css("display", "none")
+            imageIsDisplayed = false;
           }
         }
         
         if(selectedTags.length == 0){
           $("#image_" + i).css("display", "none")
+          imageIsDisplayed = false;
         }
-      } 
+        
+        if(!imageIsDisplayed)totalDisplayed --;
+      }
+      $("#visible-image-count-p").text(totalDisplayed + " images displayed out of " + images.length)
+      $("#visible-image-count-p").text(`${totalDisplayed} images displayed out of ${images.length}: ${ Math.round((totalDisplayed/images.length)*100) }%`)
     }
     
     function onTagClick(buttonID){
