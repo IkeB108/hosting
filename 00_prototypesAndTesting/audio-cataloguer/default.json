@@ -1,0 +1,39 @@
+{
+  "checkboxArtists": ["All", "Artist 1", "Artist 2"],
+  "allAudios":
+  [
+    {
+      "title": "Audio Title 1",
+      "tags": "Tag1 Tag2 Tag3",
+      "artist": "Artist 1",
+      "description": "Description here",
+      "descriptionWithoutLineBreaks": "Description here",
+      "duration": "125",
+      "audience": "Science",
+      "rating": 5,
+      "comments": "Comments here"
+    },
+    {
+      "title": "Audio Title 2",
+      "tags": "Tag1 Tag2 Tag3",
+      "artist": "Artist 2",
+      "description": "Description here",
+      "descriptionWithoutLineBreaks": "Description here",
+      "duration": "125",
+      "audience": "Technology",
+      "rating": 3,
+      "comments": "Comments here"
+    },
+    {
+      "title": "Audio Title 3",
+      "tags": "Tag1 Tag2 Tag3",
+      "artist": "Artist 1",
+      "description": "Description here",
+      "descriptionWithoutLineBreaks": "Description here",
+      "duration": "125",
+      "audience": "Music",
+      "rating": 0,
+      "comments": "Comments here"
+    }
+  ]
+}

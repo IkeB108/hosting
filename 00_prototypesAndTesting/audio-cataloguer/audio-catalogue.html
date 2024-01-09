@@ -1,0 +1,277 @@
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Audio Catalogue</title>
+    </head>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin-top: 20px;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        .audioPost {
+            user-select:none;
+        }
+        .audioTitle {
+            font-weight: bold;
+            margin-bottom: -20px;
+        }
+        .audioRating {
+            margin-bottom: -10px;
+            font-family: monospace;
+            font-size: 20px;
+        }
+        .audioTags {
+            white-space: nowrap;
+            font-style:italic;
+            margin-bottom: -10px;
+            color:darkgray;
+        }
+        .audioDuration {
+            margin-bottom: -5px;
+            color: lightslategray;
+        }
+        .audioDescription {
+            white-space: nowrap;
+            margin-bottom: -7px;
+        }
+        .audioComments {
+            color: rgb(170, 112, 209);
+            margin-bottom: 40px;
+        }
+        .textInput {
+            margin-bottom: 10px;
+            font-family: sans-serif;
+        }
+    </style>
+    <body>
+        <div class="artistCheckboxes">
+        </div>
+        <input type="file" id="file-input" onchange="onFileInputChange(event)">
+        <br><br>
+        <button type="button" id="saveButton" onclick="saveCatalogue()">Save Catalogue</button>
+        <br><br>
+    </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      $.getJSON("default.json", handleJSON)
+      
+      function getJSONOutput(){
+        return {
+          "checkboxArtists": artists,
+          allAudios
+        }
+      }
+      
+      function onFileInputChange(event){
+        const reader = new FileReader();
+        
+        reader.onload = (event)=>{
+          console.log(event.target.result)
+          localStorage.setItem("audioData", event.target.result)
+          window.location.reload()
+        }
+        
+        reader.readAsText( event.target.files[0] )
+      }
+      
+      function handleJSON( data ){
+        //If there is data in local storage, use that instead.
+        let localStorageData = localStorage.getItem("audioData");
+        if(localStorageData){
+          data = JSON.parse(localStorageData);
+        }
+        
+        allAudios = data.allAudios;
+        createArtistCheckboxes( data.checkboxArtists )
+        createAudioPosts();
+      }
+      
+      function downloadJSON(storageObj, fileName){
+          var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storageObj));
+          var dlAnchorElem = document.createElement('a');
+          dlAnchorElem.setAttribute("href",     dataStr     );
+          dlAnchorElem.setAttribute("download", fileName + ".json");
+          dlAnchorElem.click();
+      }
+      function saveCatalogue(){
+          downloadJSON(getJSONOutput(), "catalogue")
+      }
+      
+      let selectedPostID = "none"; //Post that has been selected or expanded by a click
+      
+      function createArtistCheckboxes(artistArray){
+        artists = artistArray;
+        let artistCheckboxes = document.getElementsByClassName("artistCheckboxes");
+        for(let i = 0; i < artists.length; i ++){
+            let checkbox = document.createElement("input")
+            checkbox.type = "checkbox"
+            checkbox.id = artists[i]
+            checkbox.setAttribute("onclick", "updateAudioPostsVisible(this)")
+            if(checkbox.id == "All")checkbox.checked = true;
+            checkbox.value = artists[i]
+            checkbox.style.width = "20px"
+            checkbox.style.marginBottom = "10px"
+            let label = document.createElement("label")
+            label.for = artists[i]
+            label.innerHTML = artists[i]
+            label.style.fontSize = "20px"
+            label.appendChild(document.createElement("br"))
+            document.body.appendChild(checkbox)
+            document.body.appendChild(label)
+        }
+      }
+      
+      
+
+      function updateAudioPostsVisible(checkboxClicked){
+          if(checkboxClicked.id == "All" && checkboxClicked.checked){
+              //If "All" was checked, uncheck all other boxes
+              for(let i = 1; i < artists.length; i ++){
+                  let checkbox = document.getElementById(artists[i])
+                  checkbox.checked = false;
+              }
+          } else {
+              //If a different box was checked, uncheck "All"
+              document.getElementById("All").checked = false;
+          }
+          let allChecked = document.getElementById("All").checked
+
+          for(let i = 0; i < allAudios.length; i ++){
+              let artistCheckbox = document.getElementById(allAudios[i].artist);
+              let audioPost = document.getElementById(i);
+              let allowedByMisc = !artists.includes(allAudios[i].artist) && (document.getElementById("Misc").checked || allChecked)
+              if( ( artistCheckbox && (artistCheckbox.checked || allChecked)) || allowedByMisc )audioPost.hidden = false;
+              else audioPost.hidden = true;
+          }
+      }
+      
+      function onAudioClick(element){
+        let audioTitle = element.textContent;
+        for(let i in allAudios){
+          if(allAudios[i].title == audioTitle){
+            let audio = allAudios[i]
+            let rating = prompt("Enter rating")
+            let comments = prompt("Enter comments")
+            let unacceptable = ["", null, "null"]
+            if(unacceptable.includes(rating)){
+              alert("Input not accepted. One field left blank")
+            } else {
+              if(unacceptable.includes(comments))comments = "No comments"
+              let confirmation = confirm(`Rating: ${rating}. Comments: ${comments}. Confirm?`)
+              if(confirmation){
+                audio.rating = rating;
+                audio.comments = comments;
+                
+                localStorage.setItem("audioData", JSON.stringify(getJSONOutput()) )
+                window.location.reload();
+              } else {
+                alert("Input cancelled.")
+              }
+              
+            }
+          }
+        }
+      }
+      
+      function createAudioPosts(){
+          //Delete any existing audio posts
+          let toDelete = document.body.getElementsByClassName("audioPost")
+          for(let i in toDelete){
+              if(toDelete[i].id) toDelete[i].remove();
+          }
+
+          //Sort audios by rating
+          function byRating(a, b){
+              if(a.rating > b.rating)return -1;
+              if(a.rating == b.rating)return 0;
+              if(a.rating < b.rating)return 1;
+          }
+          allAudios.sort(byRating)
+
+          //Create audio posts from allAudios object
+          
+          for(let i = 0; i < allAudios.length; i ++){
+              let audio = allAudios[i]
+              
+              let post = document.createElement("div")
+              post.id = ""+i;
+              post.className = "audioPost";
+              
+              let audioTitle = document.createElement("p")
+              audioTitle.className = "audioTitle"
+              audioTitle.innerHTML = audio.title;
+              audioTitle.setAttribute("onclick", "onAudioClick(this)")
+              post.appendChild(audioTitle)
+
+              let audioRating = document.createElement("p")
+              audioRating.className = "audioRating"
+              let starString = "[_____]" //If no rating
+              if(audio.rating >= 0 && audio.rating <= 5)starString = "★".repeat(audio.rating)
+              if(audio.rating >= 0 && audio.rating < 5)starString += "☆".repeat(5 - audio.rating)
+              if(audio.rating > 5)starString = "★★★★★" + "✻".repeat(audio.rating - 5)
+              audioRating.innerHTML = starString;
+              post.appendChild(audioRating)
+
+              let audioDuration = document.createElement("p")
+              audioDuration.className = "audioDuration"
+              audioDuration.innerHTML = audio.duration + " mins | " + audio.audience + " | " + audio.artist;
+              post.appendChild(audioDuration)
+
+              let audioTags = document.createElement("p")
+              audioTags.className = "audioTags"
+              audioTags.innerHTML = audio.tags;
+              post.appendChild(audioTags)
+
+              let audioDescription = document.createElement("p")
+              audioDescription.className = "audioDescription"
+              audioDescription.innerHTML = audio.description;
+              post.appendChild(audioDescription)
+
+              let audioComments = document.createElement("p")
+              audioComments.className = "audioComments"
+              audioComments.innerHTML = audio.comments;
+              post.appendChild(audioComments)
+
+              post.setAttribute("onclick", "onPostClick(this)")
+
+              
+              document.body.appendChild(post)
+          }
+      }
+      
+      function onPostClick(post){
+          //Collapse the previously selected post (if any)
+          if(!isNaN(selectedPostID)){
+              let pPost = document.getElementById(selectedPostID)
+              //Grab the old post's description and tags elements
+              let desc = pPost.getElementsByClassName("audioDescription")[0]
+              let tags = pPost.getElementsByClassName("audioTags")[0]
+              desc.style.whiteSpace = "nowrap"
+              desc.innerHTML = allAudios[selectedPostID].descriptionWithoutLineBreaks
+              tags.style.whiteSpace = "nowrap"
+          }
+          //Grab the new post's description and tags elements
+          let desc = post.getElementsByClassName("audioDescription")[0]
+          let tags = post.getElementsByClassName("audioTags")[0]
+          //Expand the tags and description
+          if(window.getComputedStyle(tags).whiteSpace  == "nowrap"){
+              tags.style.whiteSpace = "normal";
+          } else tags.style.whiteSpace = "nowrap"
+
+          if(window.getComputedStyle(desc).whiteSpace == "nowrap"){
+              desc.style.whiteSpace = "normal";
+              desc.innerHTML = allAudios[post.id].description.replace(/\n/g, "<br />")
+          } else {
+              desc.style.whiteSpace = "nowrap"
+              desc.innerHTML = allAudios[post.id].descriptionWithoutLineBreaks
+          }
+
+          if(selectedPostID == post.id)selectedPostID = "none";
+          else selectedPostID = post.id;
+      }
+    </script>
+</html>
