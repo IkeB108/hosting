@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <p></p>
 </head>
 
 <body>
@@ -16,6 +17,11 @@
     body {
       background: url(/images/logo_small.gif) no-repeat right top;
       font-family: Arial, sans-serif
+    }
+    
+    #google-slides {
+      width: 70%;
+      min-height: 800px;
     }
 
     #keyboard {
@@ -322,6 +328,7 @@
       </tr>
     </tbody>
   </table>
+  
   <textarea name="" id="myTextArea" cols="30" rows="10"></textarea>
   <script>
     
@@ -338,8 +345,17 @@
       highlightKey(event.keyCode)
     })
     document.addEventListener("keyup", (event) => {
-      // console.log(event.keyCode+ " up")
+      console.log(event.keyCode+ " up")
       unHighlightKey(event.keyCode)
+      if(event.keyCode == 192){
+        let newValue = document.getElementsByTagName("textarea")[0].value + "\nLorem ipsum dolor sit amet consectetur adipisicing elit. Officia enim magni, quos a porro voluptates ab aspernatur nemo veniam, quas modi nisi alias. Quibusdam, quia. Debitis quibusdam consectetur sapiente accusamus?"
+        
+        document.getElementsByTagName("textarea")[0].value = newValue.replaceAll("`", "")
+      }
+      // if(event.keyCode == 33){
+      //   document.getElementsByTagName("textarea")[0].hidden = !document.getElementsByTagName("textarea")[0].hidden
+      // }
+      
     })
     
   </script>
