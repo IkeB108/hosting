@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Color Picker</title>
+  <style>
+    body {
+      margin: 0 0;
+    }
+    .paletteButton {
+      width:30px;
+      height:30px;
+      margin: 2px;
+    }
+    p {
+      display:inline;
+      font-size: 30px;
+    }
+  </style>
+</head>
+<body onload="onLoad()">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
+  <script>
+    // let colors = [
+    //   "#188BE7 #E77418 : #e5f5f9 #99d8c9 #2ca25f",
+    //   "#188BE7 #E7188B #8BE718 : #edf8fb #b2e2e2 #66c2a4 #238b45",
+    //   "#188BE7 #DB18E7 #E77418 #24E718 : #edf8fb #b2e2e2 #66c2a4 #2ca25f #006d2c",
+    //   "#edf8fb #ccece6 #99d8c9 #66c2a4 #2ca25f #006d2c"
+    // ]
+    let colors = [
+      "#188BE7 #E77418 : #188BE7 #E7188B #8BE718 : #188BE7 #DB18E7 #E77418 #24E718 : #e5f5f9 #99d8c9 #2ca25f : #edf8fb #b2e2e2 #66c2a4 #238b45 : #edf8fb #ccece6 #99d8c9 #66c2a4 #2ca25f #006d2c",
+    ]
+    for(let i in colors){
+      let colorRow = colors[i].split(" ")
+      for(let j in colorRow){
+        if(colorRow[j] == ":"){
+          $("body").append( $(`<p>•</p>`) )
+        } else {
+          let b = $(`<button class="paletteButton"></button>"`)
+          b.css("background-color", colorRow[j])
+          b.attr("id", colorRow[j])
+          b.attr("onclick", `copyColor(this)`)
+          $("body").append(b);
+          // console.log("DONE")
+        }
+      }
+      //$("body").append("<br>")
+    }
+    
+    function copyColor(obj){
+      navigator.clipboard.writeText(obj.id)
+    }
+    
+    function openAsPopup(){
+      open(window.location.href + "?popup", "_blank", "popup")
+    }
+    
+    function onLoad(){
+      if(window.location.href.includes("?popup")){
+        document.getElementById("openAsPopupButton").setAttribute("hidden", "true")
+      }
+    }
+  </script>
+  <p>•</p>
+  <a href="https://www.canva.com/colors/color-wheel/" target="_blank">CV</a>
+  <a href="https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=6" target="_blank">CB</a>
+  <br><br>
+  <button onclick="openAsPopup()" id="openAsPopupButton">Open As Popup Window</button> 
+</body>
+
+</html>
