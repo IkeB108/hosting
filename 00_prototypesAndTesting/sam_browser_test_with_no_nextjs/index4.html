@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IndexedDB File Storage</title>
+</head>
+<body>
+  <h1>File Storage and Retrieval with IndexedDB</h1>
+
+  <!-- File Input -->
+  <label for="fileInput">Upload a file:</label>
+  <input type="file" id="fileInput" />
+
+  <!-- Button to Retrieve File -->
+  <button id="retrieveButton">Retrieve File from IndexedDB</button>
+
+  <!-- Status Message -->
+  <p id="statusMessage">Status: Waiting for user action...</p>
+
+  <!-- Display File Information -->
+  <p id="fileInfo"></p>
+
+  <script>
+    const statusMessage = document.getElementById('statusMessage');
+    const fileInfo = document.getElementById('fileInfo');
+
+    // Open IndexedDB
+    let db;
+    const openDB = () => {
+      const request = indexedDB.open('FileStorageDB', 1);
+      request.onsuccess = (event) => {
+        db = event.target.result;
+        updateStatus('Database opened successfully.');
+      };
+      request.onerror = (event) => {
+        updateStatus('Error opening database: ' + event.target.errorCode);
+      };
+      request.onupgradeneeded = (event) => {
+        db = event.target.result;
+        if (!db.objectStoreNames.contains('files')) {
+          db.createObjectStore('files');
+        }
+      };
+    };
+
+    // Save file to IndexedDB
+    const saveFileToIndexedDB = (file) => {
+      const transaction = db.transaction('files', 'readwrite');
+      const store = transaction.objectStore('files');
+      const fileData = {
+        name: file.name,
+        content: file
+      };
+      store.put(fileData, "fileContents");
+      transaction.oncomplete = () => {
+        updateStatus(`File "${file.name}" saved to IndexedDB.`);
+      };
+      transaction.onerror = (event) => {
+        updateStatus('Error saving file: ' + event.target.errorCode);
+      };
+    };
+
+    // Retrieve file from IndexedDB
+    const retrieveFileFromIndexedDB = (fileName) => {
+      const transaction = db.transaction('files', 'readonly');
+      const store = transaction.objectStore('files');
+      const request = store.get(fileName);
+      request.onsuccess = () => {
+        const file = request.result.content;
+        displayFileInfo(file);
+        updateStatus("File loaded.")
+      };
+      request.onerror = (event) => {
+        updateStatus('Error reading file: ' + event.target.errorCode);
+      };
+    };
+
+    // Display file information (size and contents)
+    const displayFileInfo = (file) => {
+      const fileSize = file.size;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileText = reader.result;
+        if (file.type.startsWith('text/')) {
+          fileInfo.innerHTML = `<strong>File Size:</strong> ${fileSize} bytes <br><strong>Contents:</strong> <pre>${fileText}</pre>`;
+        } else {
+          fileInfo.innerHTML = `<strong>File Size:</strong> ${fileSize} bytes <br><strong>File is not a text file.</strong>`;
+        }
+      };
+      reader.onerror = (error) => {
+        updateStatus('Error reading file: ' + error);
+      };
+      reader.readAsText(file);
+    };
+
+    // Update status message
+    function updateStatus(message) {
+      statusMessage.textContent = `Status: ${message}`;
+    }
+
+    // Handle file input change event
+    document.getElementById('fileInput').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) {
+        updateStatus('No file selected!');
+        return;
+      }
+
+      saveFileToIndexedDB(file);
+    });
+
+    // Handle retrieve button click event
+    document.getElementById('retrieveButton').addEventListener('click', () => {
+      // const fileInput = document.getElementById('fileInput');
+      // const fileName = fileInput.files[0] ? fileInput.files[0].name : null;
+      // if (!fileName) {
+      //   updateStatus('No file uploaded yet!');
+      //   return;
+      // }
+      updateStatus("Loading file...")
+      setTimeout( ()=>{ retrieveFileFromIndexedDB("fileContents"); }, 1000 )
+      
+    });
+
+    // Initialize IndexedDB
+    openDB();
+  </script>
+</body>
+</html>
