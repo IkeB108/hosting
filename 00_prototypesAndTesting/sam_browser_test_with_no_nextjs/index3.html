@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPFS File Storage Test</title>
+</head>
+<body>
+  <h1>OPFS Text File Storage Test</h1>
+
+  <!-- File Input -->
+  <label for="fileInput">Upload a text file:</label>
+  <input type="file" id="fileInput" accept=".txt" />
+
+  <!-- Buttons to Read File -->
+  <button id="readFileButton">Read Text File from OPFS</button>
+
+  <!-- Status Message -->
+  <p id="statusMessage">Status: Waiting for user action...</p>
+
+  <script>
+    const statusMessage = document.getElementById('statusMessage');
+
+    // Check if there’s a previously saved file on page load
+    window.addEventListener('load', async () => {
+      const lastFileName = localStorage.getItem('lastFileName');
+      if (lastFileName) {
+        updateStatus(`Found previously saved file: "${lastFileName}". Loading...`);
+        await readFileFromOPFS(lastFileName);
+      }
+    });
+
+    // Handle file input change event
+    document.getElementById('fileInput').addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (!file) {
+        updateStatus('No file selected!');
+        return;
+      }
+
+      try {
+        // Get access to OPFS root directory
+        const root = await navigator.storage.getDirectory();
+
+        // Create or access the file in OPFS
+        const fileHandle = await root.getFileHandle(file.name, { create: true });
+
+        // Create a writable stream
+        const writable = await fileHandle.createWritable();
+
+        // Write the file content
+        await writable.write(await file.arrayBuffer());
+
+        // Close the stream
+        await writable.close();
+
+        // Save the file name to localStorage
+        localStorage.setItem('lastFileName', file.name);
+
+        updateStatus(`File "${file.name}" uploaded and saved to OPFS!`);
+      } catch (error) {
+        updateStatus(`Error: ${error.message}`);
+      }
+    });
+
+    // Read file from OPFS
+    document.getElementById('readFileButton').addEventListener('click', async () => {
+      const lastFileName = localStorage.getItem('lastFileName');
+      if (!lastFileName) {
+        updateStatus('No file uploaded yet!');
+        return;
+      }
+
+      await readFileFromOPFS(lastFileName);
+    });
+
+    // Function to read a file from OPFS
+    async function readFileFromOPFS(fileName) {
+      try {
+        // Get access to OPFS root directory
+        const root = await navigator.storage.getDirectory();
+
+        // Get the file handle
+        const fileHandle = await root.getFileHandle(fileName);
+
+        // Get the file object
+        const file = await fileHandle.getFile();
+
+        // Read the text content
+        const text = await file.text();
+
+        updateStatus(`Read from OPFS: ${text}`);
+      } catch (error) {
+        updateStatus(`Error: ${error.message}`);
+      }
+    }
+
+    // Helper function to update status message
+    function updateStatus(message) {
+      statusMessage.textContent = `Status: ${message}`;
+    }
+  </script>
+</body>
+</html>

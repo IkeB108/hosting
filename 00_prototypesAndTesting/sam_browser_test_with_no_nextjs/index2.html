@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPFS ZIP File Example</title>
+</head>
+<body>
+  <h1>Upload a ZIP File</h1>
+  <input type="file" id="fileInput" accept=".zip" />
+  <script>
+    
+    // Handle file input change event
+    document.getElementById('fileInput').addEventListener('change', async (event) => {
+      const file = event.target.files[0]; // Get the uploaded file
+      if (file) {
+        await writeZipFileToOPFS(file);
+        await readZipFileFromOPFS();
+      }
+    });
+
+    // Function to write the uploaded ZIP file to OPFS
+    async function writeZipFileToOPFS(file) {
+      try {
+        // Get access to the root directory of OPFS
+        const root = await navigator.storage.getDirectory();
+
+        // Create or access the ZIP file in OPFS
+        const fileHandle = await root.getFileHandle('uploaded.zip', { create: true });
+
+        // Create a writable stream for the file
+        const writable = await fileHandle.createWritable();
+
+        // Write the file content as binary data
+        await writable.write(file);
+
+        // Close the writable stream
+        await writable.close();
+
+        console.log('ZIP file written to OPFS!');
+      } catch (error) {
+        console.error('Error writing ZIP file:', error);
+      }
+    }
+
+    // Function to read the ZIP file from OPFS
+    async function readZipFileFromOPFS() {
+      try {
+        // Get access to the root directory of OPFS
+        const root = await navigator.storage.getDirectory();
+
+        // Get the handle for the uploaded ZIP file
+        const fileHandle = await root.getFileHandle('uploaded.zip');
+
+        // Get the file object
+        const file = await fileHandle.getFile();
+
+        // Convert the file to a Blob and log it
+        console.log('Read ZIP file from OPFS:', file);
+
+        // Optionally: Create a download link to download the file
+        const url = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'downloaded.zip';
+        link.textContent = 'Download the ZIP file';
+        document.body.appendChild(link);
+      } catch (error) {
+        console.error('Error reading ZIP file:', error);
+      }
+    }
+  </script>
+</body>
+</html>

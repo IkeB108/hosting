@@ -5,32 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
-<body onload="onBodyLoad()">
+<body>
   <p id="myParagraph">Javascript hasn't started working yet.</p>
-  <input type="file" id="directoryPicker" onchange="onDirectoryPickerChange(event)" webkitdirectory>
+  <input type="file" id="filePicker" onchange="onFilePickerChange(event)">
   <br>
-  <button id="listDirectoryFiles" onclick="listDirectoryFiles()">List files in directory</button>
+  <button id="readFile" onclick="readFile()">Read file</button>
   <script>
-    function onBodyLoad(){
-      myParagraph = document.querySelector("#myParagraph")
-      myParagraph.textContent = "Javascript is working now"
-      directoryChosen = false
-    }
-    function onDirectoryPickerChange(event){
-      fileList = Array.from(event.target.files)
-      directoryChosen = true
-    }
-    function listDirectoryFiles(){
-      if(!directoryChosen){
-        myParagraph.textContent = "Directory not selected."
-        return
-      }
-      myParagraph.textContent = "Files in directory:\n"
-      fileList.forEach(file => {
-        myParagraph.textContent += `${file.webkitRelativePath} (${file.size} bytes)\n`
-      })
+    
+    function onFilePickerChange(event){
+      y = event.target.files[0]
     }
     
+    async function writeTextFile(){
+      try {
+        const root = await navigator.storage.getDirectory() //Get a FileSystemDirectoryHandle for the root directory of OPFS
+        const fileHandle = await root.getFileHandle("example.txt", { create: true }) //Get a FileHandle for a file we create in the root directory called example.txt
+        const writable = await fileHandle.createWritable() //Create a writable to write text data to the file
+        await writable.write("Hello, this is text") //Write text data with the writable
+        await writable.close() //Close the writable
+        console.log("File written successfully")
+      } catch(error){
+        console.error("Error writing file:", error)
+      }
+    }
+    
+    async function readTextFile(){
+      try {
+        const root = await navigator.storage.getDirectory() //Get a FileSystemDirectoryHandle for the root directory of OPFS
+        const fileHandle = await root.getFileHandle("example.txt") //To get a handle for example.txt, don't add {create: true} since we're not creating the file
+        const file = await fileHandle.getFile()
+        const text = await file.text()
+        console.log("File content:", text)
+      } catch(error) {
+        console.error("Error reading file:", error)
+      }
+    }
+    
+    class OPFSHandler {
+      async init(){
+        this.root = await navigator.storage.getDirectory()
+        return this
+      }
+      
+      async createFile(fileName, parentDirectory, dataForFile){
+        const fileHandle = await parentDirectory.getFileHandle(fileName, {create: true})
+        return fileHandle
+      }
+      
+      async writeToFile(fileName, parentDirectory, dataForFile){
+        const fileHandle = await parentDirectory.getFileHandle(fileName)
+        const writable = await fileHandle.createWritable()
+        await writable.write(dataForFile)
+        await writable.close()
+        return fileHandle
+      }
+      
+      async readFile(fileName, parentDirectory){
+        const fileHandle = await parentDirectory.getFileHandle(fileName)
+        const file = await fileHandle.getFile()
+        return file
+      }
+      
+      async getRoot(){
+        return await navigator.storage.getDirectory();
+      }
+    }
   </script>
 </body>
 </html>
