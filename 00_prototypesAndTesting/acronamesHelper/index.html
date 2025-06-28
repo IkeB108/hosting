@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sort and Filter Names</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    textarea {
+      height: 150px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sort and Filter Names</h1>
+
+  <label for="inputNames">Input Names (one per line):</label>
+  <textarea id="inputNames" placeholder="e.g.\nJohn Doe\nAlice Smith\nBob Johnson"></textarea>
+
+  <button onclick="sortNames()">Sort Names</button>
+
+  <label for="sortedByFirst">Sorted by First Name:</label>
+  <textarea id="sortedByFirst" readonly></textarea>
+
+  <label for="sortedByLast">Sorted by Last Name:</label>
+  <textarea id="sortedByLast" readonly></textarea>
+
+  <label for="initialsFilter">Filter by Initials (e.g. JS or ab):</label>
+  <input type="text" id="initialsFilter" placeholder="Enter initials (e.g. JD, AS)" oninput="filterByInitials()">
+
+  <label for="filteredNames">Names Matching Initials:</label>
+  <textarea id="filteredNames" readonly></textarea>
+
+  <script>
+    let names = [];
+
+    function ensureBracket(name) {
+      name = name.trim();
+      return name.endsWith(']') ? name : name + ']';
+    }
+
+    function removeDuplicates(nameArray) {
+      const seen = new Set();
+      return nameArray.filter(name => {
+        const normalized = name.trim().toLowerCase();
+        if (seen.has(normalized)) return false;
+        seen.add(normalized);
+        return true;
+      });
+    }
+
+    function sortNames() {
+      const input = document.getElementById("inputNames").value.trim();
+      const rawNames = input.split("\n").map(name => name.trim()).filter(name => name);
+      names = removeDuplicates(rawNames);
+
+      const byFirstName = [...names].sort((a, b) => {
+        const aFirst = a.split(" ")[0].toLowerCase();
+        const bFirst = b.split(" ")[0].toLowerCase();
+        return aFirst.localeCompare(bFirst);
+      });
+
+      const byLastName = [...names].sort((a, b) => {
+        const aLast = a.split(" ").slice(-1)[0].toLowerCase();
+        const bLast = b.split(" ").slice(-1)[0].toLowerCase();
+        return aLast.localeCompare(bLast);
+      });
+
+      document.getElementById("sortedByFirst").value = byFirstName.map(ensureBracket).join("\n");
+      document.getElementById("sortedByLast").value = byLastName.map(ensureBracket).join("\n");
+
+      filterByInitials(); // Update filtered results too
+    }
+
+    function filterByInitials() {
+      const filter = document.getElementById("initialsFilter").value.toLowerCase().split('').filter(c => c.match(/[a-z]/));
+      const filtered = names.filter(name => {
+        const parts = name.toLowerCase().split(" ");
+        const initials = parts.map(part => part[0]);
+        return initials.some(init => filter.includes(init));
+      });
+      document.getElementById("filteredNames").value = filtered.map(ensureBracket).join("\n");
+    }
+  </script>
+</body>
+</html>
