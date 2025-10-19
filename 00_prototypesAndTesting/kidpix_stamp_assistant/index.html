@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<script>
+  let allCanvases = []
+  let allImages = []
+  let allSpritesheets = []
+  let loadedSpritesheets = 0;
+  let imageBeingHovered = null
+  let imageInHotbarBeingHovered = null;
+  let colors = "#f3b2b2 #ffdbb7 #fffe7f #beff7f #7fffe3 #7fcaff #7f87ff #d77fff #ff7fcd".split(" ")
+  function onBodyLoad() {
+    for(let j = 0; j < 10; j ++){
+      let newSpritesheet = new Image()
+      newSpritesheet.src = 'spritesheets/' + j + '.png'
+      newSpritesheet.onload = () => {
+        loadedSpritesheets ++;
+        console.log("Loaded " + loadedSpritesheets + " spritesheets")
+        if(loadedSpritesheets == 10){
+          afterAllImagesLoad();
+        }
+      }
+      allSpritesheets.push(newSpritesheet)
+    }
+    loadHotbar();
+  }
+  function afterAllImagesLoad(){
+    //Draw all sprites in each spritesheet
+    for(let sheetIndex = 0; sheetIndex < allSpritesheets.length; sheetIndex ++){
+      for(let i = 0; i < 14 * 8; i ++){
+        let newCanvas = document.createElement('canvas');
+        newCanvas.width = 62;
+        newCanvas.height = 62;
+        newContext = newCanvas.getContext('2d');
+        
+        let row = Math.floor(i / 14);
+        let col = i % 14;
+        let x = 1 + (col * 32)
+        let y = 1 + (row * 32)
+        newContext.imageSmoothingEnabled = false;
+        newContext.drawImage(allSpritesheets[sheetIndex], x, y, 31, 31, 0, 0, 62, 62);
+        allCanvases.push(newCanvas);
+        
+        let newImage = new Image();
+        newImage.src = newCanvas.toDataURL();
+        newImage.style.border = "3px solid transparent"
+        newImage.onmouseover = () => {
+          imageBeingHovered = newImage;
+          newImage.style.border = "3px solid black"
+        }
+        newImage.onmouseout = () => {
+          imageBeingHovered = null;
+          newImage.style.border = "3px solid transparent"
+        }
+        allImages.push(newImage);
+        document.body.appendChild(newImage);
+        if( (i+1) % 14 == 0)document.body.appendChild(document.createElement('br'));
+      }
+      document.body.appendChild(document.createElement('br'));
+      document.body.appendChild(document.createElement('br'));
+    }
+  }
+  function onKeyDown(event){
+    if(  "123456789".includes(event.key)  ){
+      if(imageBeingHovered != null){
+        //Create a copy of imageBeingHovered and append it to hotbarElement
+        let newImage = new Image();
+        newImage.src = imageBeingHovered.src;
+        newImage.style.border = "3px solid transparent"
+        newImage.style.backgroundColor = colors[event.key - 1]
+        newImage.setAttribute("data-group-number", event.key)
+        newImage.onmouseover = () => {
+          imageInHotbarBeingHovered = newImage;
+          newImage.style.border = "3px solid black"
+          console.log("something")
+        }
+        newImage.onmouseout = () => { 
+          imageInHotbarBeingHovered = null;
+          newImage.style.border = "3px solid transparent"
+        }
+        hotbarElement.appendChild(newImage);
+        let groupNumber = event.key;
+        let inserted = false;
+        let children = hotbarElement.children;
+        for (let i = 0; i < children.length; i++) {
+          if (children[i].getAttribute("data-group-number") == groupNumber) {
+            hotbarElement.insertBefore(newImage, children[i].nextSibling);
+            inserted = true;
+            break;
+          }
+        }
+        if (!inserted) {
+          hotbarElement.appendChild(newImage);
+        }
+        saveHotbar();
+      }
+    }
+    if(event.key === "Backspace"){
+      if(imageInHotbarBeingHovered != null){
+        imageInHotbarBeingHovered.remove();
+        saveHotbar();
+      }
+    }
+  }
+  document.onkeydown = onKeyDown;
+  
+  function saveHotbar() {
+    let hotbarContents = [];
+    let children = hotbarElement.children;
+    for (let i = 0; i < children.length; i++) {
+      hotbarContents.push({
+        src: children[i].src,
+        backgroundColor: children[i].style.backgroundColor,
+        groupNumber: children[i].getAttribute("data-group-number")
+      });
+    }
+    localStorage.setItem("hotbar", JSON.stringify(hotbarContents));
+  }
+
+  function loadHotbar() {
+    let hotbarContents = JSON.parse(localStorage.getItem("hotbar"));
+    if (hotbarContents) {
+      hotbarElement.innerHTML = ''; // Clear existing hotbar
+      for (let i = 0; i < hotbarContents.length; i++) {
+        let newImage = new Image();
+        newImage.src = hotbarContents[i].src;
+        newImage.style.border = "3px solid transparent";
+        newImage.style.backgroundColor = hotbarContents[i].backgroundColor;
+        newImage.setAttribute("data-group-number", hotbarContents[i].groupNumber);
+        newImage.onmouseover = () => {
+          imageInHotbarBeingHovered = newImage;
+          newImage.style.border = "3px solid black"
+        }
+        newImage.onmouseout = () => { 
+          imageInHotbarBeingHovered = null;
+          newImage.style.border = "3px solid transparent"
+        }
+        hotbarElement.appendChild(newImage);
+      }
+    }
+  }
+</script>
+<body onload="onBodyLoad()" style="margin-bottom: 600px;">
+  <p>Click and drag images into the Kidpix app.<br>
+  To save to hotbar, hover over an image and press a number key.<br>
+  To remove from hotbar, hover and press backspace.
+  <div id="hotbarElement" style="position: fixed; bottom: 0; left: 0; width: 100%; min-height: 50px; background-color: white; border: solid black 1px; padding: 10px; box-sizing: border-box; display: flex; flex-wrap: wrap;">
+  </div>
+</body>
+</html> 
