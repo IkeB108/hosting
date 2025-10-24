@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body onload="onLoad()">
+  <textarea name="" id="myTextArea"></textarea>
+  <br>
+  <input type="date" id="datePicker">
+  <br>
+  <button id="generateTextButton" onclick="generateText()">Generate Text</button>
+  <br>
+  <button id="copyTextButton" onclick="copyText()">Copy Text</button>
+  <p id="generatedTextP" style="white-space: pre-wrap;"></p>
+  <script>
+    function onLoad(){
+      //Get value of textarea from localstorage
+      myTextArea.value = localStorage.getItem('myTextArea')
+      
+      // Get today's date
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+      const day = String(today.getDate()).padStart(2, '0');
+      const formattedDate = `${year}-${month}-${day}`;
+
+      // Set the date picker's value to today's date
+      document.getElementById('datePicker').value = formattedDate;
+      let newP = document.createElement("p")
+    }
+    function generateText(){
+      //Save value of textarea to localstorage
+      localStorage.setItem('myTextArea', myTextArea.value)
+
+      let fullString = ''
+      for(let i = 0; i < 7; i ++){
+        //Get value of date picker and add i days to it
+        let datePicker = document.getElementById('datePicker')
+        let date = new Date(datePicker.value)
+        date.setUTCDate(date.getUTCDate() + i)
+
+        //Make date mm/dd/yyyy format string
+        const month = date.getUTCMonth() + 1; // Months are 0-indexed
+        const day = date.getUTCDate();
+        const year = date.getUTCFullYear();
+        const formattedDate = `${month}/${day}/${year}`;
+        
+        let newString = `=========
+${formattedDate}
+${myTextArea.value}
+`
+        fullString += newString
+      }
+      generatedTextP.textContent = fullString
+      // copyTextButton.onclick = () => { navigator.clipboard.writeText(fullString) } 
+      // copyTextAnchor.href = 'javascript:navigator.clipboard.writeText(' + JSON.stringify(fullString) + ')'
+    }
+    function copyText(){
+      //Copy contenst of generatedTextP to clipboard
+      let generatedTextP = document.getElementById('generatedTextP')
+      navigator.clipboard.writeText(generatedTextP.textContent)
+    }
+  </script>
+</body>
+</html>
