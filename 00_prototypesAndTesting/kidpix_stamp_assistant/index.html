@@ -99,6 +99,13 @@
         saveHotbar();
       }
     }
+    if(event.key === "h"){
+      if(hotbarElement.style.display == "flex"){
+        hotbarElement.style.display = "none";
+      }else{
+        hotbarElement.style.display = "flex";
+      }
+    }
     if(event.key === "Backspace"){
       if(imageInHotbarBeingHovered != null){
         imageInHotbarBeingHovered.remove();
