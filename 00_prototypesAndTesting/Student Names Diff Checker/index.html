@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Names Diff Checker</title>
+</head>
+<body onload="onLoad()">
+  
+  
+  
+  
+  
+  <label for="studentList1" style="font-weight:bold">Student List 1:</label>
+  <br>
+  <label for="studentList1QuickAdd">Quick add student:</label>
+  <input type="text" name="Student List 1 Quick Add" id="studentList1QuickAdd" oninput="updateQuickAddSuggestions(1)" onkeydown="onQuickAddSuggestionsKeyDown(event)" data-fieldNumber="1">
+  <p id="quickAddStudent1suggestion" style="height:10px" ></p>
+  <div style="display:flex">
+    <textarea name="Student List 1" id="studentList1" style="width:500px; height:500px;"></textarea>
+    <p id="studentList1MissingNames" style="white-space: pre;">Names Missing from this List:</p>
+  </div>
+  <button id="confirmStudentList1" style="margin-bottom: 30px;" onclick="onConfirmStudentListClick(1)">Submit</button>
+  <button id="sanitizeStudentList1" onclick="sanitizeInput(1)">Sanitize Spreadsheet Data</button>
+  <br>
+  
+  <label for="studentList2" style="font-weight:bold">Student List 2:</label>
+  <br>
+  <label for="studentList2QuickAdd">Quick add student:</label>
+  <input type="text" name="Student List 2 Quick Add" id="studentList2QuickAdd" oninput="updateQuickAddSuggestions(2)" onkeydown="onQuickAddSuggestionsKeyDown(event)" data-fieldNumber="2">
+  <p id="quickAddStudent2suggestion" style="height:10px" ></p>
+  <div style="display:flex">
+    <textarea name="Student List 2" id="studentList2" style="width:500px; height:500px;"></textarea>
+    <p id="studentList2MissingNames" style="white-space: pre;">Names Missing from this List:</p>
+  </div>
+  <button id="confirmStudentList2" style="margin-bottom: 30px;" onclick="onConfirmStudentListClick(2)">Submit</button>
+  <button id="sanitizeStudentList2" onclick="sanitizeInput(2)">Sanitize Spreadsheet Data</button>
+  <br>
+  
+  
+  <button id="calcDifferenceButton" onclick="calcDifference()" style="background-color: aqua;margin-bottom: 30px;">Calculate Difference</button>
+  <br>
+  
+  
+  <label for="studentRosterInput">Student Roster:</label>
+  <br>
+  <textarea name="Student Roster Input" id="studentRosterInput" style="width:500px; height:500px; background-color:darkseagreen"></textarea>
+  <br>
+  <button id="confirmStudentRoster" onclick="onConfirmStudentRosterClick()" style="margin-bottom:30px">Submit</button>
+  <script>
+    studentRoster = []
+    let localStorageDebounceTimer = -1 //Time remaining in milliseconds. Negative means inactive. Upon 0, store all textarea values in local storage.
+    let localStorageDebounceInterval = setInterval( ()=> {
+      if(localStorageDebounceTimer > -1) {
+        localStorageDebounceTimer -= 100;
+      }
+      if(localStorageDebounceTimer == 0){
+        fillLocalStorageWithTextAreaValues()
+      }
+    }, 100)
+    
+    let localStorageDebounceRate = 500 //Constant in milliseconds
+    
+    let fieldOneStudentSuggestionIndex = null
+    let fieldTwoStudentSuggestionIndex = null
+    
+    let studentListOne = []
+    let studentListTwo = []
+    function onLoad(){
+      //Load student roster from local storage
+      studentRoster = localStorage.getItem("studentRoster")
+      if(studentRoster == null){
+        studentRoster = []
+      } else {
+        studentRoster = JSON.parse(studentRoster)
+      }
+      
+      allTextAreas = document.getElementsByTagName("textarea")
+      for(let i = 0; i < allTextAreas.length; i ++){
+          //Fill all text areas with data from local storage.
+          allTextAreas[i].value = localStorage.getItem("textarea_value_" + allTextAreas[i].id)
+          //Set up all text areas in the document to store their values in  localstorage after user input, with debouncing
+          allTextAreas[i].addEventListener("input", ()=>{ localStorageDebounceTimer = localStorageDebounceRate //Fill local storage in 1 second unless there is another input
+        })
+      }
+    }
+    
+    function onConfirmStudentRosterClick(){
+      updateStudentRoster()
+    }
+    
+    function updateStudentRoster(){
+      studentRoster = []
+      let val = document.getElementById("studentRosterInput").value.split("\n")
+      for(let i = 0; i < val.length; i ++){
+        if(val[i].length == 0)break;
+        let item = val[i].split(" ")
+        let newStudent = {
+          first: item[0],
+          last: item[1],
+          matchStrings: [
+            (item[0] + item[1]).toLowerCase(),
+            (item[1] + item[0]).toLowerCase()
+          ]
+        }
+        studentRoster.push(newStudent)
+      }
+      
+      //Store new student roster in local storage
+      localStorage.setItem("studentRoster", JSON.stringify(studentRoster))
+    }
+    
+    function fillLocalStorageWithTextAreaValues(){
+      for(let i = 0; i < allTextAreas.length; i ++){
+        let id = allTextAreas[i].id
+        let value = allTextAreas[i].value
+        localStorage.setItem("textarea_value_" + id, value)
+      }
+    }
+    
+    function updateQuickAddSuggestions(fieldNumber){
+      //fieldNumber is 1 or 2, for student list 1 or student list 2
+      let query = document.getElementById("studentList" + fieldNumber + "QuickAdd").value.toLowerCase().replaceAll(" ", "")
+      
+      let suggestionString = ""
+      let suggestion = null //Index of suggested student in the student roster. Null if no suggestion
+      if(query.length >  0){
+        
+        //Find students that match the query
+        for(let i = 0; i < studentRoster.length; i ++){
+          let matchStrings = studentRoster[i].matchStrings
+          for(let j = 0; j < matchStrings.length; j ++){
+            let matchString = matchStrings[j]
+            if(matchString.startsWith(query)){ suggestion = i}
+          }
+        }
+        
+        if(suggestion !== null){
+          suggestionString = studentRoster[suggestion].first + " " + studentRoster[suggestion].last
+        }
+      }
+      
+      if(fieldNumber == 1){
+        fieldOneStudentSuggestionIndex = suggestion
+      }
+      if(fieldNumber == 2){
+        fieldTwoStudentSuggestionIndex = suggestion
+      }
+      
+      let suggestionParagraphElement = document.getElementById("quickAddStudent" + fieldNumber + "suggestion")
+      suggestionParagraphElement.textContent = suggestionString
+    }
+    
+    function onQuickAddSuggestionsKeyDown(event){
+      if(event.key == "Enter"){
+        //Accept the suggestion
+        let fieldNumber = event.srcElement.dataset["fieldnumber"] //string
+        let currentVal = document.getElementById("studentList" + fieldNumber).value
+        
+        let suggestionIndex = null
+        if(fieldNumber == 1){
+          suggestionIndex = fieldOneStudentSuggestionIndex
+        }
+        if(fieldNumber == 2){
+          suggestionIndex = fieldTwoStudentSuggestionIndex
+        }
+        
+        if(suggestionIndex !== null){ //If there is a suggestion
+          let newVal = currentVal + "\n" + studentRoster[suggestionIndex].first + " " + studentRoster[suggestionIndex].last
+          document.getElementById("studentList" + fieldNumber).value = newVal
+          
+          //Clear the quick add student field (only if there is a suggestion)
+          event.srcElement.value = ""
+          updateQuickAddSuggestions(fieldNumber)
+        }
+        
+        
+        //Update text values in local storage
+        localStorageDebounceTimer = localStorageDebounceRate
+      }
+    }
+    
+    function onConfirmStudentListClick(fieldNumber){
+      console.log("confirm student list " + fieldNumber)
+      let newStudentList = []
+      let textarea = document.getElementById("studentList" + fieldNumber)
+      let val = textarea.value.split("\n")
+      let newVal = [...val]
+      for(let i = 0; i < val.length; i ++){
+        let line = val[i].toLowerCase()
+        //Find a matching student.
+        let matchingStudent = null;
+        //First, find all students with a first name that matches something in the string.
+        let studentsWithMatchingFirst = getStudentsWithMatchingFirstName(line)
+        //Get the last initial or last name that follows the matching first name.
+        for(let j = 0; j < studentsWithMatchingFirst.length; j ++){
+          let candidateStudentIndex = studentsWithMatchingFirst[j]
+          let candidateStudent = studentRoster[candidateStudentIndex]
+          let lineSegments = line.split(" ")
+          let lastNameString = null
+          for(let k = 0; k < lineSegments.length; k ++){
+            let lineSegment = lineSegments[k].replaceAll(" ", "")
+            if(lineSegment.includes(candidateStudent.first.toLowerCase())){
+              if(lineSegments[k+1]){ lastNameString = lineSegments[k+1].replaceAll(" ","") }
+            }
+          }
+          if(candidateStudent.last.toLowerCase().startsWith(lastNameString)){
+            //This student's first name and last initial are a confirmed match.
+            matchingStudent = candidateStudent
+          }
+        }
+        if(matchingStudent === null){
+          if(newVal[i].trim() !== "")newVal[i] += " ❌";
+        } else {
+          newVal[i] += " ✅ " + matchingStudent.first + " " + matchingStudent.last
+          newStudentList.push(matchingStudent)
+        }
+      }
+      
+      
+      //Remove all duplicates from newStudentList
+      let newStudentListWithNoDuplicates = []
+      let foundMatchStrings = []
+      for(let i = 0; i < newStudentList.length; i ++){
+        let matchString = newStudentList[i].matchStrings[0]
+        if(!foundMatchStrings.includes(matchString)){
+          newStudentListWithNoDuplicates.push(newStudentList[i])
+          foundMatchStrings.push(matchString)
+        }
+      }
+      newStudentList = newStudentListWithNoDuplicates
+      textarea.value = newVal.join("\n")
+      if(fieldNumber == 1)studentListOne = newStudentList
+      if(fieldNumber == 2)studentListTwo = newStudentList
+    }
+    
+    function getStudentsWithMatchingFirstName(query){
+      let results = [] //Returns an array of indeces in studentRoster
+      let queryToMatch = query.toLowerCase()
+      for(let i = 0; i < studentRoster.length; i ++){
+        if(queryToMatch.includes(studentRoster[i].first.toLowerCase())){
+          results.push(i)
+        }
+      }
+      return results
+    }
+    function sanitizeInput(fieldNumber){
+      let textarea = document.getElementById("studentList" + fieldNumber)
+      let val = textarea.value
+      let cellSeparatorOne = `\t`
+      let cellSeparatorTwo = `\n"`
+      let newVal = val.replaceAll(cellSeparatorOne, "###").replaceAll(cellSeparatorTwo, "###").replaceAll("\n", " ").replaceAll("\t", "").replaceAll("###", "\n").replaceAll(`"`, "")
+      textarea.value = newVal
+      
+      //Update text values in local storage
+      localStorageDebounceTimer = localStorageDebounceRate
+    }
+    
+    function calcDifference(){
+      //Find all students in studentListTwo that are missing from studentListOne.
+      let missingFromStudentListOne = []
+      for(let i = 0; i < studentListTwo.length; i ++){
+        let stringToMatch = studentListTwo[i].matchStrings[0]
+        let studentFound = false
+        for(let j = 0; j < studentListOne.length; j ++){
+          let testString = studentListOne[j].matchStrings[0]
+          if(testString == stringToMatch){studentFound = true}
+        }
+        if(!studentFound){
+          missingFromStudentListOne.push(studentListTwo[i])
+        }
+      }
+      
+      studentList1MissingNames.textContent = "Names Missing from this List:\n"
+      for(let i = 0; i < missingFromStudentListOne.length; i ++){
+        let student = missingFromStudentListOne[i]
+        studentList1MissingNames.textContent += student.first + " " + student.last + "\n"
+      }
+      
+      
+      //Find all students in studentListOne that are missing from studentListTwo.
+      let missingFromStudentListTwo = []
+      for(let i = 0; i < studentListOne.length; i ++){
+        let stringToMatch = studentListOne[i].matchStrings[0]
+        let studentFound = false
+        for(let j = 0; j < studentListTwo.length; j ++){
+          let testString = studentListTwo[j].matchStrings[0]
+          if(testString == stringToMatch){studentFound = true}
+        }
+        if(!studentFound){
+          missingFromStudentListTwo.push(studentListOne[i])
+        }
+      }
+      
+      studentList2MissingNames.textContent = "Names Missing from this List:\n"
+      for(let i = 0; i < missingFromStudentListTwo.length; i ++){
+        let student = missingFromStudentListTwo[i]
+        studentList2MissingNames.textContent += student.first + " " + student.last + "\n"
+      }
+    }
+    
+  </script>
+</body>
+</html>
